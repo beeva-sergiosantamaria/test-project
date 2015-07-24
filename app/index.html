@@ -1,0 +1,77 @@
+<!doctype html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+    <link rel="stylesheet" href="styles/animate.css">
+  </head>
+  <body ng-app="testProjectApp">
+  <div ng-include src="'views/nav.html'"></div>
+  <div class="container">
+    <div ng-view class="mainViewClass animated fadeInRight"></div>
+  </div>
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <script>
+       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+       }(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+       ga('create', 'UA-XXXXX-X');
+       ga('send', 'pageview');
+    </script>
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/gsap/src/uncompressed/TweenMax.js"></script>
+    <script src="bower_components/ngFx/dist/ngFx.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/libraries/three.min.js"></script>
+        <script src="scripts/libraries/d3-three.js"></script>
+        <script src="scripts/libraries/helvetiker_regular.typeface.js"></script>
+        <script src="scripts/libraries/FlyControls.js"></script>
+        <script src="scripts/libraries/tween.js"></script>
+        <script src="scripts/libraries/ShaderPass.js"></script>
+        <script src="scripts/libraries/CopyShader.js"></script>
+
+        <script src="scripts/libraries/EffectComposer.js"></script>
+
+        <script src="scripts/libraries/MaskPass.js"></script>
+        <script src="scripts/libraries/FilmPass.js"></script>
+        <script src="scripts/libraries/FilmShader.js"></script>
+        <script src="scripts/libraries/RenderPass.js"></script>
+        <script src="scripts/directive/paperDirective.js"></script>
+        <script src="scripts/directive/webGlDirective.js"></script>
+        <script src="scripts/factory/dataFactory.js"></script>
+        <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/controllers/about.js"></script>
+        <script src="scripts/controllers/nav.js"></script>
+        <script src="scripts/controllers/scroll.js"></script>
+        <script src="scripts/controllers/virtual3D.js"></script>
+        <!-- endbuild -->
+</body>
+</html>
