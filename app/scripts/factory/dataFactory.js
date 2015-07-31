@@ -23,7 +23,7 @@ angular.module('testProjectApp')
     return datos;
   })
   .factory('vectorWords', function($q, $http) {
-    var datos = $http.get('/data/words.json').then(function(response){
+    var datos = $http.get('/data/words2.json').then(function(response){
       return response.data;
     });
     return datos;

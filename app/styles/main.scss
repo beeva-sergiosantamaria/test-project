@@ -135,6 +135,25 @@ body {
 }
 .renderer_label.renderer_label_logzbuf {
 }
+
+.autoCompleteClass {
+  position: absolute;
+  top: 10.5%;
+  left: 0.5%;
+}
+.ac-container {
+  top: 111%!important;
+  left: -0.5%!important;
+  width: 220px!important;
+}
+.ac-menu {
+  list-style: none;
+  background-color: #ffffff;
+  padding: 10px;
+}
+.ac-link {
+  color: #767676;
+}
 #container {
   white-space: nowrap;
 }

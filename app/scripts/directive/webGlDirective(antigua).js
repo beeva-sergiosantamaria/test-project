@@ -602,45 +602,21 @@ angular.module('testProjectApp')
     }
   })
 
-  .directive('wordGalaxy', function(vectorWords, $localStorage) {
+  .directive('wordGalaxy', function(vectorWords) {
     return {
       restrict: 'EA',
       scope: {},
-      link: function (scope) {
+      link: function () {
         var renderer, scene, camera,container, controls;
         var vectores = [];
         var particles, uniforms, attributes;
         var clock = new THREE.Clock();
         var PARTICLE_SIZE = 20;
-        var categories = [];
-        var catPosition = [];
-        var coloresPers = { 'r':[],'g':[],'b':[] };
-        var dispersionValue = 100;
-        var cameraPositionTotal = 0;
-
-
-        var letrerosCluster, contadorWheel = 0;
-        //var seleccionCluster = ["that", "these", "developing", "read", "because", "cathedral", "dominant", "journals", "searching", "soon", "calculations", "time"];
-        //var seleccionCluster = ["that", "should", "these", "developing", "read", "because", "treatments", "examine", "cathedral", "dominant", "journals", "searching", "soon", "calculations", "time", "hold", "weekends", "explain", "controversy", "website", "unless", "finally", "placing", "glossary", "investors", "taking", "plaintiff", "conclusions", "listings", "scholarship", "argument", "infrastructure", "especially", "clicking", "subtle", "optimal", "psychological", "price", "thirty", "drug", "votes", "articles", "literary", "everyone", "payment", "states", "hiring", "into", "tutorial", "iran", "before", "definition", "meaning", "waste", "portraits", "sender", "making", "principle", "speeds", "reaction", "universities", "city", "governmental", "enormous", "same", "afraid", "commands", "compliance", "document", "after", "third", "users", "sustained"];
-        //var seleccionCluster = ["that", "should", "these", "developing", "read", "because", "treatments", "examine", "cathedral", "dominant", "journals", "searching", "soon", "calculations", "time", "hold", "weekends", "explain", "controversy", "website", "unless", "finally", "placing", "glossary", "investors", "taking", "plaintiff", "conclusions", "listings", "scholarship", "argument", "infrastructure", "especially", "clicking", "subtle", "optimal", "psychological", "price", "thirty", "drug", "votes", "articles", "literary", "everyone", "payment", "states", "hiring", "into", "tutorial", "iran", "before", "definition", "meaning", "waste", "portraits", "sender", "making", "principle", "speeds", "reaction", "universities", "city", "governmental", "enormous", "same", "afraid", "commands", "compliance", "document", "after", "third", "users", "sustained", "clothes", "sometimes", "leaving", "medicine", "pending", "organizations", "excerpt", "improved", "november", "expand", "references", "educators", "although", "provide", "diary", "inside", "attractions", "visiting", "always", "adware", "says", "constitutional", "democrat", "left", "university", "mail", "text"];
-        var seleccionCluster = ["that", "should", "these", "developing", "read", "because", "treatments", "examine", "cathedral", "dominant", "journals", "searching", "soon", "calculations", "time", "hold", "weekends", "explain", "controversy", "website", "unless", "finally", "placing", "glossary", "investors", "taking", "plaintiff", "conclusions", "listings", "scholarship", "argument", "infrastructure", "especially", "clicking", "subtle", "optimal", "psychological", "price", "thirty", "drug", "votes", "articles", "literary", "everyone", "payment", "states", "hiring", "into", "tutorial", "iran", "before", "definition", "meaning", "waste", "portraits", "sender", "making", "principle", "speeds", "reaction", "universities", "city", "governmental", "enormous", "same", "afraid", "commands", "compliance", "document", "after", "third", "users", "sustained", "clothes", "sometimes", "leaving", "medicine", "pending", "organizations", "excerpt", "improved", "november", "expand", "references", "educators", "although", "provide", "diary", "inside", "attractions", "visiting", "always", "adware", "says", "constitutional", "democrat", "left", "university", "mail", "text","although", "provide", "developing", "diary", "inside", "attractions", "read", "visiting", "always", "these", "adware", "says", "that", "constitutional", "democrat", "left", "university", "november", "mail", "sometimes", "text", "customer", "scholarship", "think", "play", "medicine", "transaction", "revenue", "united", "hotel", "difficult", "compatibility", "military", "situated", "pharmacology", "should", "launch", "surprised", "theories", "after", "parliament", "edge", "definition", "before", "beaches", "classification", "time", "usually", "because", "investment", "plaintiff", "prisoners", "statutes", "cordless", "principle", "website", "sells", "file", "army", "interventions", "states", "trading", "afraid", "interface", "ports", "examine", "regulatory", "forums", "student", "passing", "enormous", "wanna", "white", "making", "convenient", "price", "specialist", "recognize", "mothers", "allow", "proceed", "liability", "south", "tournaments", "same", "volumes", "tutorial", "studies", "sports", "accommodation", "profit", "spain", "german", "techno", "photographs", "deficit", "retain", "networking", "engineering", "applications"];
-        //var seleccionCluster = ["that", "should", "these", "developing", "read", "because", "treatments", "examine", "cathedral", "dominant", "journals", "searching", "soon", "calculations", "time", "hold", "weekends", "explain", "controversy", "website", "unless", "finally", "placing", "glossary", "investors", "taking", "plaintiff", "conclusions", "listings", "scholarship", "argument", "infrastructure", "especially", "clicking", "subtle", "optimal", "psychological", "price", "thirty", "drug", "votes", "articles", "literary", "everyone", "payment", "states", "hiring", "into", "tutorial", "iran", "before", "definition", "meaning", "waste", "portraits", "sender", "making", "principle", "speeds", "reaction", "universities", "city", "governmental", "enormous", "same", "afraid", "commands", "compliance", "document", "after", "third", "users", "sustained", "clothes", "sometimes", "leaving", "medicine", "pending", "organizations", "excerpt", "improved", "november", "expand", "references", "educators", "although", "provide", "diary", "inside", "attractions", "visiting", "always", "adware", "says", "constitutional", "democrat", "left", "university", "mail", "text","although", "provide", "developing", "diary", "inside", "attractions", "read", "visiting", "always", "these", "adware", "says", "that", "constitutional", "democrat", "left", "university", "november", "mail", "sometimes", "text", "customer", "scholarship", "think", "play", "medicine", "transaction", "revenue", "united", "hotel", "difficult", "compatibility", "military", "situated", "pharmacology", "should", "launch", "surprised", "theories", "after", "parliament", "edge", "definition", "before", "beaches", "classification", "time", "usually", "because", "investment", "plaintiff", "prisoners", "statutes", "cordless", "principle", "website", "sells", "file", "army", "interventions", "states", "trading", "afraid", "interface", "ports", "examine", "regulatory", "forums", "student", "passing", "enormous", "wanna", "white", "making", "convenient", "price", "specialist", "recognize", "mothers", "allow", "proceed", "liability", "south", "tournaments", "same", "volumes", "tutorial", "studies", "sports", "accommodation", "profit", "spain", "german", "techno", "photographs", "deficit", "retain", "networking", "engineering", "applications","tournaments", "same", "volumes", "tutorial", "time", "studies", "sports", "accommodation", "difficult", "profit", "these", "spain", "german", "techno", "photographs", "parliament", "deficit", "retain", "after", "networking", "engineering", "adware", "applications", "four", "approximately", "payment", "plaintiff", "downloads", "allow", "improved", "think", "south", "fraction", "languages", "regulatory", "cars", "hiring", "dresses", "reaction", "contributions", "obligation", "taking", "listings", "wines", "directory", "century", "stock", "alter", "white", "text", "dose", "registrar", "warming", "government", "mothers", "thirty", "educators", "parking", "meaning", "forums", "verizon", "cost", "firewire", "noon", "proceed", "treatments", "diary", "robert", "liability", "seems", "passing", "naked", "army", "heroes", "mental", "convenient", "confirmed", "developing", "incidence", "medline", "coding", "territory", "investment", "everyone", "university", "articles", "compatibility", "reply", "customer", "november", "refer", "portraits", "kings", "sussex", "cards", "investors", "provide", "dealers", "users", "girlfriend"];
 
         var raycaster, intersects;
-        var palabras = new THREE.Group();
-        var palabrasCluster = new THREE.Group();
         var mouse, INTERSECTED;
         vectorWords.then(function(data){
-          //vectores = data;
-          $.each(data, function(index, value) {
-             if ($.inArray(value.cluster, seleccionCluster) != -1) {
-                  vectores.push(value);
-             }
-            //if ($.inArray( value.cluster, categories) === -1 && index>299 ) {
-            //  categories.push(value.cluster);
-            //}
-           });
-          //console.log('vectores: ', vectores);
+          vectores = data;
           init();
           animate();
         });
@@ -650,137 +626,87 @@ angular.module('testProjectApp')
           container = document.getElementById( 'containerGalaxy' );
 
           scene = new THREE.Scene();
-          scene.fog = new THREE.Fog(0xffffff, 10, 60);
 
-          camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 5000 );
-          camera.position.z = 930;
+          camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
+          camera.position.z = 250;
 
-          controls = new THREE.TrackballControls( camera );
+          controls = new THREE.FlyControls( camera );
 
-          controls.rotateSpeed = 2.0;
-          controls.zoomSpeed = 1.2;
-          controls.panSpeed = 0.8;
+          controls.movementSpeed = 300;
+          controls.domElement = container;
+          //controls.rollSpeed = Math.PI / 15;
+          controls.autoForward = false;
+          controls.dragToLook = false;
 
-          controls.noZoom = false;
-          controls.noPan = false;
+          controls.enabled = true;
 
-          controls.staticMoving = false;
-          controls.dynamicDampingFactor = 0.3;
 
-          controls.keys = [ 65, 83, 68 ];
-
-          $.each(vectores, function(index, value) {
-              coloresPers['r'].push(Math.floor((Math.random() * 255) + 20));
-              coloresPers['g'].push(Math.floor((Math.random() * 255) + 20));
-              coloresPers['b'].push(Math.floor((Math.random() * 255) + 20));
-              if ($.inArray(value.cluster, categories) === -1) {
-                   categories.push(value.cluster);
-                   catPosition.push({ 'x': value['x']*dispersionValue, 'y': value['y']*dispersionValue, 'z': value['z']*dispersionValue })
-              }
-            });
-            console.log('categories position: ',catPosition);
 
           //
 
-          addLeters(vectores, categories, palabras);
-          addClutserLetters(categories, catPosition);
-          addSprites(vectores, categories);
+          attributes = {
 
-          letrerosCluster = scene.getObjectByName( "letrerosCluster").children;
+            size:        { type: 'f', value: [] },
+            customColor: { type: 'c', value: [] },
+            name: { value: '' },
+            cluster: { value: '' }
 
-          function addClutserLetters(categories, catPosition) {
-            for ( var o = 0; o<categories.length; o++){
-              var spritey = makeTextSprite( categories[o],
-                { fontsize: 40,
-                  borderColor: { r:255, g:0, b:0, a:0 },
-                  backgroundColor: {r:coloresPers['r'][categories.indexOf(vectores[o].cluster)], g:coloresPers['g'][categories.indexOf(vectores[o].cluster)], b:coloresPers['b'][categories.indexOf(vectores[o].cluster)], a:0.8},
-                  color: { r:255, g:255, b:255, a:1 } }, 50, 25);
-              spritey.position.set( (catPosition[o]['x']), (catPosition[o]['y']), (catPosition[o]['z']) );
-              spritey.name = categories[o]+'Leters';
-              palabrasCluster.add(spritey);
-            }
-            palabrasCluster.name='letrerosCluster';
-            scene.add(palabrasCluster);
+          };
+
+          uniforms = {
+
+            color:   { type: "c", value: new THREE.Color( 0xffffff ) },
+            texture: { type: "t", value: THREE.ImageUtils.loadTexture( "/images/disc.png" ) }
+
+          };
+
+          var shaderMaterial = new THREE.ShaderMaterial( {
+
+            uniforms: uniforms,
+            attributes: attributes,
+            vertexShader: document.getElementById( 'vertexshader' ).textContent,
+            fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
+
+            alphaTest: 0.9
+
+          } );
+
+           //var geometry = new THREE.BoxGeometry( 2000, 2000, 200, 160, 160, 16 );
+
+          var geometry = new THREE.Geometry();
+
+          for ( var o = 0; o<vectores.length; o++){
+            geometry.vertices.push( new THREE.Vector3(vectores[o]['x']*500, vectores[o]['y']*500, vectores[o]['z']*500));
           }
 
-          function addLeters(vectores,categories, palabras) {
-            for ( var o = 0; o<vectores.length; o++){
-              var spritey = makeTextSprite( vectores[o].word,
-                { fontsize: 40,
-                  borderColor: {r:255, g:0, b:0, a:0},
-                  backgroundColor: {r:100, g:100, b:100, a:0},
-                  color: { r:255, g:255, b:255, a:1 } } );
-                spritey.position.set( (vectores[o]['x']*dispersionValue), (vectores[o]['y']*dispersionValue), (vectores[o]['z']*dispersionValue) );
-                spritey.name = vectores[o]["cluster"];
-                palabras.add(spritey);
-              }
-            palabras.name='letreros';
-            scene.add(palabras);
+          particles = new THREE.PointCloud( geometry, shaderMaterial );
+
+          console.log('particles: ',particles.length, vectores.length, particles);
+
+          var values_size = attributes.size.value;
+          var values_color = attributes.customColor.value;
+          var name = attributes.name.value;
+          var cluster = attributes.cluster.value;
+
+          var vertices = (particles.geometry.vertices);
+
+          for( var v = 0,  vl = vertices.length; v < vl; v++ ) {
+
+            values_size[ v ] = PARTICLE_SIZE * 0.5;
+
+            values_color[ v ] = new THREE.Color().setHSL( 0.01 + 0.1 * ( v / vl ), 1.0, 0.5 );
+
+            name[v] = vectores[v]['word'];
+            cluster[ v ] = vectores[v]['cluster'];
           }
 
-          function addSprites(vectores, categories){
-            attributes = {
-              size:        { type: 'f', value: [] },
-              customColor: { type: 'c', value: [] },
-              originalColor: { type: 'c', value: [] },
-              nombre: { type: 'c', value: [] },
-              cluster: { type: 'c', value: [] },
-              posicion: { type: 'c', value: { 'x':0, 'y':0, 'z':0 } }
-            };
+          scene.add( particles );
 
-            uniforms = {
-              color:   { type: "c", value: new THREE.Color( 0xffffff ) },
-              texture: { type: "t", value: THREE.ImageUtils.loadTexture( "/images/wiki.png" ) }
-            };
+          //
 
-            var shaderMaterial = new THREE.ShaderMaterial( {
-             uniforms: uniforms,
-             attributes: attributes,
-             transparent:true,
-             vertexShader: document.getElementById( 'vertexshader' ).textContent,
-             fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
-             alphaTest: 0.9
-            } );
-
-            var geometry = new THREE.Geometry();
-
-            var nombre = attributes.nombre.value;
-            var cluster = attributes.cluster.value;
-            var posicion = attributes.posicion.value;
-
-            for ( var o = 0; o<vectores.length; o++){
-              geometry.vertices.push( new THREE.Vector3(vectores[o]['x']*dispersionValue, vectores[o]['y']*dispersionValue, vectores[o]['z']*dispersionValue));
-              nombre[ o ] = vectores[o].word;
-              cluster[ o ] = vectores[o].cluster;
-              posicion[ o ]= { 'x': vectores[o].x * dispersionValue, 'y': vectores[o].y * dispersionValue, 'z': vectores[o].z * dispersionValue };
-            }
-
-            particles = new THREE.PointCloud( geometry, shaderMaterial );
-
-            var values_size = attributes.size.value;
-            var values_color = attributes.customColor.value;
-            var original_color = attributes.originalColor.value;
-
-            var vertices = (particles.geometry.vertices.length);
-
-            for( var v = 0,  vl = vertices; v < vl; v++ ) {
-
-              values_size[ v ] = PARTICLE_SIZE * 0.5;
-
-              values_color[ v ] = new THREE.Color().setHex(0xaaccff*((categories.indexOf(vectores[v].cluster)+1)*2) );
-              original_color[ v ] = new THREE.Color().setHex(0xaaccff*((categories.indexOf(vectores[v].cluster)+1)*2) );
-
-            }
-            particles.name='particulas';
-            scene.add( particles );
-          }
-
-          console.log(scene);
-
-          renderer = new THREE.WebGLRenderer({ alpha: true, antialias:true });
+          renderer = new THREE.WebGLRenderer();
           renderer.setPixelRatio( window.devicePixelRatio );
           renderer.setSize( window.innerWidth, window.innerHeight );
-          renderer.setClearColor( 0x081223, 1);
           container.appendChild( renderer.domElement );
 
           //
@@ -791,32 +717,8 @@ angular.module('testProjectApp')
           //
 
           window.addEventListener( 'resize', onWindowResize, false );
-          document.getElementById("containerGalaxy").addEventListener("mousewheel", MouseWheelHandler, false);
-          document.getElementById("containerGalaxy").addEventListener( 'mousemove', onDocumentMouseMove, false );
-          document.getElementById("containerGalaxy").addEventListener( 'mousedown', onDocumentMouseDown, false );
+          document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 
-        }
-
-        function MouseWheelHandler( event ) {
-          cameraPositionTotal = Math.abs(camera.position.z)+Math.abs(camera.position.y)+Math.abs(camera.position.x);
-          console.log(cameraPositionTotal);
-          if ((Math.abs(cameraPositionTotal)) >= 900) {
-            scene.getObjectByName("particulas").material.visible = false;
-            scene.getObjectByName("letrerosCluster").visible = true;
-          } else {
-            scene.getObjectByName("particulas").material.visible = true;
-            //scene.getObjectByName("letrerosCluster").visible = false;
-          }
-          if (event.wheelDelta == 120 && letrerosCluster[0].material.opacity > 0 && Math.abs(cameraPositionTotal) <= 900) {
-              for (var a = 0; a < letrerosCluster.length; a++) {
-                letrerosCluster[a].material.opacity = letrerosCluster[a].material.opacity - cameraPositionTotal/2000;
-              }
-          }
-          if (event.wheelDelta == -120 && letrerosCluster[0].material.opacity <1 && Math.abs(cameraPositionTotal) >= 800) {
-              for (var a = 0; a < letrerosCluster.length; a++) {
-                letrerosCluster[a].material.opacity = letrerosCluster[a].material.opacity + cameraPositionTotal/2000;
-              }
-          }
         }
 
         function onDocumentMouseMove( event ) {
@@ -826,50 +728,6 @@ angular.module('testProjectApp')
           mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
           mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
-        }
-        function onDocumentMouseDown ( event ) {
-
-          //console.log('evento',event);
-
-          raycaster.setFromCamera( mouse, camera );
-
-          intersects = raycaster.intersectObject( scene.getObjectByName( "particulas" ) );
-
-          switch (event.button) {
-            case 0: // left
-              if ( intersects.length > 0 ) {
-                if (INTERSECTED != intersects[0]) {
-                  if(scene.getObjectByName( "uniqCluster")) scene.remove(scene.getObjectByName( "uniqCluster"));
-                  //attributes.size.value[ INTERSECTED ] = PARTICLE_SIZE;
-                  INTERSECTED = intersects[0].index;
-                  var spritey = makeTextSprite( attributes.cluster.value[INTERSECTED],
-                    { fontsize: 30,
-                      borderColor: { r:255, g:0, b:0, a:0 },
-                      backgroundColor: {r:100, g:100, b:100, a:0.7},
-                      color: { r:255, g:255, b:255, a:1 } }, 25, 13);
-                  spritey.position.set( (intersects[0].point['x']), (intersects[0].point['y']), (intersects[0].point['z']) );
-                  spritey.name = 'uniqCluster';
-                  scene.add(spritey);
-
-                  var longFor = attributes.customColor.value.length;
-
-                  for (var e = 0; e < longFor; e++) {
-                    if (attributes.customColor.value[e] != attributes.customColor.value[INTERSECTED] && attributes.cluster.value[e] != attributes.cluster.value[INTERSECTED]) attributes.customColor.value[e] = new THREE.Color().setHex(0x222222);
-                    else attributes.customColor.value[e] = attributes.originalColor.value[INTERSECTED];
-                  }
-                  attributes.customColor.needsUpdate = true;
-                  movement(intersects[0].point['x'], intersects[0].point['y'],150, camera.position, 0);
-                }
-              };break;
-              case 1: /* CENTER BUTTON */
-                if(scene.getObjectByName( "uniqCluster")) scene.remove(scene.getObjectByName( "uniqCluster"));
-                var longFor = attributes.customColor.value.length;
-                for (var e = 0; e < longFor; e++) {
-                  attributes.customColor.value[e] = attributes.originalColor.value[e];
-                }
-                attributes.customColor.needsUpdate = true;
-                break;
-          }
         }
 
         function onWindowResize() {
@@ -884,7 +742,6 @@ angular.module('testProjectApp')
         function animate() {
 
           requestAnimationFrame( animate );
-          TWEEN.update();
 
           render();
 
@@ -892,25 +749,32 @@ angular.module('testProjectApp')
 
         function render() {
 
+          //particles.rotation.x += 0.0005;
+          //particles.rotation.y += 0.001;
+
           raycaster.setFromCamera( mouse, camera );
 
-          intersects = raycaster.intersectObject( scene.getObjectByName( "particulas" ) );
+          intersects = raycaster.intersectObject( particles );
 
           if ( intersects.length > 0 ) {
 
-            if ( INTERSECTED != intersects[ 0 ] ) {
+            if ( INTERSECTED != intersects[ 0 ].index ) {
+
+              console.log('intersect:  ', intersects);
+              console.log('intersect name:  ', attributes.name.value[ INTERSECTED ]);
+
+              attributes.size.value[ INTERSECTED ] = PARTICLE_SIZE;
 
               INTERSECTED = intersects[ 0 ].index;
 
               attributes.size.value[ INTERSECTED ] = PARTICLE_SIZE * 1.25;
-
               attributes.size.needsUpdate = true;
-              //}
+
             }
 
           } else if ( INTERSECTED !== null ) {
 
-            attributes.size.value[ INTERSECTED ] = PARTICLE_SIZE/1.75;
+            attributes.size.value[ INTERSECTED ] = PARTICLE_SIZE/1.25;
             attributes.size.needsUpdate = true;
             INTERSECTED = null;
 
@@ -922,55 +786,6 @@ angular.module('testProjectApp')
           renderer.render( scene, camera );
 
         }
-
-        function movement(valueX, valueY, valueZ, object,delay){
-          var tween = new TWEEN.Tween(object).to({
-            x: valueX,
-            y: valueY,
-            z: valueZ
-          }).easing(TWEEN.Easing.Sinusoidal.InOut).onUpdate(function () {
-          }).delay(delay).start();
-        }
-
-        scope.$watch(function () {
-          return $localStorage. searchValue;
-        }, function (newVal, oldVal) {
-          if(scene && scene.getObjectByName( "uniqCluster")) scene.remove(scene.getObjectByName( "uniqCluster"));
-          var cluster='wow';
-          if(attributes) {
-            var long = attributes.nombre.value.length;
-            for(var a = 0; a<long; a++){
-              //console.log('cluster y atributo: ', cluster, attributes.cluster.value[a]);
-              if(attributes.nombre.value[a] == newVal) {
-                cluster = attributes.cluster.value[a];
-                var pos = a;
-                console.log(cluster);
-                scene.getObjectByName("particulas").material.visible = true;
-                scene.getObjectByName("letrerosCluster").visible = false;
-                attributes.customColor.value[a] = new THREE.Color().setHex(0xffffff);
-                attributes.customColor.needsUpdate = true;
-              }
-              if(attributes.cluster.value[a] == cluster && attributes.nombre.value[a] != newVal) {
-                attributes.customColor.value[a] = attributes.originalColor.value[a];
-                attributes.customColor.needsUpdate = true;
-              } else if(attributes.cluster.value[a] != cluster && attributes.nombre.value[a] != newVal){
-                attributes.customColor.value[a] = new THREE.Color().setHex(0x222222);
-                attributes.customColor.needsUpdate = true;
-              }
-            }
-            var spritey = makeTextSprite( attributes.cluster.value[pos],
-              { fontsize: 30,
-                borderColor: { r:255, g:0, b:0, a:0 },
-                backgroundColor: {r:100, g:100, b:100, a:0.7},
-                color: { r:255, g:255, b:255, a:1 } }, 25, 13);
-            spritey.position.set( (attributes.posicion.value[pos]['x']), (attributes.posicion.value[pos]['y']), (attributes.posicion.value[pos]['z']) );
-            spritey.name = 'uniqCluster';
-            scene.add(spritey);
-            console.log(attributes.posicion.value[pos]['x']);
-            movement(attributes.posicion.value[pos]['x'], attributes.posicion.value[pos]['y'],200, camera.position, 0);
-            camera.lookAt(new THREE.Vector3(attributes.posicion.value[pos]['x'], attributes.posicion.value[pos]['y'], attributes.posicion.value[pos]['z']));
-          }
-        }, true);
       }
     }
   })

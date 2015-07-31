@@ -54,7 +54,7 @@ THREE.FlyControls = function ( object, domElement ) {
     switch ( event.keyCode ) {
 
       case 32: /* space */ if(this.rollSpeed > 0 ) this.rollSpeed = 0;
-                           else this.rollSpeed = 0.1; break;
+                           else this.rollSpeed = 0.3; break;
 
       case 16: /* shift */ this.movementSpeedMultiplier = .1; break;
 

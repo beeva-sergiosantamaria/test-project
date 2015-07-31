@@ -15,7 +15,10 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ngFx'
+    'ngFx',
+    'MassAutoComplete',
+    'ngStorage'
+
   ])
   .config(function ($routeProvider) {
     $routeProvider
