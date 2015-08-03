@@ -15,7 +15,7 @@ angular.module('testProjectApp')
         var screensplit = .25, screensplit_right = 0;
         var mouse = [.5, .5];
         var zoompos = -100, minzoomspeed = .015;
-        var zoomspeed = minzoomspeed, border;
+        var zoomspeed = minzoomspeed;
 
         var container;
         var objects = {};
@@ -611,6 +611,8 @@ angular.module('testProjectApp')
         var vectores = [];
         var particles, uniforms, attributes;
         var clock = new THREE.Clock();
+        var letrerosInside = new THREE.Object3D();
+        var clusterInside = new THREE.Object3D();
         var PARTICLE_SIZE = 20;
         var categories = [];
         var catPosition = [];
@@ -618,27 +620,27 @@ angular.module('testProjectApp')
         var dispersionValue = 100;
         var cameraPositionTotal = 0;
 
-
-        var letrerosCluster, contadorWheel = 0;
+        var letrerosCluster;
         //var seleccionCluster = ["that", "these", "developing", "read", "because", "cathedral", "dominant", "journals", "searching", "soon", "calculations", "time"];
         //var seleccionCluster = ["that", "should", "these", "developing", "read", "because", "treatments", "examine", "cathedral", "dominant", "journals", "searching", "soon", "calculations", "time", "hold", "weekends", "explain", "controversy", "website", "unless", "finally", "placing", "glossary", "investors", "taking", "plaintiff", "conclusions", "listings", "scholarship", "argument", "infrastructure", "especially", "clicking", "subtle", "optimal", "psychological", "price", "thirty", "drug", "votes", "articles", "literary", "everyone", "payment", "states", "hiring", "into", "tutorial", "iran", "before", "definition", "meaning", "waste", "portraits", "sender", "making", "principle", "speeds", "reaction", "universities", "city", "governmental", "enormous", "same", "afraid", "commands", "compliance", "document", "after", "third", "users", "sustained"];
         //var seleccionCluster = ["that", "should", "these", "developing", "read", "because", "treatments", "examine", "cathedral", "dominant", "journals", "searching", "soon", "calculations", "time", "hold", "weekends", "explain", "controversy", "website", "unless", "finally", "placing", "glossary", "investors", "taking", "plaintiff", "conclusions", "listings", "scholarship", "argument", "infrastructure", "especially", "clicking", "subtle", "optimal", "psychological", "price", "thirty", "drug", "votes", "articles", "literary", "everyone", "payment", "states", "hiring", "into", "tutorial", "iran", "before", "definition", "meaning", "waste", "portraits", "sender", "making", "principle", "speeds", "reaction", "universities", "city", "governmental", "enormous", "same", "afraid", "commands", "compliance", "document", "after", "third", "users", "sustained", "clothes", "sometimes", "leaving", "medicine", "pending", "organizations", "excerpt", "improved", "november", "expand", "references", "educators", "although", "provide", "diary", "inside", "attractions", "visiting", "always", "adware", "says", "constitutional", "democrat", "left", "university", "mail", "text"];
-        var seleccionCluster = ["that", "should", "these", "developing", "read", "because", "treatments", "examine", "cathedral", "dominant", "journals", "searching", "soon", "calculations", "time", "hold", "weekends", "explain", "controversy", "website", "unless", "finally", "placing", "glossary", "investors", "taking", "plaintiff", "conclusions", "listings", "scholarship", "argument", "infrastructure", "especially", "clicking", "subtle", "optimal", "psychological", "price", "thirty", "drug", "votes", "articles", "literary", "everyone", "payment", "states", "hiring", "into", "tutorial", "iran", "before", "definition", "meaning", "waste", "portraits", "sender", "making", "principle", "speeds", "reaction", "universities", "city", "governmental", "enormous", "same", "afraid", "commands", "compliance", "document", "after", "third", "users", "sustained", "clothes", "sometimes", "leaving", "medicine", "pending", "organizations", "excerpt", "improved", "november", "expand", "references", "educators", "although", "provide", "diary", "inside", "attractions", "visiting", "always", "adware", "says", "constitutional", "democrat", "left", "university", "mail", "text","although", "provide", "developing", "diary", "inside", "attractions", "read", "visiting", "always", "these", "adware", "says", "that", "constitutional", "democrat", "left", "university", "november", "mail", "sometimes", "text", "customer", "scholarship", "think", "play", "medicine", "transaction", "revenue", "united", "hotel", "difficult", "compatibility", "military", "situated", "pharmacology", "should", "launch", "surprised", "theories", "after", "parliament", "edge", "definition", "before", "beaches", "classification", "time", "usually", "because", "investment", "plaintiff", "prisoners", "statutes", "cordless", "principle", "website", "sells", "file", "army", "interventions", "states", "trading", "afraid", "interface", "ports", "examine", "regulatory", "forums", "student", "passing", "enormous", "wanna", "white", "making", "convenient", "price", "specialist", "recognize", "mothers", "allow", "proceed", "liability", "south", "tournaments", "same", "volumes", "tutorial", "studies", "sports", "accommodation", "profit", "spain", "german", "techno", "photographs", "deficit", "retain", "networking", "engineering", "applications"];
+        //var seleccionCluster = ["that", "should", "these", "developing", "read", "because", "treatments", "examine", "cathedral", "dominant", "journals", "searching", "soon", "calculations", "time", "hold", "weekends", "explain", "controversy", "website", "unless", "finally", "placing", "glossary", "investors", "taking", "plaintiff", "conclusions", "listings", "scholarship", "argument", "infrastructure", "especially", "clicking", "subtle", "optimal", "psychological", "price", "thirty", "drug", "votes", "articles", "literary", "everyone", "payment", "states", "hiring", "into", "tutorial", "iran", "before", "definition", "meaning", "waste", "portraits", "sender", "making", "principle", "speeds", "reaction", "universities", "city", "governmental", "enormous", "same", "afraid", "commands", "compliance", "document", "after", "third", "users", "sustained", "clothes", "sometimes", "leaving", "medicine", "pending", "organizations", "excerpt", "improved", "november", "expand", "references", "educators", "although", "provide", "diary", "inside", "attractions", "visiting", "always", "adware", "says", "constitutional", "democrat", "left", "university", "mail", "text","although", "provide", "developing", "diary", "inside", "attractions", "read", "visiting", "always", "these", "adware", "says", "that", "constitutional", "democrat", "left", "university", "november", "mail", "sometimes", "text", "customer", "scholarship", "think", "play", "medicine", "transaction", "revenue", "united", "hotel", "difficult", "compatibility", "military", "situated", "pharmacology", "should", "launch", "surprised", "theories", "after", "parliament", "edge", "definition", "before", "beaches", "classification", "time", "usually", "because", "investment", "plaintiff", "prisoners", "statutes", "cordless", "principle", "website", "sells", "file", "army", "interventions", "states", "trading", "afraid", "interface", "ports", "examine", "regulatory", "forums", "student", "passing", "enormous", "wanna", "white", "making", "convenient", "price", "specialist", "recognize", "mothers", "allow", "proceed", "liability", "south", "tournaments", "same", "volumes", "tutorial", "studies", "sports", "accommodation", "profit", "spain", "german", "techno", "photographs", "deficit", "retain", "networking", "engineering", "applications"];
         //var seleccionCluster = ["that", "should", "these", "developing", "read", "because", "treatments", "examine", "cathedral", "dominant", "journals", "searching", "soon", "calculations", "time", "hold", "weekends", "explain", "controversy", "website", "unless", "finally", "placing", "glossary", "investors", "taking", "plaintiff", "conclusions", "listings", "scholarship", "argument", "infrastructure", "especially", "clicking", "subtle", "optimal", "psychological", "price", "thirty", "drug", "votes", "articles", "literary", "everyone", "payment", "states", "hiring", "into", "tutorial", "iran", "before", "definition", "meaning", "waste", "portraits", "sender", "making", "principle", "speeds", "reaction", "universities", "city", "governmental", "enormous", "same", "afraid", "commands", "compliance", "document", "after", "third", "users", "sustained", "clothes", "sometimes", "leaving", "medicine", "pending", "organizations", "excerpt", "improved", "november", "expand", "references", "educators", "although", "provide", "diary", "inside", "attractions", "visiting", "always", "adware", "says", "constitutional", "democrat", "left", "university", "mail", "text","although", "provide", "developing", "diary", "inside", "attractions", "read", "visiting", "always", "these", "adware", "says", "that", "constitutional", "democrat", "left", "university", "november", "mail", "sometimes", "text", "customer", "scholarship", "think", "play", "medicine", "transaction", "revenue", "united", "hotel", "difficult", "compatibility", "military", "situated", "pharmacology", "should", "launch", "surprised", "theories", "after", "parliament", "edge", "definition", "before", "beaches", "classification", "time", "usually", "because", "investment", "plaintiff", "prisoners", "statutes", "cordless", "principle", "website", "sells", "file", "army", "interventions", "states", "trading", "afraid", "interface", "ports", "examine", "regulatory", "forums", "student", "passing", "enormous", "wanna", "white", "making", "convenient", "price", "specialist", "recognize", "mothers", "allow", "proceed", "liability", "south", "tournaments", "same", "volumes", "tutorial", "studies", "sports", "accommodation", "profit", "spain", "german", "techno", "photographs", "deficit", "retain", "networking", "engineering", "applications","tournaments", "same", "volumes", "tutorial", "time", "studies", "sports", "accommodation", "difficult", "profit", "these", "spain", "german", "techno", "photographs", "parliament", "deficit", "retain", "after", "networking", "engineering", "adware", "applications", "four", "approximately", "payment", "plaintiff", "downloads", "allow", "improved", "think", "south", "fraction", "languages", "regulatory", "cars", "hiring", "dresses", "reaction", "contributions", "obligation", "taking", "listings", "wines", "directory", "century", "stock", "alter", "white", "text", "dose", "registrar", "warming", "government", "mothers", "thirty", "educators", "parking", "meaning", "forums", "verizon", "cost", "firewire", "noon", "proceed", "treatments", "diary", "robert", "liability", "seems", "passing", "naked", "army", "heroes", "mental", "convenient", "confirmed", "developing", "incidence", "medline", "coding", "territory", "investment", "everyone", "university", "articles", "compatibility", "reply", "customer", "november", "refer", "portraits", "kings", "sussex", "cards", "investors", "provide", "dealers", "users", "girlfriend"];
 
         var raycaster, intersects;
-        var palabras = new THREE.Group();
+        var palabras = new THREE.Object3D();
         var palabrasCluster = new THREE.Group();
         var mouse, INTERSECTED;
         vectorWords.then(function(data){
-          //vectores = data;
+          vectores = data;
           $.each(data, function(index, value) {
-             if ($.inArray(value.cluster, seleccionCluster) != -1) {
-                  vectores.push(value);
-             }
-            //if ($.inArray( value.cluster, categories) === -1 && index>299 ) {
-            //  categories.push(value.cluster);
-            //}
+          //   if ($.inArray(value.cluster, seleccionCluster) != -1) {
+          //        vectores.push(value);
+          //   }
+          //  if ($.inArray( value.cluster, categories) === -1 && index>299 ) {
+          //  if ($.inArray( value.cluster, categories) === -1 ) {
+          //    categories.push(value.cluster);
+          //  }
            });
           //console.log('vectores: ', vectores);
           init();
@@ -678,11 +680,8 @@ angular.module('testProjectApp')
                    catPosition.push({ 'x': value['x']*dispersionValue, 'y': value['y']*dispersionValue, 'z': value['z']*dispersionValue })
               }
             });
-            console.log('categories position: ',catPosition);
 
-          //
-
-          addLeters(vectores, categories, palabras);
+//          addLeters(vectores, categories, palabras);
           addClutserLetters(categories, catPosition);
           addSprites(vectores, categories);
 
@@ -777,6 +776,8 @@ angular.module('testProjectApp')
 
           console.log(scene);
 
+          scene.getObjectByName("particulas").material.visible = false;
+
           renderer = new THREE.WebGLRenderer({ alpha: true, antialias:true });
           renderer.setPixelRatio( window.devicePixelRatio );
           renderer.setSize( window.innerWidth, window.innerHeight );
@@ -791,15 +792,14 @@ angular.module('testProjectApp')
           //
 
           window.addEventListener( 'resize', onWindowResize, false );
-          document.getElementById("containerGalaxy").addEventListener("mousewheel", MouseWheelHandler, false);
+          document.getElementById("containerGalaxy").addEventListener( "mousewheel", MouseWheelHandler, false);
           document.getElementById("containerGalaxy").addEventListener( 'mousemove', onDocumentMouseMove, false );
-          document.getElementById("containerGalaxy").addEventListener( 'mousedown', onDocumentMouseDown, false );
+          document.getElementById("containerGalaxy").addEventListener( 'dblclick', onDocumentMouseDown, false );
 
         }
 
         function MouseWheelHandler( event ) {
           cameraPositionTotal = Math.abs(camera.position.z)+Math.abs(camera.position.y)+Math.abs(camera.position.x);
-          console.log(cameraPositionTotal);
           if ((Math.abs(cameraPositionTotal)) >= 900) {
             scene.getObjectByName("particulas").material.visible = false;
             scene.getObjectByName("letrerosCluster").visible = true;
@@ -828,19 +828,23 @@ angular.module('testProjectApp')
 
         }
         function onDocumentMouseDown ( event ) {
-
-          //console.log('evento',event);
+//          if (event.shiftKey || !event.ctrlKey || event.metaKey)  console.log('hay control');
 
           raycaster.setFromCamera( mouse, camera );
 
           intersects = raycaster.intersectObject( scene.getObjectByName( "particulas" ) );
 
           switch (event.button) {
+
             case 0: // left
               if ( intersects.length > 0 ) {
                 if (INTERSECTED != intersects[0]) {
-                  if(scene.getObjectByName( "uniqCluster")) scene.remove(scene.getObjectByName( "uniqCluster"));
-                  //attributes.size.value[ INTERSECTED ] = PARTICLE_SIZE;
+                  if(!event.ctrlKey) {
+                      letrerosInside = new THREE.Object3D();
+                      clusterInside = new THREE.Object3D();
+                      scene.remove(scene.getObjectByName( "uniqCluster"));
+                      scene.remove(scene.getObjectByName( "letreros"));
+                  }
                   INTERSECTED = intersects[0].index;
                   var spritey = makeTextSprite( attributes.cluster.value[INTERSECTED],
                     { fontsize: 30,
@@ -848,21 +852,35 @@ angular.module('testProjectApp')
                       backgroundColor: {r:100, g:100, b:100, a:0.7},
                       color: { r:255, g:255, b:255, a:1 } }, 25, 13);
                   spritey.position.set( (intersects[0].point['x']), (intersects[0].point['y']), (intersects[0].point['z']) );
-                  spritey.name = 'uniqCluster';
-                  scene.add(spritey);
-
+                  clusterInside.name = 'uniqCluster';
+                  clusterInside.add(spritey);
+                  scene.add(clusterInside);
                   var longFor = attributes.customColor.value.length;
-
                   for (var e = 0; e < longFor; e++) {
-                    if (attributes.customColor.value[e] != attributes.customColor.value[INTERSECTED] && attributes.cluster.value[e] != attributes.cluster.value[INTERSECTED]) attributes.customColor.value[e] = new THREE.Color().setHex(0x222222);
-                    else attributes.customColor.value[e] = attributes.originalColor.value[INTERSECTED];
+                    if (!event.ctrlKey && attributes.cluster.value[e] != attributes.cluster.value[INTERSECTED]) attributes.customColor.value[e] = new THREE.Color().setHex(0x222222);
+                    if (attributes.cluster.value[e] == attributes.cluster.value[INTERSECTED]) {
+                        attributes.customColor.value[e] = attributes.originalColor.value[INTERSECTED];
+                        var spritey = makeTextSprite( attributes.nombre.value[e],
+                            { fontsize: 60,
+                                borderColor: { r:255, g:0, b:0, a:0 },
+                                backgroundColor: {r:100, g:100, b:100, a:0},
+                                color: { r:255, g:255, b:255, a:1 } }, 10, 5);
+                        spritey.position.set( (attributes.posicion.value[e]['x']), (attributes.posicion.value[e]['y']), (attributes.posicion.value[e]['z']) );
+                        spritey.name = 'letrerosIndividuales';
+                        letrerosInside.add(spritey);
+                    }
                   }
+                  letrerosInside.name='letreros';
+                  scene.add(letrerosInside);
                   attributes.customColor.needsUpdate = true;
-                  movement(intersects[0].point['x'], intersects[0].point['y'],150, camera.position, 0);
+                  movement(intersects[0].point['x'], intersects[0].point['y'],intersects[0].point['z'], controls.target, 0);
+                  movement(intersects[0].point['x'], intersects[0].point['y'],intersects[0].point['z']+100, camera.position, 100);
                 }
-              };break;
-              case 1: /* CENTER BUTTON */
+              }; break;
+
+              case 1: //middle
                 if(scene.getObjectByName( "uniqCluster")) scene.remove(scene.getObjectByName( "uniqCluster"));
+                if(scene.getObjectByName( "letreros"))  { scene.remove(scene.getObjectByName( "letreros")); console.log('letreros: ',scene.getObjectByName( "letreros")); }
                 var longFor = attributes.customColor.value.length;
                 for (var e = 0; e < longFor; e++) {
                   attributes.customColor.value[e] = attributes.originalColor.value[e];
@@ -891,6 +909,12 @@ angular.module('testProjectApp')
         }
 
         function render() {
+
+          cameraPositionTotal = Math.abs(camera.position.z)+Math.abs(camera.position.y)+Math.abs(camera.position.x);
+
+          if ((Math.abs(cameraPositionTotal)) < 700) {
+                scene.getObjectByName("letrerosCluster").visible = false;
+           }
 
           raycaster.setFromCamera( mouse, camera );
 
@@ -935,7 +959,12 @@ angular.module('testProjectApp')
         scope.$watch(function () {
           return $localStorage. searchValue;
         }, function (newVal, oldVal) {
-          if(scene && scene.getObjectByName( "uniqCluster")) scene.remove(scene.getObjectByName( "uniqCluster"));
+            if(!event.ctrlKey) {
+                letrerosInside = new THREE.Object3D();
+                clusterInside = new THREE.Object3D();
+                scene.remove(scene.getObjectByName( "uniqCluster"));
+                scene.remove(scene.getObjectByName( "letreros"));
+            }
           var cluster='wow';
           if(attributes) {
             var long = attributes.nombre.value.length;
@@ -951,6 +980,16 @@ angular.module('testProjectApp')
                 attributes.customColor.needsUpdate = true;
               }
               if(attributes.cluster.value[a] == cluster && attributes.nombre.value[a] != newVal) {
+                  var spritey = makeTextSprite( attributes.nombre.value[a],
+                  { fontsize: 40,
+                      borderColor: { r:255, g:0, b:0, a:0 },
+                      backgroundColor: {r:100, g:100, b:100, a:0},
+                      color: { r:255, g:255, b:255, a:1 } }, 10, 5);
+                  spritey.position.set( (attributes.posicion.value[a]['x']), (attributes.posicion.value[a]['y']), (attributes.posicion.value[a]['z']) );
+                  spritey.name = 'letrerosIndividuales';
+                  letrerosInside.add(spritey);
+                  letrerosInside.name='letreros';
+                  scene.add(letrerosInside);
                 attributes.customColor.value[a] = attributes.originalColor.value[a];
                 attributes.customColor.needsUpdate = true;
               } else if(attributes.cluster.value[a] != cluster && attributes.nombre.value[a] != newVal){
@@ -964,11 +1003,11 @@ angular.module('testProjectApp')
                 backgroundColor: {r:100, g:100, b:100, a:0.7},
                 color: { r:255, g:255, b:255, a:1 } }, 25, 13);
             spritey.position.set( (attributes.posicion.value[pos]['x']), (attributes.posicion.value[pos]['y']), (attributes.posicion.value[pos]['z']) );
-            spritey.name = 'uniqCluster';
-            scene.add(spritey);
-            console.log(attributes.posicion.value[pos]['x']);
-            movement(attributes.posicion.value[pos]['x'], attributes.posicion.value[pos]['y'],200, camera.position, 0);
-            camera.lookAt(new THREE.Vector3(attributes.posicion.value[pos]['x'], attributes.posicion.value[pos]['y'], attributes.posicion.value[pos]['z']));
+            clusterInside.name = 'uniqCluster';
+            clusterInside.add(spritey);
+            scene.add(clusterInside);
+            movement(attributes.posicion.value[pos]['x'], attributes.posicion.value[pos]['y'],attributes.posicion.value[pos]['z'], controls.target, 0);
+            movement(attributes.posicion.value[pos]['x'], attributes.posicion.value[pos]['y'],attributes.posicion.value[pos]['z']+150, camera.position, 100);
           }
         }, true);
       }
