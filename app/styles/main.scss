@@ -180,6 +180,23 @@ body {
   border: 1px inset #ccc;
   cursor: col-resize;
 }
+
+.draggableCircle {
+  cursor: pointer;
+}
+
+.draggableCircle:hover {
+  cursor: pointer;
+}
+.box {
+  background-color: white;
+  margin-top:20%;
+  margin-left: 60%;
+  border-radius: 50%;
+  background-color: rgb(181, 181, 187);
+  border: solid 5px rgb(39, 39, 89);
+}
+
 /* FN WEB GL RENDER */
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
