@@ -189,9 +189,12 @@ body {
   cursor: pointer;
 }
 .box {
-  background-color: white;
-  margin-top:20%;
-  margin-left: 60%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
   border-radius: 50%;
   background-color: rgb(181, 181, 187);
   border: solid 5px rgb(39, 39, 89);
