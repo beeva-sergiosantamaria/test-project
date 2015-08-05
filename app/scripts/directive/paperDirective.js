@@ -11,9 +11,9 @@ angular.module('testProjectApp')
 
       var directiveConf = {
         //'boxWidth': window.innerWidth,
-        'boxWidth': 1800,
+        'boxWidth': 1500,
         //'boxHeight': window.innerHeight,
-        'boxHeight': 1800,
+        'boxHeight': 1500,
         'tooltip': '',
         'top': 250,
         'left': 300,
@@ -61,6 +61,7 @@ angular.module('testProjectApp')
       //}
 
    function createNodes(datos, top, left, color, colorOver){
+       var rehubicacion = 300-medRadius;
         console.log(datos, top, left, color, colorOver);
         var drag = d3.behavior.drag()
           .on('dragstart', function() {
@@ -94,10 +95,10 @@ angular.module('testProjectApp')
         var circle = box.append('svg:circle')
           .attr('class', 'draggableCircle')
           //.attr('cx', datos.pc.r+(directiveConf.left - left))
-          .attr('cx', datos.pc.r)
+          .attr('cx', datos.pc.r-rehubicacion)
           //.attr('cy', datos.pc.t+(directiveConf.top/2 + top))
-          .attr('cy', datos.pc.t)
-          .attr('r', 8)
+          .attr('cy', datos.pc.t-rehubicacion)
+          .attr('r', 5)
           .attr('nombre', datos.name)
           .attr('color', color)
           .attr('colorover', colorOver)
@@ -161,16 +162,16 @@ angular.module('testProjectApp')
 
         box.append("line")
           .attr("x1", 0)
-          .attr("y1", 300)
-          .attr("x2", 600)
-          .attr("y2", 300)
+          .attr("y1", radius/2)
+          .attr("x2", radius)
+          .attr("y2", radius/2)
           .attr("stroke-width", 2)
           .attr("stroke", d3.rgb(90, 90, 90));
         box.append("line")
-          .attr("x1", 300)
+          .attr("x1", radius/2)
           .attr("y1", 0)
-          .attr("x2", 300)
-          .attr("y2", 600)
+          .attr("x2", radius/2)
+          .attr("y2", radius)
           .attr("stroke-width", 2)
           .attr("stroke", d3.rgb(90, 90, 90));
 
