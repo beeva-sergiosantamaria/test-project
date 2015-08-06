@@ -9,5 +9,4 @@
  */
 angular.module('testProjectApp')
   .controller('AboutCtrl', function ($scope) {
-
   });
