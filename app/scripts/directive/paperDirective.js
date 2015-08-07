@@ -136,12 +136,18 @@ angular.module('testProjectApp')
          var nodos = box.selectAll(".draggableCircle")[0];
          _.each(nodos, function(d){
            if ($.inArray($(d).attr('id'), directiveConf['nodesActives']) == -1) {
+             $('#'+$(d).attr('id')+'.nodeElementOver')
+               .removeClass('nodeElementOver')
+               .addClass('nodeElement');
              d3.select(d)
                .transition()
                .duration(500)
                .style("fill", 'white');
              nodesActives = false;
            } else {
+             $('#'+$(d).attr('id')+'.nodeElement')
+               .removeClass('nodeElement')
+               .addClass('nodeElementOver');
              d3.select(d)
                .transition()
                .duration(500)
