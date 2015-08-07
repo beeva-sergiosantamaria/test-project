@@ -10,8 +10,8 @@ angular.module('testProjectApp')
     link: function() {
 
       var directiveConf = {
-        'boxWidth': 1800,
-        'boxHeight': 1800,
+        'boxWidth': window.innerWidth,
+        'boxHeight': window.innerHeight,
         'tooltip': '',
         'top': 250,
         'left': 300,
