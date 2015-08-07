@@ -1,6 +1,7 @@
 $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
 // bower:scss
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
+@import "fontawesome/scss/font-awesome.scss";
 // endbower
 ::-webkit-scrollbar {
   display: none;
@@ -283,6 +284,20 @@ body {
   width: 60px;
   height: 60px;
   top: 110px;
+  left: 30px;
+  background-color: cadetblue;
+  border-radius: 3px;
+  text-align: center;
+  font-size: 40px;
+  color: white;
+  font-weight: bolder;
+  cursor:pointer;
+}
+.resetButton {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  top: 180px;
   left: 30px;
   background-color: cadetblue;
   border-radius: 3px;
