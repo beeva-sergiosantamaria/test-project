@@ -6,25 +6,29 @@ angular.module('testProjectApp')
 .directive('radarInteractive', function(radarData) {
   return {
     restrict: 'EA',
-    scope: {},
-    link: function() {
+    scope: {
+      height: '=',
+      width: '='
+    },
+    link: function(scope) {
+
+      if(scope.width == undefined) scope.width = window.innerWidth;
+      if(scope.height == undefined) scope.height = window.innerHeight;
 
       var directiveConf = {
-        'boxWidth': window.innerWidth,
-        'boxHeight': window.innerHeight,
+        'boxWidth': scope.width,
+        'boxHeight': scope.height,
         'tooltip': '',
-        'top': 250,
-        'left': 300,
         'nodeActive': false,
         'radar_arcs' : ['Hold', 'Assess', 'Trial', 'Adopt'],
         'new_positions': [],
         'nodesActives': []
       }
       var nodesActives = true;
-      var radius = directiveConf['boxWidth']/3;
+      var radius = directiveConf['boxWidth'];
       var medRadius = radius/2;
       var Nniveles = directiveConf.radar_arcs.length;
-      var calculateMedia = (radius/2)/300;
+      var calculateMedia = (medRadius)/300;
       var doble = 16*calculateMedia;
       var normal = 6*calculateMedia;
       var control = false;
@@ -52,6 +56,7 @@ angular.module('testProjectApp')
         .attr('height', radius);
 
       radarData.then(function(data){
+          drawRadarSectors(data.length);
           _.each(data, function(value,a){
             CreateTableInf(value.quadrant,a);
             CreateClusterTitle(value.quadrant);
@@ -63,7 +68,7 @@ angular.module('testProjectApp')
         });
 
       _.each(directiveConf.radar_arcs, function(d,i){
-        drawRadarPanel(d, i, Nniveles );
+        drawRadarLevels(d, i, Nniveles );
       })
 
    function CreateTableInf(cuadrante,valor){
@@ -167,9 +172,6 @@ angular.module('testProjectApp')
             directiveConf['tooltip']
               .transition(200)
               .style('opacity', 0);
-
-            //console.log(circle[0][0].attributes.cx.value+' - '+circle[0][0].attributes.cy.value);
-            //console.log(circle);
           })
           .on('drag', function() {
             circle.attr('cx', d3.event.x)
@@ -289,21 +291,20 @@ angular.module('testProjectApp')
               .attr("cx",  parseInt($(d).attr('cx')) + (Math.floor((Math.random() * 30) - 20)) )
               .attr("cy",  parseInt($(d).attr('cy')) + (Math.floor((Math.random() * 30) - 20)) );
           }
-          //console.log(d);
-          //console.log($(d).attr('cx'));
-
         })
       };
 
-   function drawRadarPanel(cuadrantes, nivel, Nniveles){
-        box.append('svg:circle').attr({
-          cx: radius/2,
-          cy: radius/2,
+   function drawRadarLevels(cuadrantes, nivel, Nniveles){
+
+       box.append('svg:circle').attr({
+          cx: medRadius,
+          cy: medRadius,
           r: (medRadius/Nniveles)*nivel,
           class: 'serctorCircles',
           fill: "transparent",
           stroke: d3.rgb(90, 90, 90)
         });
+
        box.append('text')
          .attr('x', medRadius)
          .attr('y', ((medRadius/Nniveles)*nivel)+10)
@@ -313,50 +314,32 @@ angular.module('testProjectApp')
          .style('font-family', 'sans-serif')
          .style('font-size', '13px');
 
-
-        box.append("line")
-          .attr("x1", 0)
-          .attr("y1", radius/2)
-          .attr("x2", radius)
-          .attr("y2", radius/2)
-          .attr("stroke-width", 2)
-          .attr("stroke", d3.rgb(90, 90, 90));
-        box.append("line")
-          .attr("x1", radius/2)
-          .attr("y1", 0)
-          .attr("x2", radius/2)
-          .attr("y2", radius)
-          .attr("stroke-width", 2)
-          .attr("stroke", d3.rgb(90, 90, 90));
-
-        var circleCenter = box.append('svg:circle')
+       box.append('svg:circle')
           .attr('class', 'circleCenterFixed')
-          .attr('cx', radius/2)
-          .attr('cy', radius/2)
+          .attr('cx', medRadius)
+          .attr('cy', medRadius)
           .attr('r', 7)
           .style('cursor', 'pointer')
-          .style('fill', d3.rgb(76, 76, 76))
-          .on("mouseover", function() {
-            directiveConf['tooltip']
-              .attr('x', (radius/2)+10)
-              .attr('y', (radius/2)-10)
-              .attr("font-weight", "bold")
-              .text('Pulsar para restaurar')
-              .transition(200)
-              .style('opacity', 1);
-          })
-          .on("mousedown", function() {
-            resetNodes();
-            });
+          .style('fill', d3.rgb(90, 90, 90));
+        }
 
-         setInterval(function(){
-           if(circleCenter.attr('r')==7) var crescentRadio = 12;
-           else var crescentRadio = 7;
-           circleCenter
-             .transition()
-             .attr('r', crescentRadio);
-         }, 600);
+      function drawRadarSectors(numSectors){
+        for (var a=0;a<numSectors;a++){
+          var angle1 = ((Math.PI*2)/numSectors)*a;
+          var cos = Math.cos(angle1);
+          var sin = Math.sin(angle1);
+          var coords = {  x: (medRadius)*cos, y: (medRadius)*sin };
+
+          box.append("line")
+            .attr("x1", medRadius)
+            .attr("y1", medRadius)
+            .attr("x2", coords.x+(medRadius))
+            .attr("y2", coords.y+(medRadius))
+            .attr("stroke-width", 2)
+            .attr("stroke", d3.rgb(90, 90, 90));
+        }
       }
+
       function resetNodes(){
         directiveConf['nodesActives'] = [];
         nodesActives = true;
