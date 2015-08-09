@@ -8,19 +8,21 @@ angular.module('testProjectApp')
     restrict: 'EA',
     scope: {
       height: '=',
-      width: '='
+      width: '=',
+      levels: '='
     },
     link: function(scope) {
 
       if(scope.width == undefined) scope.width = window.innerWidth;
       if(scope.height == undefined) scope.height = window.innerHeight;
+      if(scope.levels == undefined) scope.levels = ['Hold', 'Assess', 'Trial', 'Adopt'];
 
       var directiveConf = {
         'boxWidth': scope.width,
         'boxHeight': scope.height,
         'tooltip': '',
         'nodeActive': false,
-        'radar_arcs' : ['Hold', 'Assess', 'Trial', 'Adopt'],
+        'radar_arcs' : scope.levels,
         'new_positions': [],
         'nodesActives': []
       }
