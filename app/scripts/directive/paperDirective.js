@@ -482,6 +482,13 @@ angular.module('testProjectApp')
               d3.select(this)
                 .transition()
                 .attr('r', d.radiusplus);
+              tooltip
+                .attr('x', d.x)
+                .attr('y', d.y)
+                .attr("font-weight", "bold")
+                .text(d.tipo)
+                .transition(200)
+                .style('opacity', 1);
             })
             .on("mouseout", function (d) {
               removePopovers();
@@ -507,6 +514,13 @@ angular.module('testProjectApp')
             //})
             .call(force.drag);
           labels(centros);
+
+         var tooltip = svg.append('text')
+            .style('opacity', 1)
+            .style('font-family', 'sans-serif')
+            .style('fill', 'white')
+            .style('font-size', '16px');
+
         function gravity(alpha) {
           return function (d) {//d son los objetos de nodes
             d.y += (d.cy - d.y) * alpha;
