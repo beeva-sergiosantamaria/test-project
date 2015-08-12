@@ -222,7 +222,7 @@ angular.module('testProjectApp')
               .removeClass('nodeElement')
               .addClass('nodeElementOver');
             directiveConf['nodeActive']=false;
-            directiveConf['tooltip']
+            tooltip
               .attr('x', parseInt($(this).attr('cx'))+15)
               .attr('y', $(this).attr('cy'))
               .attr("font-weight", "bold")
@@ -237,7 +237,7 @@ angular.module('testProjectApp')
                 .addClass('nodeElement');
             }
             if(!directiveConf['nodeActive']){
-              directiveConf['tooltip']
+              tooltip
                 .transition(200)
                 .style('opacity', 0);
               if(nodesActives){
@@ -357,7 +357,7 @@ angular.module('testProjectApp')
         })
       }
 
-      directiveConf['tooltip'] = box.append('text')
+      var tooltip = box.append('text')
         .style('opacity', 1)
         .style('font-family', 'sans-serif')
         .style('font-size', '13px');
@@ -477,6 +477,7 @@ angular.module('testProjectApp')
             .style("fill-opacity", function (d) {
               return d.opacity;
             })
+            .style("cursor", "pointer")
             .on("mouseover", function (d) {
               showPopover.call(this, d);
               d3.select(this)
@@ -519,6 +520,7 @@ angular.module('testProjectApp')
             .style('opacity', 1)
             .style('font-family', 'sans-serif')
             .style('fill', 'white')
+            .style('cursor', 'pointer')
             .style('font-size', '16px');
 
         function gravity(alpha) {
@@ -625,7 +627,7 @@ angular.module('testProjectApp')
             .data(_.toArray(foci)).enter().append("text")
             .attr("class", "label")
             .attr("style", "cursor:pointer")
-            .attr("style", "font-size: 20px")
+            .attr("style", "font-size: 25px")
             .attr("fill", "white")
             .text(function (d) {
               return d.nombre
@@ -633,17 +635,6 @@ angular.module('testProjectApp')
             .attr("transform", function (d) {
               return "translate(" + (d.px - ((d.nombre.length) * 3)) + ","+ d.py+")";
             })
-        }
-
-        function getCenters(vname, w, h) {
-          //console.log('vname, w, h: ', vname, w, h);
-          var v = _.uniq(_.pluck(scope, vname)), c = [];
-          var l = d3.layout.pack().size([w, h]);
-          _.each(v, function (k, i) { //k es el nombre de cada uno de los grupos(infojobs, empleado)
-            c.push({name: k, value: 1, clasific: vname});
-          });
-          //console.log(l.nodes({children: c})[0]);
-          return _.object(v, l.nodes({children: c})[0].children);
         }
         //
         //// Resolve collisions between nodes.
