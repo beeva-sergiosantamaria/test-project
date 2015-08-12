@@ -425,12 +425,15 @@ angular.module('testProjectApp')
                var pos = a;
             }
           }
+          var rad =  Math.floor((Math.random() * 20) + 10);
           nodes.push( {
             datos: values,
             tipo: elem.name,
             id: elem.name,
-            radius: Math.floor((Math.random() * 20) + 10),
+            radius: rad,
+            radiusplus: rad+10,
             color: values.color,
+            opacity: Math.random(),
             cx: x(pos),
             cy: (height / m)*altura
           });
@@ -465,17 +468,26 @@ angular.module('testProjectApp')
             .attr("r", function (d) {
               return d.radius;
             })
+            .attr("rplus", function (d) {
+              return d.radius+10;
+            })
             .style("fill", function (d) {
               return d.color;
             })
+            .style("fill-opacity", function (d) {
+              return d.opacity;
+            })
             .on("mouseover", function (d) {
               showPopover.call(this, d);
-              d3.select('#' + $(this).attr('id'))
+              d3.select(this)
                 .transition()
-                .attr('r', 50);
+                .attr('r', d.radiusplus);
             })
             .on("mouseout", function (d) {
               removePopovers();
+              d3.select(this)
+                .transition()
+                .attr('r', d.radius);
             })
             //.on("click", function (d) {
             //  $localStorage.ID = d.datos.id;
