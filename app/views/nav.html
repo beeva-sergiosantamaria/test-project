@@ -1,3 +1,16 @@
-<div class="toolBar">
-  <a ng-href="#/about" class="navMenu"><img class="imageLogo" src="images/logo.png"/></a>
+<div class="toolBarMain" ng-controller="navCtrl">
+  <a ng-href="#/about" class="navMenu"><img class="imageLogo" src="images/logo.png"/></a><a action="javascript:void(0);" method="get"></a>
+  <div class="closeFilters" ng-click="activeFiltersFunction()">
+    <i class="fa fa-filter"></i>
+  </div>
+  <div class="flexsearch">
+    <div class="flexsearch--wrapper">
+      <form class="flexsearch--form" action="#" method="post">
+        <div class="flexsearch--input-wrapper">
+          <input class="flexsearch--input" type="search" placeholder="search">
+        </div>
+        <input class="flexsearch--submit" type="submit" value="&#10140;"/>
+      </form>
+    </div>
+  </div>
 </div>

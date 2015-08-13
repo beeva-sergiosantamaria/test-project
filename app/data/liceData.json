@@ -108,21 +108,5 @@
     {"name":"OpenStack","pc": {"score": 76,"r": 224,"t": 255 },"family": "Platforms", "subfamily": "Cloud",
     "committers": 205, "stars": 1035, "tech-blog-mentions": 44, "analyst-blog-mentions": 5, "summit-presentations": 5, "summit-mentions": 12,
     "funds-last-year": 5, "funds-5-years": 40,
-    "sectors": "ecommerce", "color" : "#DAE253", "colorover" :  "#620135"},
-
-
-    {"name":"Hadoop","pc": {"score": 30,"r": 186,"t": 130 },"family": "Platforms", "subfamily": "Clustering",
-    "committers": 205, "stars": 1035, "tech-blog-mentions": 44, "analyst-blog-mentions": 5, "summit-presentations": 5, "summit-mentions": 12,
-    "funds-last-year": 7, "funds-5-years": 20,
-    "sectors": "ecommerce, research", "color" : "#D59C82", "colorover" :  "#620135"},
-
-    {"name":"Spark","pc": {"score": 87,"r": 289,"t": 257 },"family": "Platforms", "subfamily": "Clustering",
-    "committers": 205, "stars": 1035, "tech-blog-mentions": 44, "analyst-blog-mentions": 5, "summit-presentations": 5, "summit-mentions": 12,
-    "funds-last-year": 25, "funds-5-years": 50,
-    "sectors": "ecommerce", "color" : "#D59C82", "colorover" :  "#620135"},
-
-    {"name":"Mesos","pc": {"score": 66,"r": 272,"t": 187 },"family": "Platforms", "subfamily": "Clustering",
-    "committers": 205, "stars": 1035, "tech-blog-mentions": 44, "analyst-blog-mentions": 5, "summit-presentations": 5, "summit-mentions": 12,
-    "funds-last-year": 5, "funds-5-years": 40,
-    "sectors": "ecommerce", "color" : "#D59C82", "colorover" :  "#620135"}
+    "sectors": "ecommerce", "color" : "#DAE253", "colorover" :  "#620135"}
 ]

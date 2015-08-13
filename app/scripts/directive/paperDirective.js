@@ -36,7 +36,7 @@ angular.module('testProjectApp')
       var doble = 16*calculateMedia;
       var normal = 8*calculateMedia;
       var control = false;
-      var prevAngle = 0;
+      var prevAngle = 90;
 
       document.getElementById("chart").style.height = window.innerHeight + "px";
       document.getElementById("chart").style.width = window.innerWidth + "px";
@@ -355,14 +355,10 @@ angular.module('testProjectApp')
         var arct = d3.svg.arc()
           .innerRadius(medRadius)
           .outerRadius(medRadius+50)
-          //.startAngle(((Math.PI*2)/numSectors)*(a+1))
-          //.startAngle(function(d, i){return d.start;})
-          //.endAngle(function(d, i){return d.start + d.size;})
           .startAngle(function(d,i) {
             console.log('prev angle: ',prevAngle, (360/numSectors));
             return d.start * (Math.PI/180);
           })
-          //.endAngle(((Math.PI*2)/numSectors)*(a+1));
           .endAngle((function (d, i){
             return (d.end * (Math.PI/180))
           }));
@@ -371,14 +367,15 @@ angular.module('testProjectApp')
           .append("svg")
           .attr("width", window.innerWidth)
           .attr("height", window.innerHeight)
-          .style("position",'absolute')
           .append("g")
 
         var path = g.selectAll("path")
           .data(arcDatas)
           .enter()
           .append("svg:path")
-          .attr("id","yyy")
+          .attr("id", function(d, i){
+            return d.subfam;
+          })
           .attr("d", arct)
           .style("fill", function(d, i){
             return d.color;
@@ -390,12 +387,15 @@ angular.module('testProjectApp')
           .enter()
           .append("text")
           .style("font-size",30)
-          .style("fill","#000")
-          .attr("dy",20)
+          .style("fill","#313131")
+          .style("font-weight","bold")
+          .attr("dy",40)
           .append("textPath")
-          .attr("xlink:href","#yyy")
+          .attr("xlink:href", function(d, i){
+            return "#"+d.subfam;
+          })
           .attr("startOffset",function(d,i){
-            return (d.start * (Math.PI/180)) * 100;
+            return 70 - d.subfam.length;
           })
           .style("text-anchor","start")
           .text(function(d,i){
@@ -474,33 +474,27 @@ angular.module('testProjectApp')
             bottom: 0,
             left: 0
           },
-          width = window.innerWidth/1.5 - margin.left - margin.right,
-          height = window.innerHeight- 150 - margin.top - margin.bottom;
+          width = window.innerWidth - margin.left - margin.right,
+          height = window.innerHeight - margin.top - margin.bottom;
 
         var nodes = [];
-        var altura, altura2;
         var centros = [];
         var clasificacion = _.uniq(_.pluck(scope, 'subfamily'));
-        var colores = _.uniq(_.pluck(scope, 'color'));
 
         var m = clasificacion.length,
           padding = 6,
-          radius = d3.scale.sqrt().range([3, 12]),
-          x = d3.scale.ordinal().domain(d3.range(m)).rangePoints([0, width], 1);
-        //console.log(clasificacion);
-        var filas = 3;
-      _.each(clasificacion, function(element,i) {
-          altura = (i%filas) + 1;
-          centros.push({nombre :element, px: x(i), py: (height / m)*altura });
-        })
-      _.each(scope, function(values, i){
+          radius = d3.scale.sqrt().range([3, 12]);
+
+      _.each(scope, function(values,i){
           for (var a = 0; a < m; a++) {
             if (values.subfamily == clasificacion[a]) {
                var pos = a;
-               altura2 = (a%filas) + 1;
             }
           }
-          //var rad =  Math.floor((Math.random() * 20) + 10);
+        var angle1 = ((Math.PI*2)/m)*pos;
+        var cos = Math.cos(angle1);
+        var sin = Math.sin(angle1);
+        var coords = {  x: ((300*cos) + (window.innerWidth/2)), y: (300*sin) + (window.innerHeight*0.4) };
           nodes.push( {
             datos: values,
             tipo: values.name,
@@ -509,11 +503,12 @@ angular.module('testProjectApp')
             radiusplus: (values.committers/4)+10,
             color: values.color,
             opacity: values.pc.score/100,
-            cx: x(pos),
-            cy: (height / m)*altura2
+            cx: coords.x,
+            cy: coords.y
           });
+        centros.push({nombre :values.subfamily, px: coords.x , py: coords.y});
       })
-      //console.log(nodes);
+
           var force = d3.layout.force()
             .nodes(nodes)
             .size([width, height])
@@ -527,7 +522,6 @@ angular.module('testProjectApp')
             .attr("class", "bubbles")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
-            .style("margin-top", "160px" )
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -740,6 +734,10 @@ angular.module('testProjectApp')
             });
           };
         }
+      function shuffle(o){
+        for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+        return o;
+      }
       }
       }};
   })

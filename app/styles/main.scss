@@ -44,6 +44,8 @@ body {
 .mainViewClass{
   position: absolute;
   left: 0px;
+  width: 100%;
+  height: 100%;
 }
 /* Custom page footer */
 .footer {
@@ -76,7 +78,7 @@ body {
   }
 }
 
-.toolBar{
+.toolBarMain{
   background-color: rgba(57, 84, 153, 1);
   width: 100%;
   height: 60px;
@@ -283,10 +285,11 @@ body {
 }
 .playButton {
   position: absolute;
+  z-index: 999;
   width: 60px;
   height: 60px;
   top: 90px;
-  left: 100px;
+  right: 100px;
   background-color: rgba(57, 84, 153, 1);
   border-radius: 3px;
   text-align: center;
@@ -297,10 +300,11 @@ body {
 }
 .resetButton {
   position: absolute;
+  z-index: 999;
   width: 60px;
   height: 60px;
   top: 90px;
-  left: 165px;
+  right: 165px;
   background-color: rgba(57, 84, 153, 1);
   border-radius: 3px;
   text-align: center;
@@ -311,10 +315,11 @@ body {
 }
 .changeRadar {
   position: absolute;
+  z-index: 999;
   width: 60px;
   height: 60px;
   top: 90px;
-  left: 270px;
+  right: 270px;
   background-color: rgba(57, 84, 153, 1);
   border-radius: 3px;
   text-align: center;
@@ -325,10 +330,11 @@ body {
 }
 .changeBubbles {
   position: absolute;
+  z-index: 999;
   width: 60px;
   height: 60px;
   top: 90px;
-  left: 335px;
+  right: 335px;
   background-color: rgba(57, 84, 153, 1);
   border-radius: 3px;
   text-align: center;
@@ -339,10 +345,11 @@ body {
 }
 .changeTable {
   position: absolute;
+  z-index: 999;
   width: 60px;
   height: 60px;
   top: 90px;
-  left: 400px;
+  right: 400px;
   background-color: rgba(57, 84, 153, 1);
   border-radius: 3px;
   text-align: center;
@@ -351,7 +358,6 @@ body {
   font-weight: bolder;
   cursor:pointer;
 }
-
 .arc {
   position: absolute;
   top: 0px;
@@ -362,20 +368,130 @@ body {
 }
 
 .bubbles {
-  margin-left: 30%;
+  //margin-left: 30%;
 }
-
+.closeFilters{
+  display: inline-block;
+  background-color: #3e72bc;
+  width: 60px;
+  height: 100%;
+  font-size: 40px;
+  color: white;
+  float: left;
+  padding: 3px;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 3px;
+  margin-left: 1%;
+}
+.closeFilters:hover{
+  background-color: #2a396d;
+}
+.plusInfo{
+  z-index: 999;
+  display:block;
+  height: 80%;
+  position: absolute;
+  width: 300px;
+  background-color: #395499;
+  top: 180px;
+  right: 20px;
+  border-radius: 3px;
+}
+.infoInside{
+  width: 98%;
+  height: 92%;
+  background-color: #212121;
+  margin: 20% 1% 1% 1%;
+  padding-top: 10px;
+  overflow: scroll;
+}
+.closeInfo{
+  width: 30px;
+  height: 30px;
+  float: right;
+  margin: 15px;
+  color: #ffffff;
+  font-size: 24px;
+  cursor: pointer;
+}
+.infoTittle{
+  float: left;
+  color: white;
+  font-size: 24px;
+  margin: 14px;
+  font-weight: bold;
+}
+.infoElement{
+  color: #DCBD30;
+  font-weight: bold;
+  margin: 25px;
+  font-size: 18px;
+}
+.infoElementSub{
+  color: white;
+  font-weight: 100;
+  font-size: 16px;
+}
+.filtersPanel{
+  height: 95%;
+  position: absolute;
+  width: 300px;
+  background-color: #395499;
+  top: 60px;
+  left: 0px;
+  border-radius: 3px;
+  padding-top: 100PX;
+  border-top: solid 1px #515151;
+}
+.filterButton{
+  height: 40px;
+  width: 226px;
+  background-color: #3E72BC;
+  margin: 30px;
+  float: left;
+  border-radius: 3px;
+  color: white;
+  font-size: 13px;
+  padding-left: 10px;
+  line-height: 3;
+}
+.filterDes{
+  width: 40px;
+  height: 40px;
+  float: right;
+  background-color: grey;
+  display: inline-block;
+  padding: 5px 10px;
+  boerder-radius:3px;
+  cursor:pointer;
+}
+.filterAtv{
+  width: 40px;
+  height: 40px;
+  float: right;
+  background-color: grey;
+  display: inline-block;
+  padding: 5px 10px;
+  boerder-radius:3px;
+  cursor:pointer;
+}
+.filterDes:hover{
+  background-color: #5d5d5d;
+}
+.filterAct:hover{
+  background-color: #5d5d5d;
+}
 .tableVis{
-  margin-top: 15%;
+  margin-top: 9%;
   margin-left: 15%;
-  width: 100%;
+  width: 65.9%;
   margin-bottom: 10%;
 }
 
 .tableHead {
   width: 100%;
   height: 70px;
-  background-color: rgb(39, 92, 124);
 }
 
 .tableTupla {
@@ -386,6 +502,7 @@ body {
 
 .headElement {
   height: 70px;
+  background-color: rgb(39, 92, 124);
   color: white;
   font-weight: bold;
   display: inline-block;
@@ -394,6 +511,9 @@ body {
   padding: 15px 30px;
   cursor: pointer;
   width: 150px;
+}
+.headElement:hover,.headElement:active, .headElement:focus  {
+  background-color: rgb(31, 66, 90);
 }
 .tuplaElement {
   height: 50px;
@@ -408,6 +528,95 @@ body {
 .imageLogo{
   height: 35px;
 }
+.marginTop{
+  margin-top: 160px;
+}
+
+.flexsearch--wrapper {
+  overflow: hidden;
+  background: transparent;
+  margin: 0;
+  position: static;
+}
+
+.flexsearch--form {
+  overflow: hidden;
+  position: relative;
+}
+
+.flexsearch--input-wrapper {
+  padding: 0 66px 0 0; /* Right padding for submit button width */
+  overflow: hidden;
+}
+
+.flexsearch--input {
+  width: 100%;
+}
+
+/***********************
+ * Configurable Styles *
+ ***********************/
+.flexsearch {
+  padding: 0 25px 0 200px; /* Padding for other horizontal elements */
+  float: right;
+}
+
+.flexsearch--input {
+  box-sizing: content-box;
+  /* height: 60px; */
+  padding: 0 46px 0 10px;
+  border-color: #888;
+  border-radius: 35px;
+  border-style: solid;
+  border-width: 5px;
+  margin-top: 8px;
+  color: #333;
+  font-family: 'Helvetica', sans-serif;
+  font-size: 26px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.flexsearch--submit {
+  position: absolute;
+  right: 70px;
+  top: -16px;
+  display: block;
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  border: none;
+  margin-top: 20px; /* margin-top + border-width */
+  margin-right: 5px; /* border-width */
+  background: transparent;
+  color: #888;
+  font-family: 'Helvetica', sans-serif;
+  font-size: 40px;
+  line-height: 60px;
+}
+
+.flexsearch--input:focus {
+  outline: none;
+  border-color: #333;
+}
+
+.flexsearch--input:focus.flexsearch--submit {
+  color: #333;
+}
+
+.flexsearch--submit:hover {
+  color: #333;
+  cursor: pointer;
+}
+
+::-webkit-input-placeholder {
+  color: #888;
+}
+
+input:-moz-placeholder {
+  color: #888
+}
+
 
 /* FN WEB GL RENDER */
 /* Responsive: Portrait tablets and up */

@@ -5,21 +5,77 @@
   <div class="changeBubbles" id="bubbles" ng-click="CambiarVis('bubbles')"><i class="fa fa-spinner"></i></div>
   <div class="changeTable" id="table" ng-click="CambiarVis('table')"><i class="fa fa-table"></i></div>
 </div>
-<div  ng-show="visualization=='radar'" radar-interactive height=600 width=600 levels="['Hold', 'Assess', 'Trial', 'Adopt']" id="chart"></div>
-<div  ng-show="visualization=='bubbles'" id="chartBubble" divide-chart></div>
-<div  ng-show="visualization=='table'" id="datasTable" class="tableVis">
-  <div class="tableHead" class="tableHead">
-      <div id="headElement" class="headElement">Name</div>
-      <div id="headElement" class="headElement">Family</div>
-      <div id="headElement" class="headElement">SubFamily</div>
-      <div id="headElement" class="headElement">Committers</div>
-      <div id="headElement" class="headElement">Stars</div>
-      <div id="headElement" class="headElement">Tech blog mentions</div>
-      <div id="headElement" class="headElement">analyst blog mentions</div>
-      <div id="headElement" class="headElement">Summit presentations</div>
-      <div id="headElement" class="headElement">Summit mentions</div>
+<div class="plusInfo" ng-class="{ 'animated fadeInRight': infoActive, 'animated flipOutY': !infoActive }">
+  <div class="infoTittle">Tendences</div>
+  <div class="closeInfo" ng-click="infoActive=false"><i class="fa fa-times-circle"></i></div>
+  <div class="infoInside">
+    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement">OpenStack: <spam class="infoElementSub">Cada vez más desarrolladores lo elijen como tecnología para sus proyectos.</spam></div>
+    <div class="infoElement">Python: <spam class="infoElementSub">Pierde fuerza en los congresos.</spam></div>
+    <div class="infoElement">ThreeJS: <spam class="infoElementSub">Entra pisando fuerte.</spam></div>
+    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
   </div>
-  <div id="tableTupla" class="tableTupla" ng-repeat="datas in radarData | orderBy: name">
+</div>
+<div  class="filtersPanel"  ng-class="{ 'animated slideInLeft': filterStatus, 'animated slideOutLeft': !filterStatus }">
+  <div class="filterButton">
+    Commiters
+    <div class="filterDes"><i class="fa fa-times"></i></div>
+    <div class="filterAtv"><i class="fa fa-check"></i></div>
+  </div>
+  <div class="filterButton">
+    Stars
+    <div class="filterDes"><i class="fa fa-times"></i></div>
+    <div class="filterAtv"><i class="fa fa-check"></i></div>
+  </div>
+  <div class="filterButton">
+    Tech blog mentions
+    <div class="filterDes"><i class="fa fa-times"></i></div>
+    <div class="filterAtv"><i class="fa fa-check"></i></div>
+  </div>
+  <div class="filterButton">
+    analyst blog mentions
+    <div class="filterDes"><i class="fa fa-times"></i></div>
+    <div class="filterAtv"><i class="fa fa-check"></i></div>
+  </div>
+  <div class="filterButton">
+    Summit presentations
+    <div class="filterDes"><i class="fa fa-times"></i></div>
+    <div class="filterAtv"><i class="fa fa-check"></i></div>
+  </div>
+  <div class="filterButton">
+    Summit mentions
+    <div class="filterDes"><i class="fa fa-times"></i></div>
+    <div class="filterAtv"><i class="fa fa-check"></i></div>
+  </div>
+</div>
+<div  class="animated fadeInRight" ng-show="visualization=='radar'" radar-interactive height=600 width=600 levels="['Hold', 'Assess', 'Trial', 'Adopt']" id="chart"></div>
+<div  class="marginTop animated fadeInRight"  ng-show="visualization=='bubbles'" id="chartBubble" divide-chart></div>
+<div  ng-show="visualization=='table'" id="datasTable" class="tableVis  animated fadeInRight">
+  <div class="tableHead" class="tableHead">
+      <div id="headElement" ng-click="changeOrderTable('-name')" class="headElement">Name <i class="fa fa-sort-desc"></i></div>
+      <div id="headElement" ng-click="changeOrderTable('-family')" class="headElement">Family <i class="fa fa-sort-desc"></i></div>
+      <div id="headElement" ng-click="changeOrderTable('-subfamily')" class="headElement">SubFamily <i class="fa fa-sort-desc"></i></div>
+      <div id="headElement" ng-click="changeOrderTable('-committers')" class="headElement">Committers <i class="fa fa-sort-desc"></i></div>
+      <div id="headElement" ng-click="changeOrderTable('-stars')" class="headElement">Stars <i class="fa fa-sort-desc"></i></div>
+      <div id="headElement" ng-click="changeOrderTable('-tech-blog-mentions')" class="headElement">Tech blog mentions <i class="fa fa-sort-desc"></i></div>
+      <div id="headElement" ng-click="changeOrderTable('-analyst-blog-mentions')" class="headElement">analyst blog mentions <i class="fa fa-sort-desc"></i></div>
+      <div id="headElement" ng-click="changeOrderTable('-summit-presentations')" class="headElement">Summit presentations <i class="fa fa-sort-desc"></i></div>
+      <div id="headElement" ng-click="changeOrderTable('-summit-mentions')" class="headElement">Summit mentions <i class="fa fa-sort-desc"></i></div>
+  </div>
+  <div id="tableTupla" class="tableTupla" ng-repeat="datas in radarData | orderBy: changeTableOrder">
     <div id="tuplaElement" class="tuplaElement">{{ datas.name }}</div>
     <div id="tuplaElement" class="tuplaElement">{{ datas.family }}</div>
     <div id="tuplaElement" class="tuplaElement">{{ datas.subfamily }}</div>
