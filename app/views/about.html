@@ -31,34 +31,34 @@
 </div>
 <div  class="filtersPanel"  ng-class="{ 'animated slideInLeft': filterStatus, 'animated slideOutLeft': !filterStatus }">
   <div class="filterButton">
-    Commiters
-    <div class="filterDes"><i class="fa fa-times"></i></div>
-    <div class="filterAtv"><i class="fa fa-check"></i></div>
+    Committers
+    <div ng-click="changeStatusFilter('committers', false)" class="filterDes" ng-class="{ 'filterDesChk': !filterActivation.committers, 'filterDes': filterActivation.committers }"><i class="fa fa-times"></i></div>
+    <div ng-click="changeStatusFilter('committers', true)" class="filterAtv" ng-class="{ 'filterAtvChk': filterActivation.committers, 'filterAtv': !filterActivation.committers }"><i class="fa fa-check"></i></div>
   </div>
   <div class="filterButton">
     Stars
-    <div class="filterDes"><i class="fa fa-times"></i></div>
-    <div class="filterAtv"><i class="fa fa-check"></i></div>
+    <div ng-click="changeStatusFilter('stars', false)" class="filterDes" ng-class="{ 'filterDesChk': !filterActivation.stars, 'filterDes': filterActivation.stars }"><i class="fa fa-times"></i></div>
+    <div ng-click="changeStatusFilter('stars', true)" class="filterAtv" ng-class="{ 'filterAtvChk': filterActivation.stars, 'filterAtv': !filterActivation.stars }"><i class="fa fa-check"></i></div>
   </div>
   <div class="filterButton">
     Tech blog mentions
-    <div class="filterDes"><i class="fa fa-times"></i></div>
-    <div class="filterAtv"><i class="fa fa-check"></i></div>
+    <div ng-click="changeStatusFilter('tech-blog-mentions', false)" class="filterDes" ng-class="{ 'filterDesChk': !filterActivation['tech-blog-mentions'], 'filterDes': filterActivation['tech-blog-mentions'] }"><i class="fa fa-times"></i></div>
+    <div ng-click="changeStatusFilter('tech-blog-mentions', true)" class="filterAtv" ng-class="{ 'filterAtvChk': filterActivation['tech-blog-mentions'], 'filterAtv': !filterActivation['tech-blog-mentions'] }"><i class="fa fa-check"></i></div>
   </div>
   <div class="filterButton">
     analyst blog mentions
-    <div class="filterDes"><i class="fa fa-times"></i></div>
-    <div class="filterAtv"><i class="fa fa-check"></i></div>
+    <div ng-click="changeStatusFilter('analyst-blog-mentions', false)" class="filterDes" ng-class="{ 'filterDesChk': !filterActivation['analyst-blog-mentions'], 'filterDes': filterActivation['analyst-blog-mentions'] }"><i class="fa fa-times"></i></div>
+    <div ng-click="changeStatusFilter('analyst-blog-mentions', true)" class="filterAtv" ng-class="{ 'filterAtvChk': filterActivation['analyst-blog-mentions'], 'filterAtv': !filterActivation['analyst-blog-mentions'] }"><i class="fa fa-check"></i></div>
   </div>
   <div class="filterButton">
     Summit presentations
-    <div class="filterDes"><i class="fa fa-times"></i></div>
-    <div class="filterAtv"><i class="fa fa-check"></i></div>
+    <div ng-click="changeStatusFilter('summit-presentations', false)" class="filterDes" ng-class="{ 'filterDesChk': !filterActivation['summit-presentations'], 'filterDes': filterActivation['summit-presentations'] }"><i class="fa fa-times"></i></div>
+    <div ng-click="changeStatusFilter('summit-presentations', true)" class="filterAtv" ng-class="{ 'filterAtvChk': filterActivation['summit-presentations'], 'filterAtv': !filterActivation['summit-presentations'] }"><i class="fa fa-check"></i></div>
   </div>
   <div class="filterButton">
     Summit mentions
-    <div class="filterDes"><i class="fa fa-times"></i></div>
-    <div class="filterAtv"><i class="fa fa-check"></i></div>
+    <div ng-click="changeStatusFilter('summit-mentions', false)" class="filterDes" ng-class="{ 'filterDesChk': !filterActivation['summit-mentions'], 'filterDes': filterActivation['summit-mentions'] }"><i class="fa fa-check"></i></div>
+    <div ng-click="changeStatusFilter('summit-mentions', true)" class="filterAtv" ng-class="{ 'filterAtvChk': filterActivation['summit-mentions'], 'filterAtv': !filterActivation['summit-mentions'] }"><i class="fa fa-times"></i></div>
   </div>
 </div>
 <div  class="animated fadeInRight" ng-show="visualization=='radar'" radar-interactive height=600 width=600 levels="['Hold', 'Assess', 'Trial', 'Adopt']" id="chart"></div>

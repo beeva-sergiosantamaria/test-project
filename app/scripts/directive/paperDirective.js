@@ -3,7 +3,7 @@
  */
 angular.module('testProjectApp')
 
-.directive('radarInteractive', function(radarData) {
+.directive('radarInteractive', function(radarData, $localStorage) {
   return {
     restrict: 'EA',
     scope: {
@@ -287,6 +287,11 @@ angular.module('testProjectApp')
             })
           })
       }
+      scope.$watch(function () {
+        return $localStorage.playAnimation;
+      }, function (newVal, oldVal) {
+        if(newVal != oldVal) transitionNodes();
+      }, true);
 
       function transitionNodes(){
         var nodos = box.selectAll(".draggableCircle")[0];
@@ -296,16 +301,16 @@ angular.module('testProjectApp')
               d3.select(d)
                 .transition()
                 .duration(2000)
-                .attr("cx",  parseInt($(d).attr('cx')) + (Math.floor((Math.random() * 50) - 20)) )
-                .attr("cy",  parseInt($(d).attr('cy')) + (Math.floor((Math.random() * 50) - 20)) );
+                .attr("cx",  parseInt($(d).attr('cx')) + (Math.floor((Math.random() * 100) - 20)) )
+                .attr("cy",  parseInt($(d).attr('cy')) + (Math.floor((Math.random() * 100) - 20)) );
             }
           }
           else{
             d3.select(d)
               .transition()
               .duration(2000)
-              .attr("cx",  parseInt($(d).attr('cx')) + (Math.floor((Math.random() * 30) - 20)) )
-              .attr("cy",  parseInt($(d).attr('cy')) + (Math.floor((Math.random() * 30) - 20)) );
+              .attr("cx",  parseInt($(d).attr('cx')) + (Math.floor((Math.random() * 50) - 20)) )
+              .attr("cy",  parseInt($(d).attr('cy')) + (Math.floor((Math.random() * 50) - 20)) );
           }
         })
       };

@@ -10,11 +10,29 @@
 angular.module('testProjectApp')
   .controller('AboutCtrl', function ($scope, radarData, $localStorage) {
 
+    $scope.filterActivation = {
+      'committers': true,
+      'stars': true,
+      'tech-blog-mentions': true,
+      'analyst-blog-mentions':true,
+      'summit-presentations':true,
+      'summit-mentions': true
+    }
+
+    $localStorage.playAnimation = false;
+
+    $scope.changeStatusFilter = function(filter, status){
+      $scope.filterActivation[filter] = status;
+      if($localStorage.playAnimation)$localStorage.playAnimation = false;
+      else $localStorage.playAnimation = true;
+      console.log($localStorage.playAnimation);
+    }
+
     $scope.filterStatus = false;
 
     $scope.infoActive = true;
 
-    $scope.visualization = "table";
+    $scope.visualization = "bubbles";
 
     $scope.changeTableOrder = '-committers';
 
