@@ -315,6 +315,38 @@ body {
 .arcInto {
 
 }
+.changeRadar {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  top: 250px;
+  left: 30px;
+  background-color: cadetblue;
+  border-radius: 3px;
+  text-align: center;
+  font-size: 40px;
+  color: white;
+  font-weight: bolder;
+  cursor:pointer;
+}
+.changeBubbles {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  top: 320px;
+  left: 30px;
+  background-color: cadetblue;
+  border-radius: 3px;
+  text-align: center;
+  font-size: 40px;
+  color: white;
+  font-weight: bolder;
+  cursor:pointer;
+}
+
+.bubbles {
+  margin-left: 30%;
+}
 
 /* FN WEB GL RENDER */
 /* Responsive: Portrait tablets and up */

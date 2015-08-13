@@ -224,7 +224,7 @@ angular.module('testProjectApp')
               .removeClass('nodeElement')
               .addClass('nodeElementOver');
             directiveConf['nodeActive']=false;
-            directiveConf['tooltip']
+            tooltip
               .attr('x', parseInt($(this).attr('cx'))+15)
               .attr('y', $(this).attr('cy'))
               .attr("font-weight", "bold")
@@ -239,7 +239,7 @@ angular.module('testProjectApp')
                 .addClass('nodeElement');
             }
             if(!directiveConf['nodeActive']){
-              directiveConf['tooltip']
+              tooltip
                 .transition(200)
                 .style('opacity', 0);
               if(nodesActives){
@@ -390,7 +390,7 @@ angular.module('testProjectApp')
         })
       }
 
-      directiveConf['tooltip'] = box.append('text')
+      var tooltip = box.append('text')
         .style('opacity', 1)
         .style('font-family', 'sans-serif')
         .style('font-size', '13px');
@@ -410,4 +410,292 @@ angular.module('testProjectApp')
       'height': heigth
     });
   };
-});
+})
+
+.directive('divideChart', function(radarData) {
+    return {
+      restrict: 'EA',
+      scope:{} ,
+      link: function(scope) {
+        radarData.then(function (data) {
+          scope = data;
+          init();
+        });
+        $('#graficaBusqueda').each(function () {
+          $(this).remove();
+        });
+        //scope.$watch('clasif', function () {
+        //  draw(scope.clasif);
+        //})
+    function init(){
+        var margin = {
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0
+          },
+          width = window.innerWidth/2 - margin.left - margin.right,
+          height = window.innerHeight - margin.top - margin.bottom;
+
+        var nodes = [];
+        var centros = [];
+        var clasificacion = _.uniq(_.pluck(scope, 'quadrant'));
+        var colores = _.uniq(_.pluck(scope, 'color'));
+
+        var m = clasificacion.length,
+          padding = 6,
+          radius = d3.scale.sqrt().range([3, 12]),
+          x = d3.scale.ordinal().domain(d3.range(m)).rangePoints([0, width], 1);
+
+        var filas = 2;
+      _.each(scope, function(values, i){
+        var altura = (i%filas) + 1;
+        centros.push({nombre :values.quadrant, px: x(i), py: (height / m)*altura });
+        values.items.map(function (elem){
+          for (var a = 0; a < m; a++) {
+            if (values.quadrant == clasificacion[a]) {
+               var pos = a;
+            }
+          }
+          var rad =  Math.floor((Math.random() * 20) + 10);
+          nodes.push( {
+            datos: values,
+            tipo: elem.name,
+            id: elem.name,
+            radius: rad,
+            radiusplus: rad+10,
+            color: values.color,
+            opacity: Math.random(),
+            cx: x(pos),
+            cy: (height / m)*altura
+          });
+        });
+      })
+          var force = d3.layout.force()
+            .nodes(nodes)
+            .size([width, height])
+            .gravity(0)
+            .charge(0)
+            .on("tick", tick)
+            .start();
+
+          var svg = d3.select("#chartBubble").append("svg")
+            .attr("id", 'graficaBusqueda')
+            .attr("class", "bubbles")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+          var circle = svg.selectAll("circle")
+            .data(nodes)
+            .enter().append("circle")
+            //.attr("coincidencia", function (d) {
+            //  return d.datos.coincidencia;
+            //})
+            .attr("id", function (d) {
+              return d.id;
+            })
+            .attr("class", "node")
+            .attr("r", function (d) {
+              return d.radius;
+            })
+            .attr("rplus", function (d) {
+              return d.radius+10;
+            })
+            .style("fill", function (d) {
+              return d.color;
+            })
+            .style("fill-opacity", function (d) {
+              return d.opacity;
+            })
+            .style("cursor", "pointer")
+            .on("mouseover", function (d) {
+              showPopover.call(this, d);
+              d3.select(this)
+                .transition()
+                .attr('r', d.radiusplus);
+              tooltip
+                .attr('x', d.x)
+                .attr('y', d.y)
+                .attr("font-weight", "bold")
+                .text(d.tipo)
+                .transition(200)
+                .style('opacity', 1);
+            })
+            .on("mouseout", function (d) {
+              removePopovers();
+              d3.select(this)
+                .transition()
+                .attr('r', d.radius);
+            })
+            //.on("click", function (d) {
+            //  $localStorage.ID = d.datos.id;
+            //  scope.$apply(function () {
+            //    scope.porciento = (d.datos.coincidencia * 100);
+            //    scope.nombreTooltip = (d.datos.nombre);
+            //    if (d.datos.categoria != undefined) {
+            //      scope.categoriaTooltip = (d.datos.categoria);
+            //    }else{
+            //      scope.categoriaTooltip = (d.datos.tipo);
+            //    }
+            //    scope.idTooltip = d.datos.id;
+            //    scope.tipoTooltip = d.datos.tipo;
+            //    $localStorage.coincidencia = d.datos.coincidencia;
+            //  })
+            //  $('#tooltip').addClass('show');
+            //})
+            .call(force.drag);
+          labels(centros);
+
+         var tooltip = svg.append('text')
+            .style('opacity', 1)
+            .style('font-family', 'sans-serif')
+            .style('fill', 'white')
+            .style('cursor', 'pointer')
+            .style('font-size', '16px');
+
+        function gravity(alpha) {
+          return function (d) {//d son los objetos de nodes
+            d.y += (d.cy - d.y) * alpha;
+            d.x += (d.cx - d.x) * alpha;
+          };
+        }
+        //function draw(dat) {
+        //  clasificacion = _.uniq(_.pluck(scope.datasgraph, dat));
+        //  colores = _.uniq(_.pluck(scope.datasgraph, 'tipo'));
+        //  foci = getCenters(dat, width, height); //crea un objeto por cada uno de los grupos identificados por tipo
+        //  m = clasificacion.length,
+        //    col = colores.length,
+        //    radius = d3.scale.sqrt().range([3, 12]),
+        //    color = d3.scale.category10().domain(d3.range(col)),
+        //    x = d3.scale.ordinal().domain(d3.range(m)).rangePoints([0, width], 1);
+        //  var conNodos = 0;
+        //  var filas = 1;
+        //  //mejoresNodos = clasificacion[0];
+        //  nodes = scope.datasgraph.map(function (elem) {
+        //    var i = 0;
+        //    var coinc = 0.1;
+        //    //if (elem.tipo == mejoresNodos && conNodos < 3) {coinc = 20; conNodos = conNodos + 1;}
+        //    //if(conNodos>=3 && conNodos<6 && elem.tipo != mejoresNodos) {coinc = 20; conNodos = conNodos + 1;}
+        //    for (var a = 0; a < m; a++) {
+        //      if (elem[scope.clasif] == clasificacion[a]) {
+        //        i = a;
+        //        //if(i>2 && i<6) filas = 2;
+        //        //if(i>5 && i<9) filas = 3;
+        //        //if(i>8 && i<12) filas = 4;
+        //      }
+        //    }
+        //    return {
+        //      datos: elem,
+        //      tipo: elem.tipo,
+        //      id: elem.id,
+        //      radius: (elem.coincidencia * 20) + coinc,
+        //      color: color(i),
+        //      cx: x(i),
+        //      cy: (height / 2)*filas
+        //    };
+        //  });
+        //  centros = _.uniq(_.pluck(nodes, 'cx'));
+        //  objetoCentros = _.object(clasificacion, centros);
+        //  _.each(foci, function (elem, i) {
+        //    _.each(objetoCentros, function (elemem, a) {
+        //      if (i == a) foci[i].x = elemem;
+        //    });
+        //  });
+        //  force
+        //    .nodes(nodes)
+        //    .size([width, height])
+        //    .on("tick", tick)
+        //    .start();
+        //  circle
+        //    .data(nodes)
+        //    .enter().append("circle").attr("id", function (d) {
+        //      return d.id;
+        //    })
+        //    .attr("class", "node")
+        //    .attr("r", function (d) {
+        //      return d.radius;
+        //    })
+        //
+        //  labels(foci)
+        //  force.start();
+        //}
+        //
+        function tick(e) {
+          circle.each(gravity(.08 * e.alpha))
+            .each(collide(.6))
+            .attr("cx", function (d) {
+              return d.x;
+            })
+            .attr("cy", function (d) {
+              return d.y;
+            });
+        }
+
+        function removePopovers() {
+          $('.popover').each(function () {
+            $(this).remove();
+          });
+        }
+
+        function showPopover(d) {
+          console.log('popover: ', this, d);
+          $(this).popover({
+            placement: 'auto top',
+            container: '#coin',
+            trigger: 'manual',
+            html: true,
+            content: function () {
+              return "nombre: " + d.tipo + "";
+            }
+          });
+          $(this).popover('show')
+        }
+
+        function labels(foci) {
+          svg.selectAll(".label").remove();
+          svg.selectAll(".label")
+            .data(_.toArray(foci)).enter().append("text")
+            .attr("class", "label")
+            .attr("style", "cursor:pointer")
+            .attr("style", "font-size: 25px")
+            .attr("fill", "white")
+            .text(function (d) {
+              return d.nombre
+            })
+            .attr("transform", function (d) {
+              return "translate(" + (d.px - ((d.nombre.length) * 3)) + ","+ d.py+")";
+            })
+        }
+        //
+        //// Resolve collisions between nodes.
+        function collide(alpha) {
+          var quadtree = d3.geom.quadtree(nodes);
+          return function (d) {
+            var r = d.radius + radius.domain()[1] + padding,
+              nx1 = d.x - r,
+              nx2 = d.x + r,
+              ny1 = d.y - r,
+              ny2 = d.y + r;
+            quadtree.visit(function (quad, x1, y1, x2, y2) {
+              if (quad.point && (quad.point !== d)) {
+                var x = d.x - quad.point.x,
+                  y = d.y - quad.point.y,
+                  l = Math.sqrt(x * x + y * y),
+                  r = d.radius + quad.point.radius + (d.color !== quad.point.color) * padding;
+                if (l < r) {
+                  l = (l - r) / l * alpha;
+                  d.x -= x *= l;
+                  d.y -= y *= l;
+                  quad.point.x += x;
+                  quad.point.y += y;
+                }
+              }
+              return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+            });
+          };
+        }
+      }
+      }};
+  })

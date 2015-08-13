@@ -1,4 +1,7 @@
 <div class="playButton" id="playButton">></div>
 <div class="resetButton" id="resetButton"><i class="fa fa-refresh"></i></div>
-<div radar-interactive levels="['Hold', 'Assess', 'Trial', 'Adopt']" id="chart"></div>
-<div id="radar"></div>
+<div class="changeRadar" id="radar" ng-click="CambiarVis('radar')"><i class="fa fa-pie-chart"></i></div>
+<div class="changeBubbles" id="bubbles" ng-click="CambiarVis('bubbles')"><i class="fa fa-spinner"></i></div>
+<div  ng-show="visualization=='radar'" radar-interactive height=600 width=600 levels="['Hold', 'Assess', 'Trial', 'Adopt']" id="chart"></div>
+<!--<div id="radar"></div>-->
+<div  ng-show="visualization=='bubbles'" id="chartBubble" divide-chart></div>

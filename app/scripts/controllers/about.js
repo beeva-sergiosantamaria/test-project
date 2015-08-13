@@ -9,4 +9,10 @@
  */
 angular.module('testProjectApp')
   .controller('AboutCtrl', function ($scope) {
+    $scope.visualization = "radar";
+
+    $scope.CambiarVis = function(nuevo) {
+      $scope.visualization = nuevo;
+    }
+
   });
