@@ -8,7 +8,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 }
 .browsehappy {
   margin: 0.2em 0;
-  background: #000000;
+  background: #515151;
   color: #000;
   padding: 0.2em 0;
 }
@@ -77,9 +77,9 @@ body {
 }
 
 .toolBar{
-  background-color: rgba(39, 39, 40, 0.83);
+  background-color: rgba(57, 84, 153, 1);
   width: 100%;
-  height: 100px;
+  height: 60px;
   position: fixed;
   z-index: 999;
 }
@@ -88,13 +88,13 @@ body {
   font-size: 25px;
   text-decoration: none;
   padding: 5px 25px;
-  border: 5px solid rgb(132, 103, 40);
+//  border: 5px solid #FFFFFF;
   display: inline-block;
-  color: rgb(132, 103, 40);
-  margin-top: 1%;
-  margin-right: 2%;
+  color: #FFFFFF;
+  margin-top: 0.1%;
+  margin-left: 0.2%;
   cursor: pointer;
-  float:right;
+  float: left;
   border-radius: 3px;
 }
 .navMenu:hover, .navMenu:focus, .navMenu:active{
@@ -197,7 +197,7 @@ body {
   right: 0;
   margin: auto;
   border-radius: 50%;
-  background-color: rgb(181, 181, 187);
+//  background-color: rgb(181, 181, 187);
   border: solid 5px #858594;;
 }
 .nodeList0 {
@@ -278,14 +278,16 @@ body {
   -o-transition: all 0.1s ease-in-out;
   transition: all 0.1s ease-in-out;
 }
+.controlButtons {
 
+}
 .playButton {
   position: absolute;
   width: 60px;
   height: 60px;
-  top: 110px;
-  left: 30px;
-  background-color: cadetblue;
+  top: 90px;
+  left: 100px;
+  background-color: rgba(57, 84, 153, 1);
   border-radius: 3px;
   text-align: center;
   font-size: 40px;
@@ -297,9 +299,9 @@ body {
   position: absolute;
   width: 60px;
   height: 60px;
-  top: 180px;
-  left: 30px;
-  background-color: cadetblue;
+  top: 90px;
+  left: 165px;
+  background-color: rgba(57, 84, 153, 1);
   border-radius: 3px;
   text-align: center;
   font-size: 40px;
@@ -307,21 +309,13 @@ body {
   font-weight: bolder;
   cursor:pointer;
 }
-.arc {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-}
-.arcInto {
-
-}
 .changeRadar {
   position: absolute;
   width: 60px;
   height: 60px;
-  top: 250px;
-  left: 30px;
-  background-color: cadetblue;
+  top: 90px;
+  left: 270px;
+  background-color: rgba(57, 84, 153, 1);
   border-radius: 3px;
   text-align: center;
   font-size: 40px;
@@ -333,9 +327,23 @@ body {
   position: absolute;
   width: 60px;
   height: 60px;
-  top: 320px;
-  left: 30px;
-  background-color: cadetblue;
+  top: 90px;
+  left: 335px;
+  background-color: rgba(57, 84, 153, 1);
+  border-radius: 3px;
+  text-align: center;
+  font-size: 40px;
+  color: white;
+  font-weight: bolder;
+  cursor:pointer;
+}
+.changeTable {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  top: 90px;
+  left: 400px;
+  background-color: rgba(57, 84, 153, 1);
   border-radius: 3px;
   text-align: center;
   font-size: 40px;
@@ -344,8 +352,61 @@ body {
   cursor:pointer;
 }
 
+.arc {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+.arcInto {
+
+}
+
 .bubbles {
   margin-left: 30%;
+}
+
+.tableVis{
+  margin-top: 15%;
+  margin-left: 15%;
+  width: 100%;
+  margin-bottom: 10%;
+}
+
+.tableHead {
+  width: 100%;
+  height: 70px;
+  background-color: rgb(39, 92, 124);
+}
+
+.tableTupla {
+  width: 100%;
+  height: 50px;
+  background-color: rgb(255, 255, 255);
+}
+
+.headElement {
+  height: 70px;
+  color: white;
+  font-weight: bold;
+  display: inline-block;
+  float: left;
+  border: solid 1px white;
+  padding: 15px 30px;
+  cursor: pointer;
+  width: 150px;
+}
+.tuplaElement {
+  height: 50px;
+  color: grey;
+  font-weight: bold;
+  display: inline-block;
+  float: left;
+  border: solid 1px grey;
+  padding: 15px 30px;
+  width: 150px;
+}
+.imageLogo{
+  height: 35px;
 }
 
 /* FN WEB GL RENDER */

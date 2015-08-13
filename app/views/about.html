@@ -1,7 +1,33 @@
-<div class="playButton" id="playButton">></div>
-<div class="resetButton" id="resetButton"><i class="fa fa-refresh"></i></div>
-<div class="changeRadar" id="radar" ng-click="CambiarVis('radar')"><i class="fa fa-pie-chart"></i></div>
-<div class="changeBubbles" id="bubbles" ng-click="CambiarVis('bubbles')"><i class="fa fa-spinner"></i></div>
+<div class="controlButtons">
+  <div class="playButton" id="playButton">></div>
+  <div class="resetButton" id="resetButton"><i class="fa fa-refresh"></i></div>
+  <div class="changeRadar" id="radar" ng-click="CambiarVis('radar')"><i class="fa fa-pie-chart"></i></div>
+  <div class="changeBubbles" id="bubbles" ng-click="CambiarVis('bubbles')"><i class="fa fa-spinner"></i></div>
+  <div class="changeTable" id="table" ng-click="CambiarVis('table')"><i class="fa fa-table"></i></div>
+</div>
 <div  ng-show="visualization=='radar'" radar-interactive height=600 width=600 levels="['Hold', 'Assess', 'Trial', 'Adopt']" id="chart"></div>
-<!--<div id="radar"></div>-->
 <div  ng-show="visualization=='bubbles'" id="chartBubble" divide-chart></div>
+<div  ng-show="visualization=='table'" id="datasTable" class="tableVis">
+  <div class="tableHead" class="tableHead">
+      <div id="headElement" class="headElement">Name</div>
+      <div id="headElement" class="headElement">Family</div>
+      <div id="headElement" class="headElement">SubFamily</div>
+      <div id="headElement" class="headElement">Committers</div>
+      <div id="headElement" class="headElement">Stars</div>
+      <div id="headElement" class="headElement">Tech blog mentions</div>
+      <div id="headElement" class="headElement">analyst blog mentions</div>
+      <div id="headElement" class="headElement">Summit presentations</div>
+      <div id="headElement" class="headElement">Summit mentions</div>
+  </div>
+  <div id="tableTupla" class="tableTupla" ng-repeat="datas in radarData | orderBy: name">
+    <div id="tuplaElement" class="tuplaElement">{{ datas.name }}</div>
+    <div id="tuplaElement" class="tuplaElement">{{ datas.family }}</div>
+    <div id="tuplaElement" class="tuplaElement">{{ datas.subfamily }}</div>
+    <div id="tuplaElement" class="tuplaElement">{{ datas.committers }}</div>
+    <div id="tuplaElement" class="tuplaElement">{{ datas.stars }}</div>
+    <div id="tuplaElement" class="tuplaElement">{{ datas.tech-blog-mentions }}</div>
+    <div id="tuplaElement" class="tuplaElement">{{ datas.analyst-blog-mentions }}</div>
+    <div id="tuplaElement" class="tuplaElement">{{ datas.summit-presentations }}</div>
+    <div id="tuplaElement" class="tuplaElement">{{ datas.summit-mentions }}</div>
+  </div>
+</div>

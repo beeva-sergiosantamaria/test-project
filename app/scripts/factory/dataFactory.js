@@ -29,7 +29,7 @@ angular.module('testProjectApp')
     return datos;
   })
   .factory('radarData', function($q, $http) {
-    var datos = $http.get('data/radarData600.json').then(function(response){
+    var datos = $http.get('data/liceData.json').then(function(response){
       return response.data;
     });
     return datos;
