@@ -729,7 +729,7 @@ angular.module('testProjectApp')
 
             uniforms = {
               color:   { type: "c", value: new THREE.Color( 0xffffff ) },
-              texture: { type: "t", value: THREE.ImageUtils.loadTexture( "/images/wiki.png" ) }
+              texture: { type: "t", value: THREE.ImageUtils.loadTexture( "images/wiki.png" ) }
             };
 
             var shaderMaterial = new THREE.ShaderMaterial( {

@@ -13,8 +13,8 @@ angular.module('testProjectApp')
     },
     link: function(scope) {
 
-      if(scope.width == undefined) scope.width = window.innerWidth;
-      if(scope.height == undefined) scope.height = window.innerHeight;
+      if(scope.width == undefined) scope.width = window.innerWidth/1.5;
+      if(scope.height == undefined) scope.height = window.innerHeight/1.5;
       if(scope.levels == undefined) scope.levels = ['Hold', 'Assess', 'Trial', 'Adopt'];
 
       var directiveConf = {
@@ -27,13 +27,14 @@ angular.module('testProjectApp')
         'nodesActives': []
       }
       var nodesActives = true;
-      var radius = directiveConf['boxWidth'];
+      var radius = directiveConf['boxHeight'];
       var medRadius = radius/2;
       var Nniveles = directiveConf.radar_arcs.length;
       var calculateMedia = (medRadius)/300;
       var doble = 16*calculateMedia;
       var normal = 6*calculateMedia;
       var control = false;
+      var prevAngle = 0;
 
       document.getElementById("chart").style.height = window.innerHeight + "px";
       document.getElementById("chart").style.width = window.innerWidth + "px";
@@ -55,10 +56,11 @@ angular.module('testProjectApp')
         .append('svg')
         .attr('class', 'box')
         .attr('width', radius)
-        .attr('height', radius);
+        .attr('height', radius)
+        .append("g");
 
       radarData.then(function(data){
-          drawRadarSectors(data.length);
+          drawRadarSectors(data.length, data);
           _.each(data, function(value,a){
             CreateTableInf(value.quadrant,a);
             CreateClusterTitle(value.quadrant);
@@ -325,7 +327,7 @@ angular.module('testProjectApp')
           .style('fill', d3.rgb(90, 90, 90));
         }
 
-      function drawRadarSectors(numSectors){
+      function drawRadarSectors(numSectors, datos){
         for (var a=0;a<numSectors;a++){
           var angle1 = ((Math.PI*2)/numSectors)*a;
           var cos = Math.cos(angle1);
@@ -339,6 +341,37 @@ angular.module('testProjectApp')
             .attr("y2", coords.y+(medRadius))
             .attr("stroke-width", 2)
             .attr("stroke", d3.rgb(90, 90, 90));
+
+          var g = d3.select("#chart")
+            .append("svg")
+            .attr("width", window.innerWidth)
+            .attr("height", window.innerHeight)
+            .append("g")
+
+          var arct = d3.svg.arc()
+            .innerRadius(medRadius)
+            .outerRadius(medRadius+50)
+            //.startAngle(((Math.PI*2)/numSectors)*(a+1))
+            .startAngle(prevAngle * (Math.PI/180))
+            //.endAngle(((Math.PI*2)/numSectors)*(a+1));
+            .endAngle(prevAngle + ((360/numSectors)) * (Math.PI/180));
+
+          var path = g.append("svg:path")
+            .attr("id","yyy")
+            .attr("d", arct)
+            .style("fill",datos[a].color)
+            .attr("transform", "translate("+window.innerWidth/2+","+window.innerHeight/2 +")");
+
+          var text = g.append("text")
+            .style("font-size",30)
+            .style("fill","#000")
+            .attr("dy",30)
+            .append("textPath")
+            .attr("xlink:href","#yyy")
+            .attr("startOffset","20%")
+            .style("text-anchor","end")
+            .text(datos[a].quadrant);
+          prevAngle = prevAngle + (360/numSectors);
         }
       }
 
@@ -361,7 +394,6 @@ angular.module('testProjectApp')
         .style('opacity', 1)
         .style('font-family', 'sans-serif')
         .style('font-size', '13px');
-
     }
   }
 })
