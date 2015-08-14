@@ -42,10 +42,10 @@ angular.module('testProjectApp')
     $localStorage.playAnimation = false;
 
     $scope.changeStatusFilter = function(filter){
-      if( $scope.filterActivation[filter] != status){
-        if($localStorage.playAnimation)$localStorage.playAnimation = false;
-        else $localStorage.playAnimation = true;
-      }
+
+      if($localStorage.playAnimation)$localStorage.playAnimation = false;
+      else $localStorage.playAnimation = true;
+
       if($scope.filterActivation[filter] == true ) $scope.filterActivation[filter] = false;
       else $scope.filterActivation[filter] = true;
     }
