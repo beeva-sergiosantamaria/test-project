@@ -396,11 +396,11 @@ angular.module('testProjectApp')
           .style("font-weight","bold")
           .attr("dy",40)
           .append("textPath")
-          .attr("xlink:href", function(d, i){
+          .attr("xlink:href", function(d){
             return "#"+d.subfam;
           })
-          .attr("startOffset",function(d,i){
-            return 70 - d.subfam.length;
+          .attr("startOffset",function(d){
+            return 70 - (2*d.subfam.length);
           })
           .style("text-anchor","start")
           .text(function(d,i){
@@ -457,18 +457,28 @@ angular.module('testProjectApp')
   };
 })
 
-.directive('divideChart', function(radarData) {
+.directive('divideChart', function(radarData, $localStorage) {
     return {
       restrict: 'EA',
       scope:{} ,
       link: function(scope) {
+        var svg;
+        scope.$watch( function () {
+          return $localStorage.playAnimation;
+        }, function (newVal, oldVal) {
+          if(newVal != oldVal) transitionNodes();
+          //console.log('lolailo');
+        }, true );
+
         radarData.then(function (data) {
           scope = data;
           init();
         });
+
         $('#graficaBusqueda').each(function () {
           $(this).remove();
         });
+
         //scope.$watch('clasif', function () {
         //  draw(scope.clasif);
         //})
@@ -511,7 +521,7 @@ angular.module('testProjectApp')
             cx: coords.x,
             cy: coords.y
           });
-        centros.push({nombre :values.subfamily, px: coords.x , py: coords.y});
+        centros.push({nombre :values.subfamily, px: coords.x , py: coords.y - 100});
       })
 
           var force = d3.layout.force()
@@ -522,7 +532,7 @@ angular.module('testProjectApp')
             .on("tick", tick)
             .start();
 
-          var svg = d3.select("#chartBubble").append("svg")
+          svg = d3.select("#chartBubble").append("svg")
             .attr("id", 'graficaBusqueda')
             .attr("class", "bubbles")
             .attr("width", width + margin.left + margin.right)
@@ -572,22 +582,9 @@ angular.module('testProjectApp')
                 .transition()
                 .attr('r', d.radius);
             })
-            //.on("click", function (d) {
-            //  $localStorage.ID = d.datos.id;
-            //  scope.$apply(function () {
-            //    scope.porciento = (d.datos.coincidencia * 100);
-            //    scope.nombreTooltip = (d.datos.nombre);
-            //    if (d.datos.categoria != undefined) {
-            //      scope.categoriaTooltip = (d.datos.categoria);
-            //    }else{
-            //      scope.categoriaTooltip = (d.datos.tipo);
-            //    }
-            //    scope.idTooltip = d.datos.id;
-            //    scope.tipoTooltip = d.datos.tipo;
-            //    $localStorage.coincidencia = d.datos.coincidencia;
-            //  })
-            //  $('#tooltip').addClass('show');
-            //})
+            .on("click", function (d) {
+              activateDetails(d.datos);
+            })
             .call(force.drag);
           labels(centros);
 
@@ -604,67 +601,6 @@ angular.module('testProjectApp')
             d.x += (d.cx - d.x) * alpha;
           };
         }
-        //function draw(dat) {
-        //  clasificacion = _.uniq(_.pluck(scope.datasgraph, dat));
-        //  colores = _.uniq(_.pluck(scope.datasgraph, 'tipo'));
-        //  foci = getCenters(dat, width, height); //crea un objeto por cada uno de los grupos identificados por tipo
-        //  m = clasificacion.length,
-        //    col = colores.length,
-        //    radius = d3.scale.sqrt().range([3, 12]),
-        //    color = d3.scale.category10().domain(d3.range(col)),
-        //    x = d3.scale.ordinal().domain(d3.range(m)).rangePoints([0, width], 1);
-        //  var conNodos = 0;
-        //  var filas = 1;
-        //  //mejoresNodos = clasificacion[0];
-        //  nodes = scope.datasgraph.map(function (elem) {
-        //    var i = 0;
-        //    var coinc = 0.1;
-        //    //if (elem.tipo == mejoresNodos && conNodos < 3) {coinc = 20; conNodos = conNodos + 1;}
-        //    //if(conNodos>=3 && conNodos<6 && elem.tipo != mejoresNodos) {coinc = 20; conNodos = conNodos + 1;}
-        //    for (var a = 0; a < m; a++) {
-        //      if (elem[scope.clasif] == clasificacion[a]) {
-        //        i = a;
-        //        //if(i>2 && i<6) filas = 2;
-        //        //if(i>5 && i<9) filas = 3;
-        //        //if(i>8 && i<12) filas = 4;
-        //      }
-        //    }
-        //    return {
-        //      datos: elem,
-        //      tipo: elem.tipo,
-        //      id: elem.id,
-        //      radius: (elem.coincidencia * 20) + coinc,
-        //      color: color(i),
-        //      cx: x(i),
-        //      cy: (height / 2)*filas
-        //    };
-        //  });
-        //  centros = _.uniq(_.pluck(nodes, 'cx'));
-        //  objetoCentros = _.object(clasificacion, centros);
-        //  _.each(foci, function (elem, i) {
-        //    _.each(objetoCentros, function (elemem, a) {
-        //      if (i == a) foci[i].x = elemem;
-        //    });
-        //  });
-        //  force
-        //    .nodes(nodes)
-        //    .size([width, height])
-        //    .on("tick", tick)
-        //    .start();
-        //  circle
-        //    .data(nodes)
-        //    .enter().append("circle").attr("id", function (d) {
-        //      return d.id;
-        //    })
-        //    .attr("class", "node")
-        //    .attr("r", function (d) {
-        //      return d.radius;
-        //    })
-        //
-        //  labels(foci)
-        //  force.start();
-        //}
-        //
         function tick(e) {
           circle.each(gravity(.08 * e.alpha))
             .each(collide(.6))
@@ -683,7 +619,7 @@ angular.module('testProjectApp')
         }
 
         function showPopover(d) {
-          console.log('popover: ', this, d);
+          //console.log('popover: ', this, d);
           $(this).popover({
             placement: 'auto top',
             container: '#coin',
@@ -739,10 +675,25 @@ angular.module('testProjectApp')
             });
           };
         }
-      function shuffle(o){
-        for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-        return o;
       }
-      }
-      }};
+       function transitionNodes(){
+          var nodos = svg.selectAll(".node")[0];
+          _.each(nodos, function(d){
+            d3.select(d)
+              .transition()
+              .duration(2000)
+              .style("fill-opacity", function (d) {
+                return Math.random();;
+              })
+              .attr('r', function (d) {
+                return Math.floor((Math.random() * 30) + 10);
+              });
+          })
+        };
+        function activateDetails(datos){
+          console.log('entra');
+          $localStorage.nodeDatasBubbles = datos;
+          $localStorage.activeDetails = true;
+        };
+    }};
   })

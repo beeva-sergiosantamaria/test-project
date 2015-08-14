@@ -2,6 +2,12 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 // bower:scss
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 @import "fontawesome/scss/font-awesome.scss";
+
+@font-face {
+  font-family: montserrat;
+  src: url('fonts/Montserrat-Regular.otf');
+}
+
 // endbower
 ::-webkit-scrollbar {
   display: none;
@@ -15,7 +21,8 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 
 body {
   padding: 0;
-  background-color: #111;
+  background: #212121;
+  font-family: montserrat;
 //  background-image: url(http://localhost:9000/images/sculpture.jpg);
 //  background-size: cover;
 }
@@ -79,7 +86,7 @@ body {
 }
 
 .toolBarMain{
-  background-color: rgba(57, 84, 153, 1);
+  background-color: #00897B;
   width: 100%;
   height: 60px;
   position: fixed;
@@ -87,17 +94,19 @@ body {
 }
 
 .navMenu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
   font-size: 25px;
   text-decoration: none;
   padding: 5px 25px;
-//  border: 5px solid #FFFFFF;
+  //  border: 5px solid #FFFFFF;
   display: inline-block;
   color: #FFFFFF;
-  margin-top: 0.1%;
-  margin-left: 0.2%;
   cursor: pointer;
-  float: left;
   border-radius: 3px;
+  width: 20%;
 }
 .navMenu:hover, .navMenu:focus, .navMenu:active{
   color: rgb(132, 103, 40);
@@ -290,7 +299,7 @@ body {
   height: 60px;
   top: 90px;
   right: 100px;
-  background-color: rgba(57, 84, 153, 1);
+  background-color: #00897B;
   border-radius: 3px;
   text-align: center;
   font-size: 40px;
@@ -305,7 +314,7 @@ body {
   height: 60px;
   top: 90px;
   right: 165px;
-  background-color: rgba(57, 84, 153, 1);
+  background-color: #00897B;
   border-radius: 3px;
   text-align: center;
   font-size: 40px;
@@ -315,48 +324,57 @@ body {
 }
 .changeRadar {
   position: absolute;
+  left: 140px;
+  right: 0;
+  margin: auto;
   z-index: 999;
-  width: 60px;
+  width: 120px;
   height: 60px;
   top: 90px;
-  right: 270px;
-  background-color: rgba(57, 84, 153, 1);
+  background-color: #00897B;
   border-radius: 3px;
   text-align: center;
   font-size: 40px;
   color: white;
   font-weight: bolder;
-  cursor:pointer;
+  cursor: pointer;
 }
 .changeBubbles {
   position: absolute;
+  left: 0;
+  right: 400px;
+  margin: auto;
   z-index: 999;
-  width: 60px;
+  width: 120px;
   height: 60px;
   top: 90px;
-  right: 335px;
-  background-color: rgba(57, 84, 153, 1);
+  background-color: #00897B;
   border-radius: 3px;
   text-align: center;
   font-size: 40px;
   color: white;
   font-weight: bolder;
-  cursor:pointer;
+  cursor: pointer;
 }
 .changeTable {
   position: absolute;
+  left: 0;
+  right: 130px;
+  margin: auto;
   z-index: 999;
-  width: 60px;
+  width: 120px;
   height: 60px;
   top: 90px;
-  right: 400px;
-  background-color: rgba(57, 84, 153, 1);
+  background-color: #00897B;
   border-radius: 3px;
   text-align: center;
   font-size: 40px;
   color: white;
   font-weight: bolder;
-  cursor:pointer;
+  cursor: pointer;
+}
+.playButton:hover, .resetButton:hover, .changeRadar:hover, .changeBubbles:hover, .changeTable:hover {
+  background-color: #1a9273;
 }
 .arc {
   position: absolute;
@@ -372,7 +390,7 @@ body {
 }
 .closeFilters{
   display: inline-block;
-  background-color: #3e72bc;
+  background-color: #00897B;
   width: 60px;
   height: 100%;
   font-size: 40px;
@@ -382,10 +400,9 @@ body {
   cursor: pointer;
   text-align: center;
   border-radius: 3px;
-  margin-left: 1%;
 }
 .closeFilters:hover{
-  background-color: #2a396d;
+  background-color: #1A9273;
 }
 .plusInfo{
   z-index: 999;
@@ -393,14 +410,14 @@ body {
   height: 80%;
   position: absolute;
   width: 300px;
-  background-color: #395499;
+  background-color: #00897B;
   top: 180px;
   right: 20px;
   border-radius: 3px;
 }
 .infoInside{
   width: 98%;
-  height: 92%;
+  height: 91%;
   background-color: #212121;
   margin: 20% 1% 1% 1%;
   padding-top: 10px;
@@ -438,7 +455,7 @@ body {
   z-index: 999;
   position: absolute;
   width: 300px;
-  background-color: #395499;
+  background-color: #00897B;
   top: 60px;
   left: 0px;
   border-radius: 3px;
@@ -446,69 +463,60 @@ body {
   border-top: solid 1px #515151;
 }
 .filterButton{
-  height: 40px;
+//  height: 40px;
   width: 226px;
-  background-color: #3E72BC;
+  background-color: #1a9273;
   margin: 30px;
   float: left;
   border-radius: 3px;
   color: white;
-  font-size: 13px;
+  font-size: 18px;
   padding-left: 10px;
-  line-height: 3;
-}
-.filterDes{
-  width: 40px;
-  height: 40px;
-  float: right;
-  background-color: grey;
-  display: inline-block;
-  padding: 5px 10px;
-  border-radius:3px;
-  text-align: center;
-  cursor:pointer;
-}
-.filterDesChk{
-  width: 40px;
-  height: 40px;
-  float: right;
-  background-color: darkred;
-  display: inline-block;
-  padding: 5px 10px;
-  border-radius:3px;
-  text-align: center;
-  cursor:pointer;
+  line-height: 2.5;
 }
 .filterAtv{
-  width: 40px;
-  height: 40px;
+  width: 20%;
+  height: 20px;
   float: right;
-  background-color: grey;
+  background-color: #e7e4e4;
   display: inline-block;
-  padding: 5px 10px;
-  border-radius:3px;
+  border-radius: 10px;
   text-align: center;
-  cursor:pointer;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-right: 5px;
+  cursor: pointer;
 }
-.filterAtvChk{
-  width: 40px;
-  height: 40px;
+.switchFilter{
+  height: 97%;
+  width: 50%;
+  background-color: #ff2827;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  -webkit-transition: all 0.1s ease-in-out;
+  -moz-transition: all 0.1s ease-in-out;
+  -o-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+.switchFilterChk{
+  height: 97%;
+  width: 50%;
+  border-radius: 10px;
+  margin-bottom: 10px;
   float: right;
-  background-color: green;
+  background-color: #52d346;
+  -webkit-transition: all 0.1s ease-in-out;
+  -moz-transition: all 0.1s ease-in-out;
+  -o-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+.filterText{
+  width: 70%;
+  float: left;
   display: inline-block;
-  padding: 5px 10px;
-  border-radius:3px;
-  text-align: center;
-  cursor:pointer;
-}
-.filterDes:hover{
-  background-color: #5d5d5d;
-}
-.filterAtv:hover{
-  background-color: #5d5d5d;
 }
 .tableVis{
-  margin-top: 9%;
+  margin-top: 11%;
   margin-left: 15%;
   width: 65.9%;
   margin-bottom: 10%;
@@ -517,17 +525,18 @@ body {
 .tableHead {
   width: 100%;
   height: 70px;
+  font-size: 10px;
 }
 
 .tableTupla {
   width: 100%;
   height: 50px;
-  background-color: rgb(255, 255, 255);
+  font-size: 10px;
 }
 
 .headElement {
   height: 70px;
-  background-color: rgb(39, 92, 124);
+  background-color: #00897B;
   color: white;
   font-weight: bold;
   display: inline-block;
@@ -535,10 +544,10 @@ body {
   border: solid 1px white;
   padding: 15px 30px;
   cursor: pointer;
-  width: 150px;
+  width: 10%;
 }
 .headElement:hover,.headElement:active, .headElement:focus  {
-  background-color: rgb(31, 66, 90);
+  background-color: #1A9273;
 }
 .tuplaElement {
   height: 50px;
@@ -548,13 +557,14 @@ body {
   float: left;
   border: solid 1px grey;
   padding: 15px 30px;
-  width: 150px;
+  width: 10%;
+  background-color: rgb(255, 255, 255);
 }
 .imageLogo{
   height: 35px;
 }
 .marginTop{
-  margin-top: 160px;
+  margin-top: 150px;
 }
 
 .flexsearch--wrapper {
@@ -605,7 +615,7 @@ body {
 .flexsearch--submit {
   position: absolute;
   right: 70px;
-  top: -16px;
+  top: -20px;
   display: block;
   width: 60px;
   height: 60px;

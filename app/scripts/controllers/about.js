@@ -10,6 +10,16 @@
 angular.module('testProjectApp')
   .controller('AboutCtrl', function ($scope, radarData, $localStorage) {
 
+    $scope.filterStatus = false;
+
+    $scope.infoActive = true;
+
+    $scope.visualization = "bubbles";
+
+    $scope.InfoType = 'tendences';
+
+    $scope.changeTableOrder = '-committers';
+
     $scope.filterActivation = {
       'committers': true,
       'stars': true,
@@ -19,23 +29,26 @@ angular.module('testProjectApp')
       'summit-mentions': true
     }
 
+
+    $localStorage.filterStatus = false;
+
+    $scope.activeFiltersFunction = function(){
+
+      if($localStorage.filterStatus == false) $localStorage.filterStatus = true;
+      else $localStorage.filterStatus = false;
+
+    }
+
     $localStorage.playAnimation = false;
 
-    $scope.changeStatusFilter = function(filter, status){
+    $scope.changeStatusFilter = function(filter){
       if( $scope.filterActivation[filter] != status){
         if($localStorage.playAnimation)$localStorage.playAnimation = false;
         else $localStorage.playAnimation = true;
       }
-      $scope.filterActivation[filter] = status;
+      if($scope.filterActivation[filter] == true ) $scope.filterActivation[filter] = false;
+      else $scope.filterActivation[filter] = true;
     }
-
-    $scope.filterStatus = false;
-
-    $scope.infoActive = true;
-
-    $scope.visualization = "bubbles";
-
-    $scope.changeTableOrder = '-committers';
 
     $scope.changeOrderTable = function(value){
       $scope.changeTableOrder = value;
@@ -45,6 +58,17 @@ angular.module('testProjectApp')
       return $localStorage.filterStatus;
     }, function (newVal, oldVal) {
       $scope.filterStatus = newVal;
+    }, true);
+
+    $scope.$watch(function () {
+      return $localStorage.activeDetails;
+    }, function (newVal, oldVal) {
+      console.log(newVal, oldVal);
+      if(newVal != oldVal){
+        $scope.detailsDatas = $localStorage.nodeDatasBubbles;
+        $scope.infoActive = true;
+        $scope.InfoType = 'details'
+      }
     }, true);
 
     $scope.CambiarVis = function(nuevo) {

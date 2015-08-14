@@ -1,6 +1,4 @@
 <div class="controlButtons">
-  <div class="playButton" id="playButton">></div>
-  <div class="resetButton" id="resetButton"><i class="fa fa-refresh"></i></div>
   <div class="changeRadar" id="radar" ng-click="CambiarVis('radar')"><i class="fa fa-pie-chart"></i></div>
   <div class="changeBubbles" id="bubbles" ng-click="CambiarVis('bubbles')"><i class="fa fa-spinner"></i></div>
   <div class="changeTable" id="table" ng-click="CambiarVis('table')"><i class="fa fa-table"></i></div>
@@ -8,57 +6,65 @@
 <div class="plusInfo" ng-class="{ 'animated fadeInRight': infoActive, 'animated flipOutY': !infoActive }">
   <div class="infoTittle">Tendences</div>
   <div class="closeInfo" ng-click="infoActive=false"><i class="fa fa-times-circle"></i></div>
-  <div class="infoInside">
-    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
-    <div class="infoElement">OpenStack: <spam class="infoElementSub">Cada vez más desarrolladores lo elijen como tecnología para sus proyectos.</spam></div>
-    <div class="infoElement">Python: <spam class="infoElementSub">Pierde fuerza en los congresos.</spam></div>
-    <div class="infoElement">ThreeJS: <spam class="infoElementSub">Entra pisando fuerte.</spam></div>
-    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
-    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
-    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
-    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
-    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
-    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
-    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
-    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
-    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
-    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
-    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
-    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
-    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
-    <div class="infoElement">NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+  <div class="infoInside" ng-show="InfoType == 'tendences'">
+    <div class="infoElement"><i style="color: green" class="fa fa-sort-asc"></i> NodeJS: <spam class="infoElementSub">Community increase.</spam></div>
+    <div class="infoElement"><i style="color: green" class="fa fa-sort-asc"></i> OpenStack: <spam class="infoElementSub">Developers invest in.</spam></div>
+    <div class="infoElement"><i style="color: red" class="fa fa-sort-desc"></i> Python: <spam class="infoElementSub">Low support in summits</spam></div>
+    <div class="infoElement"><i style="color: green" class="fa fa-sort-asc"></i> ThreeJS: <spam class="infoElementSub">New technology that cause interest.</spam></div>
+    <div class="infoElement"><i style="color: red" class="fa fa-sort-desc"></i> MongoDB: <spam class="infoElementSub">Trustly by the community.</spam></div>
+    <div class="infoElement"><i style="color: green" class="fa fa-sort-asc"></i> NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement"><i style="color: red" class="fa fa-sort-desc"></i> NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement"><i style="color: green" class="fa fa-sort-asc"></i> NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement"><i style="color: red" class="fa fa-sort-desc"></i> NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement"><i style="color: green" class="fa fa-sort-asc"></i> NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement"><i style="color: red" class="fa fa-sort-desc"></i> NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement"><i style="color: red" class="fa fa-sort-desc"></i> NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement"><i style="color: green" class="fa fa-sort-asc"></i> NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement"><i style="color: red" class="fa fa-sort-desc"></i> NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement"><i style="color: green" class="fa fa-sort-asc"></i> NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement"><i style="color: red" class="fa fa-sort-desc"></i> NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement"><i style="color: green" class="fa fa-sort-asc"></i> NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+    <div class="infoElement"><i style="color: green" class="fa fa-sort-asc"></i> NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
+  </div>
+  <div class="infoInside" ng-show="InfoType == 'details'">
   </div>
 </div>
 <div  class="filtersPanel"  ng-class="{ 'animated slideInLeft': filterStatus, 'animated slideOutLeft': !filterStatus }">
   <div class="filterButton">
-    Committers
-    <div ng-click="changeStatusFilter('committers', false)" class="filterDes" ng-class="{ 'filterDesChk': !filterActivation.committers, 'filterDes': filterActivation.committers }"><i class="fa fa-times"></i></div>
-    <div ng-click="changeStatusFilter('committers', true)" class="filterAtv" ng-class="{ 'filterAtvChk': filterActivation.committers, 'filterAtv': !filterActivation.committers }"><i class="fa fa-check"></i></div>
+    <div class="filterText">Committers</div>
+    <div ng-click="changeStatusFilter('committers')" class="filterAtv">
+      <div  ng-class="{ 'switchFilter': !filterActivation.committers, 'switchFilterChk': filterActivation.committers }"></div>
+    </div>
   </div>
   <div class="filterButton">
-    Stars
-    <div ng-click="changeStatusFilter('stars', false)" class="filterDes" ng-class="{ 'filterDesChk': !filterActivation.stars, 'filterDes': filterActivation.stars }"><i class="fa fa-times"></i></div>
-    <div ng-click="changeStatusFilter('stars', true)" class="filterAtv" ng-class="{ 'filterAtvChk': filterActivation.stars, 'filterAtv': !filterActivation.stars }"><i class="fa fa-check"></i></div>
+    <div class="filterText">Stars</div>
+    <div ng-click="changeStatusFilter('stars')" class="filterAtv">
+      <div  ng-class="{ 'switchFilter': !filterActivation.stars, 'switchFilterChk': filterActivation.stars }"></div>
+    </div>
   </div>
   <div class="filterButton">
-    Tech blog mentions
-    <div ng-click="changeStatusFilter('tech-blog-mentions', false)" class="filterDes" ng-class="{ 'filterDesChk': !filterActivation['tech-blog-mentions'], 'filterDes': filterActivation['tech-blog-mentions'] }"><i class="fa fa-times"></i></div>
-    <div ng-click="changeStatusFilter('tech-blog-mentions', true)" class="filterAtv" ng-class="{ 'filterAtvChk': filterActivation['tech-blog-mentions'], 'filterAtv': !filterActivation['tech-blog-mentions'] }"><i class="fa fa-check"></i></div>
+    <div class="filterText">Tech blog mentions</div>
+    <div ng-click="changeStatusFilter('tech-blog-mentions')" class="filterAtv">
+      <div  ng-class="{ 'switchFilter': !filterActivation['tech-blog-mentions'], 'switchFilterChk': filterActivation['tech-blog-mentions'] }"></div>
+    </div>
   </div>
   <div class="filterButton">
-    analyst blog mentions
-    <div ng-click="changeStatusFilter('analyst-blog-mentions', false)" class="filterDes" ng-class="{ 'filterDesChk': !filterActivation['analyst-blog-mentions'], 'filterDes': filterActivation['analyst-blog-mentions'] }"><i class="fa fa-times"></i></div>
-    <div ng-click="changeStatusFilter('analyst-blog-mentions', true)" class="filterAtv" ng-class="{ 'filterAtvChk': filterActivation['analyst-blog-mentions'], 'filterAtv': !filterActivation['analyst-blog-mentions'] }"><i class="fa fa-check"></i></div>
+    <div class="filterText">analyst blog mentions</div>
+    <div ng-click="changeStatusFilter('analyst-blog-mentions')" class="filterAtv">
+      <div  ng-class="{ 'switchFilter': !filterActivation['analyst-blog-mentions'], 'switchFilterChk': filterActivation['analyst-blog-mentions'] }"></div>
+    </div>
   </div>
   <div class="filterButton">
-    Summit presentations
-    <div ng-click="changeStatusFilter('summit-presentations', false)" class="filterDes" ng-class="{ 'filterDesChk': !filterActivation['summit-presentations'], 'filterDes': filterActivation['summit-presentations'] }"><i class="fa fa-times"></i></div>
-    <div ng-click="changeStatusFilter('summit-presentations', true)" class="filterAtv" ng-class="{ 'filterAtvChk': filterActivation['summit-presentations'], 'filterAtv': !filterActivation['summit-presentations'] }"><i class="fa fa-check"></i></div>
+    <div class="filterText">Summit presentations</div>
+    <div ng-click="changeStatusFilter('summit-presentations')" class="filterAtv">
+      <div  ng-class="{ 'switchFilter': !filterActivation['summit-presentations'], 'switchFilterChk': filterActivation['summit-presentations'] }"></div>
+    </div>
   </div>
   <div class="filterButton">
-    Summit mentions
-    <div ng-click="changeStatusFilter('summit-mentions', false)" class="filterDes" ng-class="{ 'filterDesChk': !filterActivation['summit-mentions'], 'filterDes': filterActivation['summit-mentions'] }"><i class="fa fa-check"></i></div>
-    <div ng-click="changeStatusFilter('summit-mentions', true)" class="filterAtv" ng-class="{ 'filterAtvChk': filterActivation['summit-mentions'], 'filterAtv': !filterActivation['summit-mentions'] }"><i class="fa fa-times"></i></div>
+    <div class="filterText">Summit mentions</div>
+    <div ng-click="changeStatusFilter('summit-mentions')" class="filterAtv">
+      <div  ng-class="{ 'switchFilter': !filterActivation['summit-mentions'], 'switchFilterChk': filterActivation['summit-mentions'] }"></div>
+    </div>
   </div>
 </div>
 <div  class="animated fadeInRight" ng-show="visualization=='radar'" radar-interactive height=600 width=600 levels="['Hold', 'Assess', 'Trial', 'Adopt']" id="chart"></div>
