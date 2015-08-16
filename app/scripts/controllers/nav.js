@@ -7,7 +7,14 @@ angular.module('testProjectApp')
 
   .controller('navCtrl', function ($scope, $localStorage) {
 
+    $localStorage.openTendences = true;
+
     $localStorage.filterStatus = false;
+
+    $scope.openTendences = function(){
+      if($localStorage.openTendences == false)$localStorage.openTendences = true;
+      else $localStorage.openTendences = false;
+    }
 
     $scope.activeFiltersFunction = function(){
 

@@ -12,13 +12,16 @@ angular.module('testProjectApp')
 
     $scope.filterStatus = false;
 
+    $localStorage.nodeDatasBubbles = {};
+    $localStorage.activeDetails = false;
+
     $scope.infoActive = true;
 
     $scope.visualization = "bubbles";
 
     $scope.InfoType = 'tendences';
 
-    $scope.changeTableOrder = '-committers';
+    $scope.changeTableOrder = '-pc.score';
 
     $scope.filterActivation = {
       'committers': true,
@@ -32,11 +35,21 @@ angular.module('testProjectApp')
 
     $localStorage.filterStatus = false;
 
+    $scope.CambiarVis = function(nuevo) {
+      $scope.visualization = nuevo;
+      $scope.goToDetails();
+    };
+
     $scope.activeFiltersFunction = function(){
 
       if($localStorage.filterStatus == false) $localStorage.filterStatus = true;
       else $localStorage.filterStatus = false;
 
+    }
+
+    $scope.closeInfo = function(){
+      $scope.infoActive = false;
+      $localStorage.openTendences = false;
     }
 
     $localStorage.playAnimation = false;
@@ -51,7 +64,15 @@ angular.module('testProjectApp')
     }
 
     $scope.changeOrderTable = function(value){
-      $scope.changeTableOrder = value;
+      if($scope.changeTableOrder == '-'+value){
+        $scope.changeTableOrder = value;
+      } else  $scope.changeTableOrder = '-'+value;
+    }
+    $scope.goToDetails = function(datas){
+      if(datas == undefined){
+        $localStorage.nodeDatasBubbles = undefined;
+        $scope.InfoType = 'tendences';
+      } else $localStorage.nodeDatasBubbles = datas;
     }
 
     $scope.$watch(function () {
@@ -61,19 +82,23 @@ angular.module('testProjectApp')
     }, true);
 
     $scope.$watch(function () {
-      return $localStorage.activeDetails;
+      return $localStorage.openTendences;
+    }, function (newVal, oldVal) {
+      if($scope.InfoType == 'tendences') $scope.infoActive = $localStorage.openTendences;
+      else $scope.InfoType = 'tendences';
+    }, true);
+
+    $scope.$watch(function () {
+      return $localStorage.nodeDatasBubbles;
     }, function (newVal, oldVal) {
       console.log(newVal, oldVal);
-      if(newVal != oldVal){
+      if(newVal != oldVal && newVal!=undefined){
         $scope.detailsDatas = $localStorage.nodeDatasBubbles;
         $scope.infoActive = true;
         $scope.InfoType = 'details'
+        console.log('detalles: ', $scope.detailsDatas );
       }
     }, true);
-
-    $scope.CambiarVis = function(nuevo) {
-      $scope.visualization = nuevo;
-    };
 
     radarData.then(function(data){
           $scope.radarData = data;

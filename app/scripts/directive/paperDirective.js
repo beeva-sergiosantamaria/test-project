@@ -34,9 +34,10 @@ angular.module('testProjectApp')
       var Nniveles = directiveConf.radar_arcs.length;
       var calculateMedia = (medRadius)/300;
       var doble = 16*calculateMedia;
-      var normal = 8*calculateMedia;
+      var normal = 10*calculateMedia;
       var control = false;
       var prevAngle = 90;
+      var datosParaDetalles = {};
 
       document.getElementById("chart").style.height = window.innerHeight + "px";
       document.getElementById("chart").style.width = window.innerWidth + "px";
@@ -64,11 +65,13 @@ angular.module('testProjectApp')
       radarData.then(function(data){
           scope.clasificacion = _.uniq(_.pluck(data, 'subfamily'));
           drawRadarSectors(scope.clasificacion.length, data);
-          _.each(data, function(value,a){
+          _.each(data, function(value){
+            datosParaDetalles[value.name] = value;
             //CreateTableInf(value.quadrant,a);
             //CreateClusterTitle(value.quadrant);
             //CreateNodeList(val.name, value.quadrant, value.color);
-            createNodes(value, value.colorover);
+            createNodes(value, scope.clasificacion);
+            console.log(datosParaDetalles);
             tooltip = box.append('text')
               .style('opacity', 1)
               .style('font-family', 'sans-serif')
@@ -144,7 +147,7 @@ angular.module('testProjectApp')
              .style("fill",colore);
           }
        })
-       .on("mousedown", function(){
+       .on("mousedown", function(d){
          if(!control)directiveConf['nodesActives'] = [$(this).attr('id')];
          if(control)directiveConf['nodesActives'].push($(this).attr('id'));
          var nodos = box.selectAll(".draggableCircle")[0];
@@ -172,9 +175,19 @@ angular.module('testProjectApp')
        })
    }
 
-   function createNodes(datos, colorOver){
-        //var nombreTrim = datos.name.match(/^\w+|\s\w/g).join("").replace(/\s/g, '');
-        //console.log(datos);
+   function createNodes(datos, numSectors){
+     //var nombreTrim = datos.name.match(/^\w+|\s\w/g).join("").replace(/\s/g, '');
+    var m = numSectors.length;
+     for (var a = 0; a < m; a++) {
+       if (datos.subfamily == numSectors[a]) {
+         var pos = a;
+       }
+     }
+     var angleNode = ((Math.PI*2)/m)*pos;
+     var cosNode = Math.cos(angleNode+(Math.random() * (0.2 - 0.8) + 0.8));
+     var sinNode = Math.sin(angleNode+(Math.random() * (0.2 - 0.8) + 0.8));
+     var coordsNode = {  x: (((medRadius-(3*datos.pc.score))*cosNode)+medRadius), y: (((medRadius-(3*datos.pc.score))*sinNode)+medRadius) };
+
         var drag = d3.behavior.drag()
           .on('dragstart', function() {
             console.log('this en drag: ',$(this).attr('cxpami')+' - '+$(this).attr('subfamily'))
@@ -207,16 +220,16 @@ angular.module('testProjectApp')
 
         var circle = box.append('svg:circle')
           .attr('class', 'draggableCircle')
-          .attr('cx', datos.pc.r*calculateMedia)
-          .attr('cy', datos.pc.t*calculateMedia)
+          .attr('cx', coordsNode.x*calculateMedia)
+          .attr('cy', coordsNode.y*calculateMedia)
           .attr('r', normal)
           .attr('nombre', datos.name)
           .attr('family', datos.family)
           .attr('subfamily', datos.subfamily)
           .attr('color', datos.color)
           .attr('colorover', datos.colorover)
-          .attr('originalcx', datos.pc.r*calculateMedia)
-          .attr('originalcy', datos.pc.t*calculateMedia)
+          .attr('originalcx', coordsNode.x*calculateMedia)
+          .attr('originalcy', coordsNode.y*calculateMedia)
           .attr('id', datos.name)
           .text( datos.name )
           .call(drag)
@@ -227,7 +240,10 @@ angular.module('testProjectApp')
           .on("mouseover", function() {
             if(nodesActives){
               d3.select(this)
-                .style('fill',$(this).attr('colorover'));
+                .transition()
+                .style('fill',$(this).attr('colorover'))
+                .style('stroke',$(this).attr('colorover'))
+                .attr('r', doble);
             }
             $('#'+$(this).attr('id'))
               .removeClass('nodeElement')
@@ -254,15 +270,23 @@ angular.module('testProjectApp')
                 .style('opacity', 0);
               if(nodesActives){
                 d3.select(this)
-                  .style('fill',$(this).attr('color'));
+                  .transition()
+                  .style('fill',$(this).attr('color'))
+                  .style('stroke',$(this).attr('color'))
+                  .attr('r', normal);
               }
             }
           })
           .on("mousedown", function(){
-            //console.log($(this).attr('id'));
+            var nombreParaDetalles = $(this).attr('id');
+            scope.$apply(function () {
+              $localStorage.nodeDatasBubbles = datosParaDetalles[nombreParaDetalles];
+              $localStorage.activeDetails = true;
+            })
+
             if(!control)directiveConf['nodesActives'] = [$(this).attr('id')];
             if(control)directiveConf['nodesActives'].push($(this).attr('id'));
-            //console.log(directiveConf['nodesActives']);
+            console.log(directiveConf['nodesActives']);
             var nodos = box.selectAll(".draggableCircle")[0];
             _.each(nodos, function(d){
               if ($.inArray($(d).attr('id'), directiveConf['nodesActives']) == -1) {
@@ -346,22 +370,20 @@ angular.module('testProjectApp')
         }
 
       function drawRadarSectors(numSectors, datos){
-        console.log('datos para ciruclo: ', datos);
 
         var colores = _.uniq(_.pluck(datos, 'color'));
         var nombresSubfamily = _.uniq(_.pluck(datos, 'subfamily'));
         var arcDatas = [];
+
         for (var a=0;a<numSectors;a++){
           arcDatas.push({ start: prevAngle, end: prevAngle + (360/numSectors), color: colores[a], subfam:nombresSubfamily[a]  })
           prevAngle = prevAngle + (360/numSectors);
         }
-        console.log(arcDatas);
 
         var arct = d3.svg.arc()
           .innerRadius(medRadius)
           .outerRadius(medRadius+50)
           .startAngle(function(d,i) {
-            console.log('prev angle: ',prevAngle, (360/numSectors));
             return d.start * (Math.PI/180);
           })
           .endAngle((function (d, i){
@@ -460,7 +482,7 @@ angular.module('testProjectApp')
 .directive('divideChart', function(radarData, $localStorage) {
     return {
       restrict: 'EA',
-      scope:{} ,
+      scope: {} ,
       link: function(scope) {
         var svg;
         scope.$watch( function () {
@@ -471,7 +493,7 @@ angular.module('testProjectApp')
         }, true );
 
         radarData.then(function (data) {
-          scope = data;
+          scope.datas = data;
           init();
         });
 
@@ -479,9 +501,6 @@ angular.module('testProjectApp')
           $(this).remove();
         });
 
-        //scope.$watch('clasif', function () {
-        //  draw(scope.clasif);
-        //})
     function init(){
         var margin = {
             top: 0,
@@ -494,13 +513,13 @@ angular.module('testProjectApp')
 
         var nodes = [];
         var centros = [];
-        var clasificacion = _.uniq(_.pluck(scope, 'subfamily'));
+        var clasificacion = _.uniq(_.pluck(scope.datas, 'subfamily'));
 
         var m = clasificacion.length,
           padding = 6,
           radius = d3.scale.sqrt().range([3, 12]);
 
-      _.each(scope, function(values,i){
+      _.each(scope.datas, function(values,i){
           for (var a = 0; a < m; a++) {
             if (values.subfamily == clasificacion[a]) {
                var pos = a;
@@ -514,8 +533,8 @@ angular.module('testProjectApp')
             datos: values,
             tipo: values.name,
             id: values.name,
-            radius: values.committers/4,
-            radiusplus: (values.committers/4)+10,
+            radius: values.pc.score/2,
+            radiusplus: (values.pc.score/2)+10,
             color: values.color,
             opacity: values.pc.score/100,
             cx: coords.x,
@@ -583,7 +602,10 @@ angular.module('testProjectApp')
                 .attr('r', d.radius);
             })
             .on("click", function (d) {
-              activateDetails(d.datos);
+              scope.$apply(function () {
+                $localStorage.nodeDatasBubbles = d.datos;
+                $localStorage.activeDetails = true;
+              })
             })
             .call(force.drag);
           labels(centros);
@@ -690,10 +712,6 @@ angular.module('testProjectApp')
               });
           })
         };
-        function activateDetails(datos){
-          console.log('entra');
-          $localStorage.nodeDatasBubbles = datos;
-          $localStorage.activeDetails = true;
-        };
-    }};
+      }
+    };
   })

@@ -3,10 +3,11 @@
   <div class="changeBubbles" id="bubbles" ng-click="CambiarVis('bubbles')"><i class="fa fa-spinner"></i></div>
   <div class="changeTable" id="table" ng-click="CambiarVis('table')"><i class="fa fa-table"></i></div>
 </div>
-<div class="plusInfo" ng-class="{ 'animated fadeInRight': infoActive, 'animated flipOutY': !infoActive }">
-  <div class="infoTittle">Tendences</div>
-  <div class="closeInfo" ng-click="infoActive=false"><i class="fa fa-times-circle"></i></div>
-  <div class="infoInside" ng-show="InfoType == 'tendences'">
+<div class="plusInfo" ng-class="{ 'animated flipInY': infoActive, 'animated flipOutY': !infoActive }">
+  <div class="infoTittle" ng-show="InfoType == 'tendences'">Tendences</div>
+  <div class="infoTittle" ng-show="InfoType == 'details'">Details</div>
+  <div class="closeInfo" ng-click="closeInfo()"><i class="fa fa-times-circle"></i></div>
+  <div class="infoInside animated flipInY" ng-show="InfoType == 'tendences'">
     <div class="infoElement"><i style="color: green" class="fa fa-sort-asc"></i> NodeJS: <spam class="infoElementSub">Community increase.</spam></div>
     <div class="infoElement"><i style="color: green" class="fa fa-sort-asc"></i> OpenStack: <spam class="infoElementSub">Developers invest in.</spam></div>
     <div class="infoElement"><i style="color: red" class="fa fa-sort-desc"></i> Python: <spam class="infoElementSub">Low support in summits</spam></div>
@@ -26,7 +27,8 @@
     <div class="infoElement"><i style="color: green" class="fa fa-sort-asc"></i> NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
     <div class="infoElement"><i style="color: green" class="fa fa-sort-asc"></i> NodeJS: <spam class="infoElementSub">la comunidad aumenta.</spam></div>
   </div>
-  <div class="infoInside" ng-show="InfoType == 'details'">
+  <div class="infoInside  animated flipInY" ng-show="InfoType == 'details'">
+    <div class="infoElement" ng-repeat="(key,value) in detailsDatas" ng-if="key!='pc' && key!='color' && key!='colorover'"><i style="color: green" class="fa fa-sort-asc"></i> {{key}} <spam class="infoElementSub">{{ value }}</spam></div>
   </div>
 </div>
 <div  class="filtersPanel"  ng-class="{ 'animated slideInLeft': filterStatus, 'animated slideOutLeft': !filterStatus }">
@@ -71,25 +73,39 @@
 <div  class="marginTop animated fadeInRight"  ng-show="visualization=='bubbles'" id="chartBubble" divide-chart></div>
 <div  ng-show="visualization=='table'" id="datasTable" class="tableVis  animated fadeInRight">
   <div class="tableHead" class="tableHead">
-      <div id="headElement" ng-click="changeOrderTable('-name')" class="headElement">Name <i class="fa fa-sort-desc"></i></div>
-      <div id="headElement" ng-click="changeOrderTable('-family')" class="headElement">Family <i class="fa fa-sort-desc"></i></div>
-      <div id="headElement" ng-click="changeOrderTable('-subfamily')" class="headElement">SubFamily <i class="fa fa-sort-desc"></i></div>
-      <div id="headElement" ng-click="changeOrderTable('-committers')" class="headElement">Committers <i class="fa fa-sort-desc"></i></div>
-      <div id="headElement" ng-click="changeOrderTable('-stars')" class="headElement">Stars <i class="fa fa-sort-desc"></i></div>
-      <div id="headElement" ng-click="changeOrderTable('-tech-blog-mentions')" class="headElement">Tech blog mentions <i class="fa fa-sort-desc"></i></div>
-      <div id="headElement" ng-click="changeOrderTable('-analyst-blog-mentions')" class="headElement">analyst blog mentions <i class="fa fa-sort-desc"></i></div>
-      <div id="headElement" ng-click="changeOrderTable('-summit-presentations')" class="headElement">Summit presentations <i class="fa fa-sort-desc"></i></div>
-      <div id="headElement" ng-click="changeOrderTable('-summit-mentions')" class="headElement">Summit mentions <i class="fa fa-sort-desc"></i></div>
+      <div id="headElement" ng-click="changeOrderTable('name')" class="headElement">Name &nbsp;&nbsp;
+        <i class="fa fa-sort-desc"></i>
+      </div>
+      <div id="headElement" ng-click="changeOrderTable('family')" class="headElement">Family &nbsp;&nbsp;
+        <i class="fa fa-sort-desc"></i>
+      </div>
+      <div id="headElement" ng-click="changeOrderTable('subfamily')" class="headElement">SubFamily &nbsp;&nbsp;
+        <i class="fa fa-sort-desc"></i>
+      </div>
+      <div id="headElement" ng-click="changeOrderTable('committers')" class="headElement">Committers &nbsp;&nbsp;
+        <i class="fa fa-sort-desc"></i>
+      </div>
+      <div id="headElement" ng-click="changeOrderTable('stars')" class="headElement">Stars &nbsp;&nbsp;
+        <i class="fa fa-sort-desc"></i>
+      </div>
+      <div id="headElement" ng-click="changeOrderTable('pc.score')" class="headElement">Score &nbsp;&nbsp;
+        <i class="fa fa-sort-desc"></i>
+      </div>
+      <!--<div id="headElement" ng-click="changeOrderTable('-tech-blog-mentions')" class="headElement">Tech blog mentions <i class="fa fa-sort-desc"></i></div>-->
+      <!--<div id="headElement" ng-click="changeOrderTable('-analyst-blog-mentions')" class="headElement">analyst blog mentions <i class="fa fa-sort-desc"></i></div>-->
+      <!--<div id="headElement" ng-click="changeOrderTable('-summit-presentations')" class="headElement">Summit presentations <i class="fa fa-sort-desc"></i></div>-->
+      <!--<div id="headElement" ng-click="changeOrderTable('-summit-mentions')" class="headElement">Summit mentions <i class="fa fa-sort-desc"></i></div>-->
   </div>
   <div id="tableTupla" class="tableTupla" ng-repeat="datas in radarData | orderBy: changeTableOrder">
-    <div id="tuplaElement" class="tuplaElement">{{ datas.name }}</div>
+    <div id="tuplaElement" class="tuplaElement" ng-click="goToDetails(datas)">{{ datas.name }}</div>
     <div id="tuplaElement" class="tuplaElement">{{ datas.family }}</div>
     <div id="tuplaElement" class="tuplaElement">{{ datas.subfamily }}</div>
     <div id="tuplaElement" class="tuplaElement">{{ datas.committers }}</div>
     <div id="tuplaElement" class="tuplaElement">{{ datas.stars }}</div>
-    <div id="tuplaElement" class="tuplaElement">{{ datas.tech-blog-mentions }}</div>
-    <div id="tuplaElement" class="tuplaElement">{{ datas.analyst-blog-mentions }}</div>
-    <div id="tuplaElement" class="tuplaElement">{{ datas.summit-presentations }}</div>
-    <div id="tuplaElement" class="tuplaElement">{{ datas.summit-mentions }}</div>
+    <div id="tuplaElement" class="tuplaElement">{{ datas.pc.score }}</div>
+    <!--<div id="tuplaElement" class="tuplaElement">{{ datas['tech-blog-mentions'] }}</div>-->
+    <!--<div id="tuplaElement" class="tuplaElement">{{ datas['analyst-blog-mentions'] }}</div>-->
+    <!--<div id="tuplaElement" class="tuplaElement">{{ datas['summit-presentations'] }}</div>-->
+    <!--<div id="tuplaElement" class="tuplaElement">{{ datas['summit-mentions'] }}</div>-->
   </div>
 </div>
