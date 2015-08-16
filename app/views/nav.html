@@ -1,9 +1,22 @@
 <div class="toolBarMain" ng-controller="navCtrl">
+  <div class="userDrop" ng-class="{ 'animated fadeInDown': userSelect, 'animated fadeOutUpBig': !userSelect }">
+    <div class="bussiness"  ng-click="changeUser('Bussiness')">Bussiness Profile</div>
+    <div class="developer"  ng-click="changeUser('Developer')">Developer Profile</div>
+  </div>
   <div class="closeFilters" ng-click="activeFiltersFunction()">
     <i class="fa fa-filter"></i>
   </div>
+  <div class="closeFilters" ng-click="showUser()">
+    <i class="fa fa-user"></i>
+  </div>
+  <div class="UserProfileName">
+    {{ userProfile }}
+  </div>
   <div class="openTendences" ng-click="openTendences()">
     <i class="fa fa-sort-amount-desc"></i>
+  </div>
+  <div class="openTendences" ng-click="fullScreen()">
+    <i class="fa fa-expand"></i>
   </div>
   <a ng-href="#/about" class="navMenu"><img class="imageLogo" src="images/logo.png"/></a><a action="javascript:void(0);" method="get"></a>
   <div class="flexsearch">

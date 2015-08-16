@@ -534,7 +534,7 @@ angular.module('testProjectApp')
             datos: values,
             tipo: values.name,
             id: values.name,
-            radius: values.pc.score/(height/250),
+            radius: values.pc.score*(height/1500),
             radiusplus: (values.pc.score/(height/250))+10,
             color: values.color,
             opacity: values.pc.score/100,

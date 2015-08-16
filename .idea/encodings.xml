@@ -12,6 +12,8 @@
     <file url="file://$PROJECT_DIR$/app/views/about.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/views/nav.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dist/data/liceData.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dist/data/liceData.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dist/data/lince_data_real.json" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dist/data/lince_data_real.json" charset="UTF-8" />
   </component>
 </project>
