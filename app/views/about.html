@@ -1,8 +1,10 @@
+<!--CONTROL BUTTONS-->
 <div class="controlButtons">
   <div class="changeRadar" id="radar" ng-click="CambiarVis('radar')"><i class="fa fa-pie-chart"></i></div>
   <div class="changeBubbles" id="bubbles" ng-click="CambiarVis('bubbles')"><i class="fa fa-spinner"></i></div>
   <div class="changeTable" id="table" ng-click="CambiarVis('table')"><i class="fa fa-table"></i></div>
 </div>
+<!--INFO PANELS-->
 <div class="plusInfo" ng-class="{ 'animated flipInY': infoActive, 'animated flipOutY': !infoActive }">
   <div class="infoTittle" ng-show="InfoType == 'tendences'">Tendences</div>
   <div class="infoTittle" ng-show="InfoType == 'details'">Details</div>
@@ -31,6 +33,7 @@
     <div class="infoElement" ng-repeat="(key,value) in detailsDatas" ng-if="key!='pc' && key!='color' && key!='colorover'"><i style="color: green" class="fa fa-sort-asc"></i> {{key}} <spam class="infoElementSub">{{ value }}</spam></div>
   </div>
 </div>
+<!--FILTERS PANEL-->
 <div  class="filtersPanel"  ng-class="{ 'animated slideInLeft': filterStatus, 'animated slideOutLeft': !filterStatus }">
   <div class="filterButton">
     <div class="filterText">Committers</div>
@@ -69,27 +72,36 @@
     </div>
   </div>
 </div>
-<div  class="animated fadeInRight" ng-show="visualization=='radar'" radar-interactive height=600 width=600 levels="['Hold', 'Assess', 'Trial', 'Adopt']" id="chart"></div>
+<!--RADAR-->
+<div  class="animated fadeInRight" ng-show="visualization=='radar'" radar-interactive levels="['Hold', 'Assess', 'Trial', 'Adopt']" id="chart"></div>
+<!--BUBBLES-->
 <div  class="marginTop animated fadeInRight"  ng-show="visualization=='bubbles'" id="chartBubble" divide-chart></div>
+<!--TABLE-->
 <div  ng-show="visualization=='table'" id="datasTable" class="tableVis  animated fadeInRight">
   <div class="tableHead" class="tableHead">
-      <div id="headElement" ng-click="changeOrderTable('name')" class="headElement">Name &nbsp;&nbsp;
-        <i class="fa fa-sort-desc"></i>
+      <div id="headElement" ng-click="changeOrderTable('name')" class="headElement">
+        <div>Name</div>
+        <div><i class="fa fa-sort-amount-desc"></i> - <i class="fa fa-sort-amount-asc"></i></div>
       </div>
-      <div id="headElement" ng-click="changeOrderTable('family')" class="headElement">Family &nbsp;&nbsp;
-        <i class="fa fa-sort-desc"></i>
+      <div id="headElement" ng-click="changeOrderTable('family')" class="headElement">
+        <div>Family</div>
+        <div><i class="fa fa-sort-amount-desc"></i> - <i class="fa fa-sort-amount-asc"></i></div>
       </div>
-      <div id="headElement" ng-click="changeOrderTable('subfamily')" class="headElement">SubFamily &nbsp;&nbsp;
-        <i class="fa fa-sort-desc"></i>
+      <div id="headElement" ng-click="changeOrderTable('subfamily')" class="headElement">
+        <div>SubFamily</div>
+        <div><i class="fa fa-sort-amount-desc"></i> - <i class="fa fa-sort-amount-asc"></i></div>
       </div>
-      <div id="headElement" ng-click="changeOrderTable('committers')" class="headElement">Committers &nbsp;&nbsp;
-        <i class="fa fa-sort-desc"></i>
+      <div id="headElement" ng-click="changeOrderTable('committers')" class="headElement">
+        <div>Committers</div>
+        <div><i class="fa fa-sort-amount-desc"></i> - <i class="fa fa-sort-amount-asc"></i></div>
       </div>
-      <div id="headElement" ng-click="changeOrderTable('stars')" class="headElement">Stars &nbsp;&nbsp;
-        <i class="fa fa-sort-desc"></i>
+      <div id="headElement" ng-click="changeOrderTable('stars')" class="headElement">
+        <div>Stars</div>
+        <div><i class="fa fa-sort-amount-desc"></i> - <i class="fa fa-sort-amount-asc"></i></div>
       </div>
-      <div id="headElement" ng-click="changeOrderTable('pc.score')" class="headElement">Score &nbsp;&nbsp;
-        <i class="fa fa-sort-desc"></i>
+      <div id="headElement" ng-click="changeOrderTable('pc.score')" class="headElement">
+        <div>Score</div>
+        <div><i class="fa fa-sort-amount-desc"></i> - <i class="fa fa-sort-amount-asc"></i></div>
       </div>
       <!--<div id="headElement" ng-click="changeOrderTable('-tech-blog-mentions')" class="headElement">Tech blog mentions <i class="fa fa-sort-desc"></i></div>-->
       <!--<div id="headElement" ng-click="changeOrderTable('-analyst-blog-mentions')" class="headElement">analyst blog mentions <i class="fa fa-sort-desc"></i></div>-->

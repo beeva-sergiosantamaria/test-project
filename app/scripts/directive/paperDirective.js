@@ -13,8 +13,8 @@ angular.module('testProjectApp')
     },
     link: function(scope) {
 
-      if(scope.width == undefined) scope.width = window.innerWidth/1.5;
-      if(scope.height == undefined) scope.height = window.innerHeight/1.5;
+      if(scope.width == undefined) scope.width = window.innerWidth/2;
+      if(scope.height == undefined) scope.height = window.innerHeight/2;
       if(scope.levels == undefined) scope.levels = ['Hold', 'Assess', 'Trial', 'Adopt'];
 
       var directiveConf = {
@@ -33,8 +33,9 @@ angular.module('testProjectApp')
       var medRadius = radius/2;
       var Nniveles = directiveConf.radar_arcs.length;
       var calculateMedia = (medRadius)/300;
+      var divideRadioInUnits = medRadius/100;
       var doble = 16*calculateMedia;
-      var normal = 10*calculateMedia;
+      var normal = 8*calculateMedia;
       var control = false;
       var prevAngle = 90;
       var datosParaDetalles = {};
@@ -186,7 +187,7 @@ angular.module('testProjectApp')
      var angleNode = ((Math.PI*2)/m)*pos;
      var cosNode = Math.cos(angleNode+(Math.random() * (0.2 - 0.8) + 0.8));
      var sinNode = Math.sin(angleNode+(Math.random() * (0.2 - 0.8) + 0.8));
-     var coordsNode = {  x: (((medRadius-(3*datos.pc.score))*cosNode)+medRadius), y: (((medRadius-(3*datos.pc.score))*sinNode)+medRadius) };
+     var coordsNode = {  x: (((Math.abs(medRadius-(divideRadioInUnits*datos.pc.score))*cosNode)+medRadius)), y: ((Math.abs(medRadius-(divideRadioInUnits*datos.pc.score))*sinNode)+medRadius) };
 
         var drag = d3.behavior.drag()
           .on('dragstart', function() {
@@ -220,16 +221,16 @@ angular.module('testProjectApp')
 
         var circle = box.append('svg:circle')
           .attr('class', 'draggableCircle')
-          .attr('cx', coordsNode.x*calculateMedia)
-          .attr('cy', coordsNode.y*calculateMedia)
+          .attr('cx', coordsNode.x)
+          .attr('cy', coordsNode.y)
           .attr('r', normal)
           .attr('nombre', datos.name)
           .attr('family', datos.family)
           .attr('subfamily', datos.subfamily)
           .attr('color', datos.color)
           .attr('colorover', datos.colorover)
-          .attr('originalcx', coordsNode.x*calculateMedia)
-          .attr('originalcy', coordsNode.y*calculateMedia)
+          .attr('originalcx', coordsNode.x)
+          .attr('originalcy', coordsNode.y)
           .attr('id', datos.name)
           .text( datos.name )
           .call(drag)
@@ -382,7 +383,7 @@ angular.module('testProjectApp')
 
         var arct = d3.svg.arc()
           .innerRadius(medRadius)
-          .outerRadius(medRadius+50)
+          .outerRadius(medRadius+((medRadius/20)+20))
           .startAngle(function(d,i) {
             return d.start * (Math.PI/180);
           })
@@ -407,16 +408,16 @@ angular.module('testProjectApp')
           .style("fill", function(d, i){
             return d.color;
           })
-          .attr("transform", "translate("+window.innerWidth/2+","+window.innerHeight/2 +")");
+          .attr("transform", "translate("+window.innerWidth/2+","+((window.innerHeight/2)+(window.innerHeight/20))+")");
 
         var text = g.selectAll("text")
           .data(arcDatas)
           .enter()
           .append("text")
-          .style("font-size",30)
+          .style("font-size",medRadius/10)
           .style("fill","#313131")
           .style("font-weight","bold")
-          .attr("dy",40)
+          .attr("dy",medRadius/10)
           .append("textPath")
           .attr("xlink:href", function(d){
             return "#"+d.subfam;
@@ -528,19 +529,19 @@ angular.module('testProjectApp')
         var angle1 = ((Math.PI*2)/m)*pos;
         var cos = Math.cos(angle1);
         var sin = Math.sin(angle1);
-        var coords = {  x: ((300*cos) + (window.innerWidth/2)), y: (300*sin) + (window.innerHeight*0.4) };
+        var coords = {  x: ((width/4)*cos) + (width/2), y: ((height/4)*sin) + (height*0.4) };
           nodes.push( {
             datos: values,
             tipo: values.name,
             id: values.name,
-            radius: values.pc.score/2,
+            radius: values.pc.score/2.5,
             radiusplus: (values.pc.score/2)+10,
             color: values.color,
             opacity: values.pc.score/100,
-            cx: coords.x,
+            cx: coords.x-50,
             cy: coords.y
           });
-        centros.push({nombre :values.subfamily, px: coords.x , py: coords.y - 100});
+        centros.push({nombre :values.subfamily, px: coords.x-50 , py: coords.y - 60});
       })
 
           var force = d3.layout.force()
@@ -588,7 +589,7 @@ angular.module('testProjectApp')
                 .transition()
                 .attr('r', d.radiusplus);
               tooltip
-                .attr('x', d.x)
+                .attr('x', d.x+30)
                 .attr('y', d.y)
                 .attr("font-weight", "bold")
                 .text(d.tipo)
@@ -597,6 +598,9 @@ angular.module('testProjectApp')
             })
             .on("mouseout", function (d) {
               removePopovers();
+              tooltip
+                .transition(200)
+                .style('opacity', 0);
               d3.select(this)
                 .transition()
                 .attr('r', d.radius);
@@ -660,7 +664,10 @@ angular.module('testProjectApp')
             .data(_.toArray(foci)).enter().append("text")
             .attr("class", "label")
             .attr("style", "cursor:pointer")
-            .attr("style", "font-size: 25px")
+            .attr("style", "font-weight: normal")
+            .style("font-size", function (d) {
+              return height/40;
+            })
             .attr("fill", "white")
             .text(function (d) {
               return d.nombre

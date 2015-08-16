@@ -83,19 +83,19 @@
     "committers": 225, "stars": 7725, "stacks": 334, "tech-blog-mentions": 767, "analyst-blog-mentions": 464,
     "summit-conferences": 10, "summit-presentations": 23,
     "funds-last-year": 0, "funds-5-years": 0,
-    "sectors": "ecommerce", "color" :"#A5B28D", "colorover" :  "#620135"},
+    "sectors": "ecommerce", "color" :"#92b26b", "colorover" :  "#620135"},
 
     {"name":"Cassandra","pc": {"score": 37,"t": 181 },"family": "Databases", "subfamily": "NoSQL",
     "committers": 108, "stars": 2222, "stacks": 54, "tech-blog-mentions": 263, "analyst-blog-mentions": 6,
     "summit-conferences": 5, "summit-presentations": 56,
     "funds-last-year": 0, "funds-5-years": 0,
-    "sectors": "ecommerce", "color" :"#A5B28D", "colorover" :  "#620135"},
+    "sectors": "ecommerce", "color" :"#92b26b", "colorover" :  "#620135"},
 
     {"name":"Neo4j","pc": {"score": 17,"t": 181 },"family": "Databases", "subfamily": "NoSQL",
     "committers": 108, "stars": 1874, "stacks": 20, "tech-blog-mentions": 19, "analyst-blog-mentions": 0,
     "summit-conferences": 3, "summit-presentations": 0,
     "funds-last-year": 0, "funds-5-years": 0,
-    "sectors": "ecommerce", "color" :"#A5B28D", "colorover" :  "#620135"},
+    "sectors": "ecommerce", "color" :"#92b26b", "colorover" :  "#620135"},
 
 
 

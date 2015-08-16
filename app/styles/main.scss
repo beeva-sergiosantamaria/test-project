@@ -2,13 +2,17 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 // bower:scss
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 @import "fontawesome/scss/font-awesome.scss";
+@font-face {
+  font-family: montserrat;
+  src: url("fonts/Montserrat-Regular.otf") format("opentype");
+}
 // endbower
 ::-webkit-scrollbar {
   display: none;
 }
 .browsehappy {
   margin: 0.2em 0;
-  background: #515151;
+  background: #212121;
   color: #000;
   padding: 0.2em 0;
 }
@@ -196,7 +200,7 @@ body {
 }
 .box {
   position: absolute;
-  top: 0;
+  top: 10%;
   bottom: 0;
   left: 0;
   right: 0;
@@ -318,7 +322,7 @@ body {
 }
 .changeRadar {
   position: absolute;
-  left: 140px;
+  left: 260px;
   right: 0;
   margin: auto;
   z-index: 999;
@@ -336,7 +340,7 @@ body {
 .changeBubbles {
   position: absolute;
   left: 0;
-  right: 400px;
+  right: 260px;
   margin: auto;
   z-index: 999;
   width: 120px;
@@ -353,7 +357,7 @@ body {
 .changeTable {
   position: absolute;
   left: 0;
-  right: 130px;
+  right: 0;
   margin: auto;
   z-index: 999;
   width: 120px;
@@ -368,7 +372,7 @@ body {
   cursor: pointer;
 }
 .playButton:hover, .resetButton:hover, .changeRadar:hover, .changeBubbles:hover, .changeTable:hover {
-  background-color: #1a9273;
+  background-color: #00B19F;
 }
 .arc {
   position: absolute;
@@ -396,7 +400,7 @@ body {
   border-radius: 3px;
 }
 .closeFilters:hover{
-  background-color: #1A9273;
+  background-color: #00B19F;
 }
 .openTendences{
   display: inline-block;
@@ -412,22 +416,22 @@ body {
   border-radius: 3px;
 }
 .openTendences:hover{
-  background-color: #1A9273;
+  background-color: #00B19F;
 }
 .plusInfo{
   z-index: 999;
   display:block;
   height: 80%;
   position: absolute;
-  width: 300px;
+  width: 18%;
   background-color: #00897B;
-  top: 180px;
+  top: 15%;
   right: 20px;
   border-radius: 3px;
 }
 .infoInside{
   width: 98%;
-  height: 91%;
+  height: 87%;
   background-color: #212121;
   margin: 20% 1% 1% 1%;
   padding-top: 10px;
@@ -453,34 +457,34 @@ body {
   color: #DCBD30;
   font-weight: bold;
   margin: 25px;
-  font-size: 18px;
+  font-size: 14px;
 }
 .infoElementSub{
   color: white;
   font-weight: 100;
-  font-size: 16px;
+  font-size: 14px;
 }
 .filtersPanel{
   height: 95%;
   z-index: 999;
   position: absolute;
-  width: 300px;
+  width: 16%;
   background-color: #00897B;
   top: 60px;
   left: 0px;
   border-radius: 3px;
-  padding-top: 100PX;
+  padding-top: 2%;
   border-top: solid 1px #515151;
 }
 .filterButton{
 //  height: 40px;
-  width: 226px;
-  background-color: #1a9273;
-  margin: 30px;
+  width: 90%;
+  background-color: #00B19F;
+  margin: 5%;
   float: left;
   border-radius: 3px;
   color: white;
-  font-size: 18px;
+  font-size: 14px;
   padding-left: 10px;
   line-height: 2.5;
 }
@@ -500,7 +504,7 @@ body {
 .switchFilter{
   height: 97%;
   width: 50%;
-  background-color: #ff2827;
+  background-color: #A03B45;
   border-radius: 10px;
   margin-bottom: 10px;
   -webkit-transition: all 0.1s ease-in-out;
@@ -514,7 +518,7 @@ body {
   border-radius: 10px;
   margin-bottom: 10px;
   float: right;
-  background-color: #52d346;
+  background-color: #92b26b;
   -webkit-transition: all 0.1s ease-in-out;
   -moz-transition: all 0.1s ease-in-out;
   -o-transition: all 0.1s ease-in-out;
@@ -526,23 +530,24 @@ body {
   display: inline-block;
 }
 .tableVis{
-  margin-top: 11%;
+  margin-top: 14%;
   margin-left: 20%;
-  width: 66%;
+  width: 63%;
   margin-bottom: 10%;
 }
 
 .tableHead {
   width: 100%;
   height: 70px;
-  font-size: 20px;
+  font-size: 14px;
 }
 
 .tableTupla {
   cursor:pointer;
   width: 100%;
   height: 50px;
-  font-size: 20px;
+  font-size: 12px;
+  text-align: center;
 }
 
 .headElement {
@@ -556,9 +561,10 @@ body {
   padding: 15px 30px;
   cursor: pointer;
   width: 15%;
+  text-align: center;
 }
 .headElement:hover,.headElement:active, .headElement:focus  {
-  background-color: #1A9273;
+  background-color: #00B19F;
 }
 .tuplaElement {
   height: 50px;
@@ -595,12 +601,12 @@ body {
 }
 
 .flexsearch--input-wrapper {
-  padding: 0 66px 0 0; /* Right padding for submit button width */
+  //padding: 0 66px 0 0; /* Right padding for submit button width */
   overflow: hidden;
 }
 
 .flexsearch--input {
-  width: 100%;
+  width: 97%;
 }
 
 /***********************
@@ -618,31 +624,31 @@ body {
   border-color: #888;
   border-radius: 35px;
   border-style: solid;
-  border-width: 5px;
+  border-width: 3px;
   margin-top: 8px;
   color: #333;
   font-family: 'Helvetica', sans-serif;
-  font-size: 26px;
+  font-size: 21px;
   -webkit-appearance: none;
   -moz-appearance: none;
 }
 
 .flexsearch--submit {
   position: absolute;
-  right: 70px;
-  top: -20px;
+  right: 5px;
+  top: -24px;
   display: block;
   width: 60px;
   height: 60px;
   padding: 0;
   border: none;
-  margin-top: 20px; /* margin-top + border-width */
-  margin-right: 5px; /* border-width */
+  margin-top: 20px;
+  margin-right: -1px;
   background: transparent;
   color: #888;
   font-family: 'Helvetica', sans-serif;
-  font-size: 40px;
-  line-height: 60px;
+  font-size: 27px;
+  line-height: 49px;
 }
 
 .flexsearch--input:focus {
