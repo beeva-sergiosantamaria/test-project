@@ -2,10 +2,6 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 // bower:scss
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 @import "fontawesome/scss/font-awesome.scss";
-@font-face {
-  font-family: montserrat;
-  src: url("fonts/Montserrat-Regular.otf") format("opentype");
-}
 // endbower
 ::-webkit-scrollbar {
   display: none;

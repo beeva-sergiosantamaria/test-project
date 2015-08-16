@@ -44,7 +44,7 @@ angular
         controller: 'virtualCtrl'
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/about'
       });
   });
 
