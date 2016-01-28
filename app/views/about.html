@@ -1,7 +1,32 @@
-<div class="playButton" id="playButton">></div>
-<div class="resetButton" id="resetButton"><i class="fa fa-refresh"></i></div>
-<div class="changeRadar" id="radar" ng-click="CambiarVis('radar')"><i class="fa fa-pie-chart"></i></div>
-<div class="changeBubbles" id="bubbles" ng-click="CambiarVis('bubbles')"><i class="fa fa-spinner"></i></div>
-<div  ng-show="visualization=='radar'" radar-interactive height=600 width=600 levels="['Hold', 'Assess', 'Trial', 'Adopt']" id="chart"></div>
+<div class="infoButton" ng-click="showInfo()"><i class="fa fa-info"></i></div>
+<div class="infoPanel" ng-class="{'animated fadeOutRightBig': !infoActive, 'animated fadeInRightBig': infoActive}">
+  <p>Representación del estado de madurez de una tecnologia.</p>
+  <p>Cuanto mayor sea el radio de la burbuja o mas próximo este al centro en el caso de la visualización del radar, mayor es el grado de adopción y apoyo de la cmunidad a dicha tecnologia.</p>
+  <p><b>Comandos: </b></p>
+  <div class="comandsList">
+    <div class="imageBox"><img class="leftclick" src="../images/leftClick.gif"/></div>
+    <div class="textBox">
+      <p>· Seleccionar un nodo.</p>
+      <p>· +CTRL para seleccionar varios nodos.</p>
+    </div>
+  </div>
+  <div class="comandsList">
+    <div class="iconBox"><i class="fa fa-exchange"></i></div>
+    <div class="textBox">
+      <p>· Ver la evolucion de las tecnologias seleccionadas (Radar).</p>
+    </div>
+  </div>
+  <div class="comandsList">
+    <div class="iconBox"><i class="fa fa-recycle"></i></div>
+    <div class="textBox">
+      <p>· Restablecer valores predeterminados (Radar).</p>
+    </div>
+  </div>
+</div>
+<div class="playButton" id="radar" ng-click="CambiarVis('radar')"><i class="fa fa-crosshairs"></i></div>
+<div class="resetButton" id="bubbles" ng-click="CambiarVis('bubbles')"><i class="fa fa-spinner"></i></div>
+<div ng-show="visualization=='radar'" class="changeRadar" id="playButton"><i class="fa fa-exchange"></i></div>
+<div ng-show="visualization=='radar'" class="changeBubbles" id="resetButton"><i class="fa fa-recycle"></i></div>
+<div ng-class="{'animated fadeOutLeftBig': visualization!='radar',   'animated fadeInRightBig': visualization=='radar'}" radar-interactive height=400 width=400 levels="['Hold', 'Assess', 'Trial', 'Adopt']" id="chart"></div>
 <!--<div id="radar"></div>-->
-<div  ng-show="visualization=='bubbles'" id="chartBubble" divide-chart></div>
+<div ng-class="{'animated fadeOutLeftBig': visualization!='bubbles', 'animated fadeIn': visualization=='bubbles'}" id="chartBubble" divide-chart></div>-->

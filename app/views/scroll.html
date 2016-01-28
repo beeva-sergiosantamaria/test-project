@@ -1,6 +1,33 @@
 <!--<div class="">-->
   <!--<div back-img="bubbles.jpg" ></div>-->
 <!--</div>-->
+<div class="infoButton" ng-click="showInfo()"><i class="fa fa-info"></i></div>
+<div class="infoPanel" ng-class="{'animated fadeOutRightBig': !infoActive, 'animated fadeInRightBig': infoActive}">
+  <p>Representacion en particulas webGL de la proximidad semantica entre palabras.</p>
+  <p>Se extraen palabras y se convierten en vectores para ubicarlas en un espacio tridimensional, de manera que palabras muy proximas semanticamente tambien lo esten en ese espacio.</p>
+  <p><b>Comandos: </b></p>
+  <div class="comandsList">
+    <div class="imageBox"><img class="leftclick" src="../images/leftClick.gif"/></div>
+    <div class="textBox">
+      <p>·Presionar y mantener para desplazar la camara al rededor de un punto.</p>
+      <p>·Doble click en un nodo para seleccionar ese nodo y sus asociados.</p>
+    </div>
+  </div>
+  <div class="comandsList">
+    <div class="imageBox"><img class="leftclick" src="../images/rightClick.gif"/></div>
+    <div class="textBox">
+      <p>·Presionar y mantener para desplazar la camara sobre el eje X/Y.</p>
+    </div>
+  </div>
+  <div class="comandsList">
+    <div class="imageBox"><img class="leftclick" src="../images/centerClick.png"/></div>
+    <div class="textBox">
+      <p>·Scroll para hacer zoom de la cámara.</p>
+      <p>·doble click para restablecer nodos despues de una selección.</p>
+    </div>
+  </div>
+</div>
+<div class="searchButton"><i class="fa fa-search"></i></div>
 <div mass-autocomplete class="autoCompleteClass">
   <input ng-model="dirty.value"
          mass-autocomplete-item="autocomplete_options">

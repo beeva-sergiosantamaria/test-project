@@ -44,4 +44,8 @@ angular.module('testProjectApp')
       suggest: suggest_state
     };
 
+    $scope.showInfo = function(){
+      $scope.infoActive = !$scope.infoActive;
+    }
+
   });

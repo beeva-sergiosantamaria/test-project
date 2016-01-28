@@ -13,8 +13,8 @@ angular.module('testProjectApp')
     },
     link: function(scope) {
 
-      if(scope.width == undefined) scope.width = window.innerWidth/1.5;
-      if(scope.height == undefined) scope.height = window.innerHeight/1.5;
+      if(scope.width == undefined) scope.width = window.innerWidth;
+      if(scope.height == undefined) scope.height = window.innerHeight;
       if(scope.levels == undefined) scope.levels = ['Hold', 'Assess', 'Trial', 'Adopt'];
 
       var directiveConf = {
@@ -27,18 +27,20 @@ angular.module('testProjectApp')
         'nodesActives': []
       }
       var nodesActives = true;
+      var tooltip;
       var radius = directiveConf['boxHeight'];
       var medRadius = radius/2;
       var Nniveles = directiveConf.radar_arcs.length;
       var calculateMedia = (medRadius)/300;
       var doble = 16*calculateMedia;
-      var normal = 6*calculateMedia;
+      var normal = 8*calculateMedia;
       var control = false;
       var prevAngle = 0;
+      var scale = (window.innerHeight/(scope.height));
 
       document.getElementById("chart").style.height = window.innerHeight + "px";
       document.getElementById("chart").style.width = window.innerWidth + "px";
-      document.getElementById("chart").style.backgroundColor = 'rgb(40, 44, 52)';
+      //document.getElementById("chart").style.backgroundColor = 'rgb(40, 44, 52)';
 
       $(document).on('keyup keydown', function(e) {
         control = e.ctrlKey;
@@ -55,9 +57,12 @@ angular.module('testProjectApp')
       var box = d3.select('#chart')
         .append('svg')
         .attr('class', 'box')
-        .attr('width', radius)
-        .attr('height', radius)
-        .append("g");
+        .attr('width', window.innerWidth)
+        .attr('height', window.innerHeight)
+        .attr("transform", "scale(" + scale/1.4 + "," + scale/1.4 + ")")
+        .append("g")
+        .attr("id", "boxGroup")
+        .attr("transform", "scale(" + scale/1.4 + "," + scale/1.4 + ")");
 
       radarData.then(function(data){
           drawRadarSectors(data.length, data);
@@ -67,6 +72,10 @@ angular.module('testProjectApp')
             _.each(value.items, function(val){
               CreateNodeList(val.name, value.quadrant, value.color);
               createNodes(val, value.color, value.colorover);
+              tooltip = box.append('text')
+                .style('opacity', 1)
+                .style('font-family', 'sans-serif')
+                .style('font-size', '13px');
             })
           })
         });
@@ -74,6 +83,17 @@ angular.module('testProjectApp')
       _.each(directiveConf.radar_arcs, function(d,i){
         drawRadarLevels(d, i, Nniveles );
       })
+
+      $(window).resize(function(){
+        scope.$apply(function(){
+          scale = (window.innerHeight/(scope.height));
+          document.getElementById("chart").style.height = window.innerHeight + "px";
+          document.getElementById("chart").style.width = window.innerWidth + "px";
+          d3.select("#boxGroup")
+            .transition()
+            .attr("transform", "scale(" + scale + "," + scale + ")");
+        });
+      });
 
    function CreateTableInf(cuadrante,valor){
      var clusterTitle = cuadrante.split(' ')[0];
@@ -119,7 +139,8 @@ angular.module('testProjectApp')
          var coloreDark = d3.select('#'+$(this).attr('id'))[0][0].attributes.colorover.value;
          d3.select('#' + $(this).attr('id'))
            .transition()
-           .attr('r', doble);
+           .attr('r', doble)
+           .style("fill", coloreDark);
          if(nodesActives) {
            d3.select('#' + $(this).attr('id'))
              .transition()
@@ -131,6 +152,7 @@ angular.module('testProjectApp')
          var colore = d3.select('#'+$(this).attr('id'))[0][0].attributes.color.value;
          d3.select('#'+$(this).attr('id'))
            .transition()
+           .style("fill",'transparent')
            .attr('r', normal);
          if(nodesActives){
            d3.select('#'+$(this).attr('id'))
@@ -151,7 +173,8 @@ angular.module('testProjectApp')
              d3.select(d)
                .transition()
                .duration(500)
-               .style("fill", 'white');
+               .style("fill", 'transparent')
+               .attr('r', normal);
              nodesActives = false;
            } else {
              $('#'+$(d).attr('id')+'.nodeElement')
@@ -160,7 +183,8 @@ angular.module('testProjectApp')
              d3.select(d)
                .transition()
                .duration(500)
-               .style("fill", $(d).attr('color'));
+               .style("fill", $(d).attr('color'))
+               .attr('r', doble);
              nodesActives = false;
            }
          })
@@ -218,7 +242,9 @@ angular.module('testProjectApp')
           .on("mouseover", function() {
             if(nodesActives){
               d3.select(this)
-                .style('fill',$(this).attr('colorover'));
+                .transition()
+                .style('fill',$(this).attr('colorover'))
+                .attr('r', doble);
             }
             $('#'+$(this).attr('id')+'.nodeElement')
               .removeClass('nodeElement')
@@ -228,6 +254,7 @@ angular.module('testProjectApp')
               .attr('x', parseInt($(this).attr('cx'))+15)
               .attr('y', $(this).attr('cy'))
               .attr("font-weight", "bold")
+              .attr("fill", "white")
               .text($(this).attr('nombre'))
               .transition(200)
               .style('opacity', 1);
@@ -244,7 +271,9 @@ angular.module('testProjectApp')
                 .style('opacity', 0);
               if(nodesActives){
                 d3.select(this)
-                  .style("fill",$(this).attr('color'));
+                  .transition()
+                  .style("fill",$(this).attr('color'))
+                  .attr('r', normal);
               }
             }
           })
@@ -260,7 +289,8 @@ angular.module('testProjectApp')
                     d3.select(d)
                       .transition()
                       .duration(500)
-                      .style("fill", 'white');
+                      .style("fill", 'transparent')
+                      .attr('r', normal);
                     nodesActives = false;
                 } else {
                 $('#'+$(d).attr('id')+'.nodeElement')
@@ -269,7 +299,8 @@ angular.module('testProjectApp')
                 d3.select(d)
                   .transition()
                   .duration(500)
-                  .style("fill", $(d).attr('color'));
+                  .style("fill", $(d).attr('color'))
+                  .attr('r', doble);
                 nodesActives = false;
               }
             })
@@ -313,6 +344,7 @@ angular.module('testProjectApp')
          .attr('x', medRadius)
          .attr('y', ((medRadius/Nniveles)*nivel)+10)
          .attr("font-weight", "bold")
+         .attr("fill", "white")
          .text( cuadrantes )
          .style('opacity', 1)
          .style('font-family', 'sans-serif')
@@ -327,53 +359,76 @@ angular.module('testProjectApp')
           .style('fill', d3.rgb(90, 90, 90));
         }
 
-      function drawRadarSectors(numSectors, datos){
+      function drawRadarSectors(numSectors, val){
+        var anglesForArc = [];var nombres = []; var colores = [];
         for (var a=0;a<numSectors;a++){
-          var angle1 = ((Math.PI*2)/numSectors)*a;
-          var cos = Math.cos(angle1);
-          var sin = Math.sin(angle1);
-          var coords = {  x: (medRadius)*cos, y: (medRadius)*sin };
+              var angle1 = ((Math.PI*2)/numSectors)*a;
+              var cos = Math.cos(angle1);
+              var sin = Math.sin(angle1);
+              var coords = {  x: (medRadius)*cos, y: (medRadius)*sin };
 
-          box.append("line")
-            .attr("x1", medRadius)
-            .attr("y1", medRadius)
-            .attr("x2", coords.x+(medRadius))
-            .attr("y2", coords.y+(medRadius))
-            .attr("stroke-width", 2)
-            .attr("stroke", d3.rgb(90, 90, 90));
+              box.append("line")
+                .attr("x1", medRadius)
+                .attr("y1", medRadius)
+                .attr("x2", coords.x+(medRadius))
+                .attr("y2", coords.y+(medRadius))
+                .attr("stroke-width", 2)
+                .attr("stroke", d3.rgb(90, 90, 90));
 
-          var g = d3.select("#chart")
-            .append("svg")
-            .attr("width", window.innerWidth)
-            .attr("height", window.innerHeight)
-            .append("g")
+              nombres.push(val[a].quadrant);
+              colores.push(val[a].color);
+              anglesForArc.push(100 / numSectors);
+              prevAngle = prevAngle + (360/numSectors);
+          }
 
-          var arct = d3.svg.arc()
+          var arc = d3.svg.arc()
             .innerRadius(medRadius)
-            .outerRadius(medRadius+50)
-            //.startAngle(((Math.PI*2)/numSectors)*(a+1))
-            .startAngle(prevAngle * (Math.PI/180))
-            //.endAngle(((Math.PI*2)/numSectors)*(a+1));
-            .endAngle(prevAngle + ((360/numSectors)) * (Math.PI/180));
+            .outerRadius(medRadius+25)
 
-          var path = g.append("svg:path")
-            .attr("id","yyy")
-            .attr("d", arct)
-            .style("fill",datos[a].color)
-            .attr("transform", "translate("+window.innerWidth/2+","+window.innerHeight/2 +")");
+          var pie = d3.layout.pie()
+            .value(function(d){ return d; })
 
-          var text = g.append("text")
-            .style("font-size",30)
-            .style("fill","#000")
-            .attr("dy",30)
+          box.selectAll(".arc")
+            .data(pie(anglesForArc))
+            .enter()
+            //.append("g")
+            .insert("g",":first-child")
+            .attr("id",function(d, i){ return nombres[i];})
+            .attr("class","arc")
+            //.attr("transform","rotate(-90)")
+            .attr("transform", "translate(" + medRadius + "," + medRadius + ")")
+            .append("svg:path")
+            .style("cursor", "pointer")
+            //.insert("svg:path",":first-child")
+            .attr("class", "arcpath")
+            .attr("id",function(d, i){return nombres[i]+"sub";})
+            .attr("d",arc)
+            .attr("fill",function(d, i){return colores[i];})
+            .attr("original",function(d, i){return colores[i];})
+            .attr("idforclasif",function(d, i){return nombres[i];});
+
+          box.selectAll(".arctext")
+            .data(pie(anglesForArc))
+            .enter()
+            //.append("text")
+            .insert("text",".serctorCircles")
+            .style("cursor", "pointer")
+            .style("font-size",15)
+            .style("font-weight","bold")
+            .style("fill","#333")
+            //.attr("transform","rotate(-90)")
+            .attr("transform", "translate(" + medRadius + "," + medRadius + ")")
+            .attr("class","arctext")
+            .attr("dy",17)
             .append("textPath")
-            .attr("xlink:href","#yyy")
-            .attr("startOffset","20%")
-            .style("text-anchor","end")
-            .text(datos[a].quadrant);
-          prevAngle = prevAngle + (360/numSectors);
-        }
-      }
+            .style("text-anchor","middle")
+            .attr("xlink:href",function(d, i){return "#"+nombres[i]+"sub";})
+            .attr("startOffset","25%")
+            .attr("class","arctextInside")
+            .attr("id",function(d, i){return nombres[i];})
+            .attr("idforclasif",function(d, i){return nombres[i];})
+            .text(function(d, i){return nombres[i];})
+    }
 
       function resetNodes(){
         directiveConf['nodesActives'] = [];
@@ -386,14 +441,11 @@ angular.module('testProjectApp')
           d3.select(d)
             .transition()
             .duration(500)
-            .style("fill", $(d).attr('color'));
+            .style("fill", $(d).attr('color'))
+            .attr('cx', $(d).attr('originalcx'))
+            .attr('cy', $(d).attr('originalcy'));
         })
       }
-
-      var tooltip = box.append('text')
-        .style('opacity', 1)
-        .style('font-family', 'sans-serif')
-        .style('font-size', '13px');
     }
   }
 })
@@ -417,25 +469,37 @@ angular.module('testProjectApp')
       restrict: 'EA',
       scope:{} ,
       link: function(scope) {
-        radarData.then(function (data) {
-          scope = data;
-          init();
-        });
-        $('#graficaBusqueda').each(function () {
-          $(this).remove();
-        });
-        //scope.$watch('clasif', function () {
-        //  draw(scope.clasif);
-        //})
-    function init(){
         var margin = {
             top: 0,
             right: 0,
             bottom: 0,
             left: 0
           },
-          width = window.innerWidth/2 - margin.left - margin.right,
+          width = window.innerWidth/1.1 - margin.left - margin.right,
           height = window.innerHeight - margin.top - margin.bottom;
+
+        var scale = (window.innerHeight/(scope.height));
+
+        radarData.then(function (data) {
+          scope = data;
+          init();
+        });
+
+        $('#graficaBusqueda').each(function () {
+          $(this).remove();
+        });
+
+        $(window).resize(function(){
+            scale = (window.innerHeight/(height));
+            console.log(window.innerHeight, height);
+            document.getElementById("graficaBubbles").style.height = window.innerHeight + "px";
+            document.getElementById("graficaBubbles").style.width = window.innerWidth + "px";
+            d3.select("#grupoBubbles")
+              .transition()
+              .attr("transform", "translate(" + margin.left + "," + margin.top + ") scale(" + scale + "," + scale + ")");
+        });
+
+    function init(){
 
         var nodes = [];
         var centros = [];
@@ -444,20 +508,26 @@ angular.module('testProjectApp')
 
         var m = clasificacion.length,
           padding = 6,
-          radius = d3.scale.sqrt().range([3, 12]),
-          x = d3.scale.ordinal().domain(d3.range(m)).rangePoints([0, width], 1);
+          radius = d3.scale.sqrt().range([3, 12]);
 
-        var filas = 2;
+        var coef3 = 0.45;
+        if(m>2) {var coef = 4; var coef2 = 1.8; }
+        else { var coef = 7; var coef2 = 1.7; }
+
       _.each(scope, function(values, i){
-        var altura = (i%filas) + 1;
-        centros.push({nombre :values.quadrant, px: x(i), py: (height / m)*altura });
+        //console.log(values);
         values.items.map(function (elem){
           for (var a = 0; a < m; a++) {
             if (values.quadrant == clasificacion[a]) {
                var pos = a;
             }
           }
-          var rad =  Math.floor((Math.random() * 20) + 10);
+          var rad =  Math.floor((Math.random() * 15) + 8);
+          var angle1 = ((Math.PI*2)/m)*pos;
+          var cos = Math.cos(angle1);
+          var sin = Math.sin(angle1);
+          var coords = {  x: ((width/coef)*cos) + (width/coef2), y: ((height/4)*sin) + (height*coef3) };
+
           nodes.push( {
             datos: values,
             tipo: elem.name,
@@ -466,9 +536,13 @@ angular.module('testProjectApp')
             radiusplus: rad+10,
             color: values.color,
             opacity: Math.random(),
-            cx: x(pos),
-            cy: (height / m)*altura
+            cx: coords.x-50,
+            cy: coords.y
           });
+          var data = _.find(centros, function(voteItem){ /*console.log(voteItem)*/;return voteItem.nombre == values.quadrant; });
+          if(data==undefined) {
+            centros.push({nombre :values.quadrant, px: coords.x+50 , py: coords.y - 100, color: values.color});
+          }
         });
       })
           var force = d3.layout.force()
@@ -480,35 +554,24 @@ angular.module('testProjectApp')
             .start();
 
           var svg = d3.select("#chartBubble").append("svg")
-            .attr("id", 'graficaBusqueda')
+            .attr("id", 'graficaBubbles')
             .attr("class", "bubbles")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
             .append("g")
+            .attr("id", "grupoBubbles")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+          document.getElementById("graficaBubbles").style.height = window.innerHeight + "px";
+          document.getElementById("graficaBubbles").style.width = window.innerWidth + "px";
 
           var circle = svg.selectAll("circle")
             .data(nodes)
             .enter().append("circle")
-            //.attr("coincidencia", function (d) {
-            //  return d.datos.coincidencia;
-            //})
-            .attr("id", function (d) {
-              return d.id;
-            })
+            .attr("id", function (d) {return d.id; })
             .attr("class", "node")
-            .attr("r", function (d) {
-              return d.radius;
-            })
-            .attr("rplus", function (d) {
-              return d.radius+10;
-            })
-            .style("fill", function (d) {
-              return d.color;
-            })
-            .style("fill-opacity", function (d) {
-              return d.opacity;
-            })
+            .attr("r", function (d) {return d.radius;})
+            .attr("rplus", function (d) {return d.radius+10; })
+            .style("fill", function (d) {return d.color;})
+            .style("fill-opacity", function (d) {return d.opacity;})
             .style("cursor", "pointer")
             .on("mouseover", function (d) {
               showPopover.call(this, d);
@@ -529,22 +592,6 @@ angular.module('testProjectApp')
                 .transition()
                 .attr('r', d.radius);
             })
-            //.on("click", function (d) {
-            //  $localStorage.ID = d.datos.id;
-            //  scope.$apply(function () {
-            //    scope.porciento = (d.datos.coincidencia * 100);
-            //    scope.nombreTooltip = (d.datos.nombre);
-            //    if (d.datos.categoria != undefined) {
-            //      scope.categoriaTooltip = (d.datos.categoria);
-            //    }else{
-            //      scope.categoriaTooltip = (d.datos.tipo);
-            //    }
-            //    scope.idTooltip = d.datos.id;
-            //    scope.tipoTooltip = d.datos.tipo;
-            //    $localStorage.coincidencia = d.datos.coincidencia;
-            //  })
-            //  $('#tooltip').addClass('show');
-            //})
             .call(force.drag);
           labels(centros);
 
@@ -552,7 +599,7 @@ angular.module('testProjectApp')
             .style('opacity', 1)
             .style('font-family', 'sans-serif')
             .style('fill', 'white')
-            .style('cursor', 'pointer')
+            .style('cursor', 'default')
             .style('font-size', '16px');
 
         function gravity(alpha) {
@@ -561,67 +608,6 @@ angular.module('testProjectApp')
             d.x += (d.cx - d.x) * alpha;
           };
         }
-        //function draw(dat) {
-        //  clasificacion = _.uniq(_.pluck(scope.datasgraph, dat));
-        //  colores = _.uniq(_.pluck(scope.datasgraph, 'tipo'));
-        //  foci = getCenters(dat, width, height); //crea un objeto por cada uno de los grupos identificados por tipo
-        //  m = clasificacion.length,
-        //    col = colores.length,
-        //    radius = d3.scale.sqrt().range([3, 12]),
-        //    color = d3.scale.category10().domain(d3.range(col)),
-        //    x = d3.scale.ordinal().domain(d3.range(m)).rangePoints([0, width], 1);
-        //  var conNodos = 0;
-        //  var filas = 1;
-        //  //mejoresNodos = clasificacion[0];
-        //  nodes = scope.datasgraph.map(function (elem) {
-        //    var i = 0;
-        //    var coinc = 0.1;
-        //    //if (elem.tipo == mejoresNodos && conNodos < 3) {coinc = 20; conNodos = conNodos + 1;}
-        //    //if(conNodos>=3 && conNodos<6 && elem.tipo != mejoresNodos) {coinc = 20; conNodos = conNodos + 1;}
-        //    for (var a = 0; a < m; a++) {
-        //      if (elem[scope.clasif] == clasificacion[a]) {
-        //        i = a;
-        //        //if(i>2 && i<6) filas = 2;
-        //        //if(i>5 && i<9) filas = 3;
-        //        //if(i>8 && i<12) filas = 4;
-        //      }
-        //    }
-        //    return {
-        //      datos: elem,
-        //      tipo: elem.tipo,
-        //      id: elem.id,
-        //      radius: (elem.coincidencia * 20) + coinc,
-        //      color: color(i),
-        //      cx: x(i),
-        //      cy: (height / 2)*filas
-        //    };
-        //  });
-        //  centros = _.uniq(_.pluck(nodes, 'cx'));
-        //  objetoCentros = _.object(clasificacion, centros);
-        //  _.each(foci, function (elem, i) {
-        //    _.each(objetoCentros, function (elemem, a) {
-        //      if (i == a) foci[i].x = elemem;
-        //    });
-        //  });
-        //  force
-        //    .nodes(nodes)
-        //    .size([width, height])
-        //    .on("tick", tick)
-        //    .start();
-        //  circle
-        //    .data(nodes)
-        //    .enter().append("circle").attr("id", function (d) {
-        //      return d.id;
-        //    })
-        //    .attr("class", "node")
-        //    .attr("r", function (d) {
-        //      return d.radius;
-        //    })
-        //
-        //  labels(foci)
-        //  force.start();
-        //}
-        //
         function tick(e) {
           circle.each(gravity(.08 * e.alpha))
             .each(collide(.6))
@@ -658,7 +644,7 @@ angular.module('testProjectApp')
           svg.selectAll(".label")
             .data(_.toArray(foci)).enter().append("text")
             .attr("class", "label")
-            .attr("style", "cursor:pointer")
+            .attr("style", "cursor:default")
             .attr("style", "font-size: 25px")
             .attr("fill", "white")
             .text(function (d) {

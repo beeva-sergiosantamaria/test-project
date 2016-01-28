@@ -43,6 +43,10 @@ angular
         templateUrl: 'views/virtual3D.html',
         controller: 'virtualCtrl'
       })
+      .when('/dynamicM', {
+        templateUrl: 'views/dynamicMap.html',
+        controller: 'dynamicCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

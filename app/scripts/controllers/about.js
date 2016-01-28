@@ -9,10 +9,14 @@
  */
 angular.module('testProjectApp')
   .controller('AboutCtrl', function ($scope) {
-    $scope.visualization = "radar";
+    $scope.visualization = "bubbles";
 
     $scope.CambiarVis = function(nuevo) {
       $scope.visualization = nuevo;
+    }
+
+    $scope.showInfo = function(){
+      $scope.infoActive = !$scope.infoActive;
     }
 
   });
