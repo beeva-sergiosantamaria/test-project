@@ -1072,14 +1072,6 @@ angular.module('testProjectApp')
         });
 
         var container = document.getElementById('containerMap');
-        document.getElementById("amountAge").disabled = true;
-        document.getElementById("amountIncomes").disabled = true;
-        document.getElementById("colorAge").disabled = true;
-        document.getElementById("colorIncome").disabled = true;
-        document.getElementById("panoramic").disabled = true;
-        document.getElementById("onfloor").disabled = true;
-        document.getElementById("backW").disabled = true;
-        document.getElementById("backD").disabled = true;
 
         $('#selectAmount').addClass('transparetBack');
         $('#selectColor').addClass('transparetBack');
@@ -1095,20 +1087,33 @@ angular.module('testProjectApp')
             return (lng-value)*100;
         };
 
-        generateMap('world');
+        $(document).ready(function() {
+          $('input[type=radio][name=city]').change(function() {
+            changeCity(this.value);
+          });
+          $('input[type=radio][name=dataAmount]').change(function() {
+            changeAmount(this.value);
+          });
+          $('input[type=radio][name=datacolor]').change(function() {
+            changeColor(this.value);
+          });
+          $('input[type=radio][name=view]').change(function() {
+            changeView(this.value);
+          });
+          $('input[type=radio][name=bColor]').change(function() {
+            changeBack(this.value);
+          });
+        });
+
+        //generateMap('world');
 
         function generateMap(value){
-          console.log('enpieza la marcha', value);
-          $(document).ready(function() {
-            console.log("start loading");
-            $.getJSON( "data/world.geo.json", function( data ) {
-              console.log("loading complete");
+            $.getJSON( "data/"+value+".geo.json", function( data ) {
               json = data;
               shapeCount = 0, shapes = [], subset_size = 5000;
               actualCity = value;
               init();
             });
-          });
         }
 
         function init() {
@@ -1149,8 +1154,6 @@ angular.module('testProjectApp')
           camera.position.set( cameraPositionPan.x, cameraPositionPan.y, cameraPositionPan.z );
 
           mouse = new THREE.Vector2();
-
-          document.body.appendChild(container);
 
           renderer = new THREE.WebGLRenderer( { antialias: true, preserveDrawingBuffer: true, alpha: true } );
           renderer.setSize( width, height );
@@ -1263,7 +1266,6 @@ angular.module('testProjectApp')
               }
             }
             setTimeout(function(){ buildShape(); }, 100);
-
           }else{
 
             calculateCenters();
@@ -1296,8 +1298,10 @@ angular.module('testProjectApp')
 
             document.getElementById("amountAge").disabled = false;
             document.getElementById("amountIncomes").disabled = false;
+            document.getElementById("amountNone").disabled = false;
             document.getElementById("colorAge").disabled = false;
             document.getElementById("colorIncome").disabled = false;
+            document.getElementById("colorNone").disabled = false;
             document.getElementById("panoramic").disabled = false;
             document.getElementById("onfloor").disabled = false;
             document.getElementById("backW").disabled = false;
@@ -1339,8 +1343,6 @@ angular.module('testProjectApp')
             geometry.faces[f].color.setRGB(color.r, color.g, color.b);
           }
 
-          console.log("Geometry Done");
-
           var materials = [
             new THREE.MeshLambertMaterial({vertexColors: THREE.VertexColors, color: "rgb(0.2,0.2,0.2)",ambient: "rgb(0.2,0.2,0.2)", shininess: 1, lights:true}),
             new THREE.MeshLambertMaterial({vertexColors: THREE.VertexColors, color: "rgb(0.5,0.5,0.5)",ambient: "rgb(0.5,0.5,0.5)", shininess: 1, lights:true})
@@ -1377,6 +1379,7 @@ angular.module('testProjectApp')
 
 
         function changeView(value){
+          console.log(value);
           var timeElapsed = 1000;
           if(value == 'onFloor'){//transparetBack
 
@@ -1397,8 +1400,8 @@ angular.module('testProjectApp')
             $('#loading').removeClass('whiteBack');
             $('#loading').addClass('transparetBack');
 
-            $('body').removeClass('whiteBack');
-            $('body').addClass('blackBack');
+            $('#mapBoxSvg').removeClass('whiteBack');
+            $('#mapBoxSvg').addClass('blackBack');
 
             if(actualCity == 'abudhabi') document.getElementById("frontiers").innerHTML = 'Specific local comerce Activity';
             else document.getElementById("frontiers").innerHTML = 'Frontiers activity';
@@ -1431,8 +1434,8 @@ angular.module('testProjectApp')
 
             changeColor('white', true);
             controls.target.set( group.position.x+cameraTarget.x, cameraTarget.y, group.position.z+cameraTarget.z );
-            $('body').removeClass('blackBack');
-            $('body').addClass('whiteBack');
+            $('#mapBoxSvg').removeClass('blackBack');
+            $('#mapBoxSvg').addClass('whiteBack');
             movement( { 'x': cameraPositionPan.x, 'y': cameraPositionPan.y, 'z': cameraPositionPan.z }, camera.position, 0, timeElapsed); //camera.position.set( -20, -14, 177 );
             movement( { 'x': 1, 'y': 1, 'z': 1 }, group.scale, 0, timeElapsed);
             //mesh.scale.set(scale_factor * scale_x,scale_factor * scale_y,0.5);
@@ -1530,8 +1533,8 @@ angular.module('testProjectApp')
         function changeAmount(value){
           removeLines();
 
-          $('body').removeClass('blackBack');
-          $('body').addClass('whiteBack');
+          $('#mapBoxSvg').removeClass('blackBack');
+          $('#mapBoxSvg').addClass('whiteBack');
           $('#infoPanelSelectedGroup').addClass('hideLeft');
 
           if(value == 'age') actualAmount = 0.3;
@@ -1561,12 +1564,12 @@ angular.module('testProjectApp')
 
         function changeBack(value){
           if(value == 'white'){
-            $('body').removeClass('blackBack');
-            $('body').addClass('whiteBack');
+            $('#mapBoxSvg').removeClass('blackBack');
+            $('#mapBoxSvg').addClass('whiteBack');
           }
           else {
-            $('body').removeClass('whiteBack');
-            $('body').addClass('blackBack');
+            $('#mapBoxSvg').removeClass('whiteBack');
+            $('#mapBoxSvg').addClass('blackBack');
           }
         }
 
@@ -1712,8 +1715,8 @@ angular.module('testProjectApp')
             if(SELECTED != undefined) { SELECTED.material.materials[0].color.setRGB(SELECTED.originalColor.r, SELECTED.originalColor.g, SELECTED.originalColor.b); SELECTED.active = false; }
             changeColor('white', true);
             removeLines();
-            $('body').removeClass('blackBack');
-            $('body').addClass('whiteBack');
+            $('#mapBoxSvg').removeClass('blackBack');
+            $('#mapBoxSvg').addClass('whiteBack');
 
             document.getElementById("backW").checked = true;
             document.getElementById("backD").checked = false;
@@ -1775,8 +1778,8 @@ angular.module('testProjectApp')
 
         function addLinesRed(value1, value2){
 
-          $('body').removeClass('whiteBack');
-          $('body').addClass('blackBack');
+          $('#mapBoxSvg').removeClass('whiteBack');
+          $('#mapBoxSvg').addClass('blackBack');
 
           document.getElementById("backW").checked = false;
           document.getElementById("backD").checked = true;
@@ -1863,8 +1866,8 @@ angular.module('testProjectApp')
 
         function addLinesBlue(value1, value2){
 
-          $('body').removeClass('whiteBack');
-          $('body').addClass('blackBack');
+          $('#mapBoxSvg').removeClass('whiteBack');
+          $('#mapBoxSvg').addClass('blackBack');
 
           if(actualCity == 'europe' || actualCity == 'spain') { reScaleGroup = 100000;  }
           else if(actualCity == 'world') { reScaleGroup = 1000;  }
@@ -1969,14 +1972,43 @@ angular.module('testProjectApp')
           else if( type == 'blue' ) lineBlueGroup.visible = status;
         }
 
+        function changeCity(value){
+
+          $('#mapBoxSvg').removeClass('blackBack');
+          $('#mapBoxSvg').addClass('whiteBack');
+
+          $('#loading').removeClass('transparetBack');
+          $('#loading').addClass('whiteBack');
+
+          $('#welcome').addClass('hideScreen');
+          $('#welcome').addClass('removeScreen');
+
+          $('#frontiers').addClass('hideLeft');
+          $('#infoPanelSelectedGroup').addClass('hideLeft');
+
+          console.log('change city: ', value);
+          jsonFile = "data/"+value+".geo.json";
+
+          show();
+          Unremove();
+
+          if(firstCharge != 0){
+            var object = scene.getObjectByName( "structure" );
+            var luzD = scene.getObjectByName("luzDireccional");
+            scene.remove(object);
+            scene.remove(luzD);
+            $("canvas").remove();
+          }
+          setTimeout(function(){generateMap(value)}, 2000);
+
+          firstCharge = firstCharge+1;
+        }
+
 
         function movement(value, object, delay, duration){
           var tween = new TWEEN.Tween(object).to(
             value
             ,duration).easing(TWEEN.Easing.Quadratic.Out).onUpdate(function () {
-              /*camera.position.x = valueX;
-               camera.position.y = valueY;
-               camera.position.z = valueZ;*/
             }).delay(delay).start();
         }
 
@@ -1985,23 +2017,10 @@ angular.module('testProjectApp')
         }
 
         function animate() {
-          //console.log(camera.position);
-          //console.log(group.children[46], group.children[46].position);
 
           setTimeout( function() {
             requestAnimationFrame( animate );
           }, 1000/30 );
-
-          //requestAnimationFrame( animate );
-
-          //mesh.rotation.x = mouse.y;
-          //mesh.rotation.y = mouse.x;
-
-          /*if(animateHeight){
-           heightScaler += 0.001;
-           }*/
-
-          //mesh.scale.set(scale_factor * scale_x,scale_factor * scale_y,heightScaler);
 
           TWEEN.update();
 

@@ -1,76 +1,78 @@
-<div id="frontiers" class="frontierInfo hideLeft"></div>
-<div id="loading" class="loadingScreen whiteBack hideScreen">
-  <img class="loadingImage" src="images/loading1.gif"/>
-</div>
-<div id="welcome" class="welcomeScreen">
-  <div class="welcomeText"> Select Property map for the data </div>
-</div>
-<div class="controlPanel">
-  <div class="countrySelectTitle"><b>Select country: </b></div>
-  <div class="countrySelectList">
-    <input id="wrl" type="radio" name="city" onchange="changeCity('world');" value="world">
-    <label for="wrl">World &nbsp&nbsp</label>
-    <input id="eu" type="radio" name="city" onchange="changeCity('europe');" value="europe">
-    <label for="eu">Europe&nbsp</label>
-    <input id="sp" type="radio" name="city" onchange="changeCity('spain');" value="spain">
-    <label for="sp">Spain &nbsp&nbsp&nbsp</label>
-    <input id="abu" type="radio" name="city" onchange="changeCity('abudhabi');" value="abudhabi">
-    <label for="abu">Madrid</label>
+<div id="mapBoxSvg" class="generateMapBox whiteback">
+  <div id="frontiers" class="frontierInfo hideLeft"></div>
+  <div id="loading" class="loadingScreen whiteBack hideScreen">
+    <img class="loadingImage" src="images/loading1.gif"/>
   </div>
-  <div class="countrySelectTitle"><b>Select data for amount: </b></div>
-  <div id="selectAmount" class="countrySelectList">
-    <input id="amountAge" type="radio" name="dataAmount" onchange="changeAmount('age')" value="amountAge">
-    <label for="amountAge">Age</label>
-    <input id="amountIncomes" type="radio" name="dataAmount" onchange="changeAmount('incomes')" value="amountIncomes">
-    <label for="amountIncomes">Incomes</label>
-    <input id="amountNone" type="radio" name="dataAmount" onchange="changeAmount('none')" value="amountNone">
-    <label for="amountNone">None</label>
+  <div id="welcome" class="welcomeScreen">
+    <div class="welcomeText"> Select Property map for the data </div>
   </div>
-  <div class="countrySelectTitle"><b>Select data for color: </b></div>
-  <div id="selectColor" class="countrySelectList">
-    <input id="colorAge" type="radio" name="datacolor" onchange="changeColor('age')" value="colorAge">
-    <label for="colorAge">Age</label>
-    <input id="colorIncome" type="radio" name="datacolor" onchange="changeColor('incomes')" value="colorIncome">
-    <label for="colorIncome">Incomes</label>
-    <input id="colorNone" type="radio" name="datacolor" onchange="changeColor('white')" value="colorNone">
-    <label for="colorNone">None</label>
-  </div>
-  <div class="countrySelectTitle"><b>Select view: </b></div>
-  <div id="selectView" class="countrySelectList">
-    <input id="panoramic" type="radio" name="view" onchange="changeView('panoramic')" value="panoramic">
-    <label for="panoramic">Panoramic</label>
-    <input id="onfloor" type="radio" name="view" onchange="changeView('onFloor')" value="onfloor">
-    <label for="onfloor">By side</label>
-  </div>
-  <div class="countrySelectTitle"><b>Change back color: </b></div>
-  <div id="selectBackColor" class="countrySelectList">
-    <input id="backW" type="radio" name="bColor" onchange="changeBack('white')" value="white">
-    <label for="backW">White</label>
-    <input id="backD" type="radio" name="bColor" onchange="changeBack('dark')" value="dark">
-    <label for="backD">Dark</label>
-  </div>
-</div>
-<div id="infoPanel" class="infoPanel hideLeft"></div>
-<div id="infoPanelSelectedGroup" class="infoPanelSelectedGroup hideLeft">
-  <div id="infoPanelSelected0" class="infoPanelSelected"></div>
-  <div id="infoPanelSelected1" class="infoPanelSelected noneDisplay"></div>
-  <div id="infoPanelSelected2" class="infoPanelSelected noneDisplay"></div>
-  <div id="infoPanelSelected3" class="infoPanelSelected noneDisplay"></div>
-  <div id="legends" class="legends">
-    <div class="legendBand">
-      <div id="selectBackColor" class="dataFlowSelect">
-        <input id="flowImport" type="checkbox" name="importSelect" onchange="dataFlowVisbility('blue', this.checked)" value="" checked>
-        <label for="flowImport" class="importText">Imports</label>
-      </div>
-      <div class="importColor"></div>
+  <div class="controlPanel">
+    <div class="countrySelectTitle"><b>Select country: </b></div>
+    <div class="countrySelectList">
+      <input id="wrl" type="radio" name="city" value="world">
+      <label for="wrl">World &nbsp&nbsp</label>
+      <input id="eu" type="radio" name="city" value="europe">
+      <label for="eu">Europe&nbsp</label>
+      <input id="sp" type="radio" name="city" value="spain">
+      <label for="sp">Spain &nbsp&nbsp&nbsp</label>
+      <input id="abu" type="radio" name="city" value="abudhabi">
+      <label for="abu">Madrid</label>
     </div>
-    <div class="legendBand">
-      <div id="selectBackColor" class="dataFlowSelect">
-        <input id="flowExport" type="checkbox" name="exportSelect" onchange="dataFlowVisbility('red', this.checked)" value="" checked>
-        <label for="flowExport" class="exportText">Exports</label>
-      </div>
-      <div class="exportColor"></div>
+    <div class="countrySelectTitle"><b>Select data for amount: </b></div>
+    <div id="selectAmount" class="countrySelectList transparetBack">
+      <input id="amountAge" type="radio" name="dataAmount" value="age" disabled>
+      <label for="amountAge">Age</label>
+      <input id="amountIncomes" type="radio" name="dataAmount" value="incomes" disabled>
+      <label for="amountIncomes">Incomes</label>
+      <input id="amountNone" type="radio" name="dataAmount" value="none" disabled>
+      <label for="amountNone">None</label>
+    </div>
+    <div class="countrySelectTitle"><b>Select data for color: </b></div>
+    <div id="selectColor" class="countrySelectList transparetBack">
+      <input id="colorAge" type="radio" name="datacolor" value="age" disabled>
+      <label for="colorAge">Age</label>
+      <input id="colorIncome" type="radio" name="datacolor" value="incomes" disabled>
+      <label for="colorIncome">Incomes</label>
+      <input id="colorNone" type="radio" name="datacolor" value="white" disabled>
+      <label for="colorNone">None</label>
+    </div>
+    <div class="countrySelectTitle"><b>Select view: </b></div>
+    <div id="selectView" class="countrySelectList transparetBack">
+      <input id="panoramic" type="radio" name="view" value="panoramic" disabled>
+      <label for="panoramic">Panoramic</label>
+      <input id="onfloor" type="radio" name="view" value="onFloor" disabled>
+      <label for="onfloor">By side</label>
+    </div>
+    <div class="countrySelectTitle"><b>Change back color: </b></div>
+    <div id="selectBackColor" class="countrySelectList transparetBack">
+      <input id="backW" type="radio" name="bColor" value="white" disabled>
+      <label for="backW">White</label>
+      <input id="backD" type="radio" name="bColor" value="dark" disabled>
+      <label for="backD">Dark</label>
     </div>
   </div>
+  <div id="infoPanel" class="infoPanelVR hideLeft"></div>
+  <div id="infoPanelSelectedGroup" class="infoPanelSelectedGroup hideLeft">
+    <div id="infoPanelSelected0" class="infoPanelSelected"></div>
+    <div id="infoPanelSelected1" class="infoPanelSelected noneDisplay"></div>
+    <div id="infoPanelSelected2" class="infoPanelSelected noneDisplay"></div>
+    <div id="infoPanelSelected3" class="infoPanelSelected noneDisplay"></div>
+    <div id="legends" class="legends">
+      <div class="legendBand">
+        <div id="selectBackColor" class="dataFlowSelect">
+          <input id="flowImport" type="checkbox" name="importSelect" onchange="dataFlowVisbility('blue', this.checked)" value="" checked>
+          <label for="flowImport" class="importText">Imports</label>
+        </div>
+        <div class="importColor"></div>
+      </div>
+      <div class="legendBand">
+        <div id="selectBackColor" class="dataFlowSelect">
+          <input id="flowExport" type="checkbox" name="exportSelect" onchange="dataFlowVisbility('red', this.checked)" value="" checked>
+          <label for="flowExport" class="exportText">Exports</label>
+        </div>
+        <div class="exportColor"></div>
+      </div>
+    </div>
+  </div>
+  <div style="position: absolute;z-index:998;" dynamic-map-directive id="containerMap"></div>
 </div>
-<div dynamic-map-directive id="containerMap"></div>

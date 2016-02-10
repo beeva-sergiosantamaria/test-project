@@ -1,0 +1,112 @@
+[
+    {"name":"AngularJS","pc": {"score": 90,"r": 310, "t": 271 },"family": "Frameworks", "subfamily": "Front-End",
+    "committers": 105, "stars": 2035, "tech-blog-mentions": 23, "analyst-blog-mentions": 5, "summit-presentations": 4, "summit-mentions": 56,
+    "funds-last-year": 0, "funds-5-years": 0,
+    "sectors": "bank,ecommerce,research", "color" : "#ADCFEE", "colorover" : "#545F16"},
+
+    {"name":"jquery","pc": {"score": 62,"r": 357,"t": 206 },"family": "Frameworks", "subfamily": "Front-End",
+    "committers": 105, "stars": 256, "tech-blog-mentions": 21, "analyst-blog-mentions": 3, "summit-presentations": 5, "summit-mentions": 56,
+    "funds-last-year": 0, "funds-5-years": 0,
+    "sectors": "bank,telecom,ecommerce,research", "color" : "#ADCFEE", "colorover" : "#545F16"},
+
+    {"name":"reactjs","pc": {"score": 68,"r": 320,"t": 206 },"family": "Frameworks", "subfamily": "Front-End",
+    "committers": 105, "stars": 335, "tech-blog-mentions": 33, "analyst-blog-mentions": 4, "summit-presentations": 25, "summit-mentions": 56,
+    "funds-last-year": 0, "funds-5-years": 0,
+    "sectors": "ecommerce,research", "color" : "#ADCFEE", "colorover" : "#545F16"},
+
+
+    {"name":"Spring","pc": {"score": 53,"r": 429,"t": 275 },"family": "Frameworks", "subfamily": "Back-End",
+    "committers": 205, "stars": 1035, "tech-blog-mentions": 36, "analyst-blog-mentions": 1, "summit-presentations": 3, "summit-mentions": 12,
+    "funds-last-year": 0, "funds-5-years": 0,
+    "sectors": "bank,ecommerce,research", "color" : "#FFD53A", "colorover" : "#384B56"},
+
+    {"name":"Django","pc": {"score": 77,"r": 349,"t": 269 },"family": "Frameworks", "subfamily": "Back-End",
+    "committers": 205, "stars": 1035, "tech-blog-mentions": 15, "analyst-blog-mentions": 2, "summit-presentations": 6, "summit-mentions": 12,
+    "funds-last-year": 0, "funds-5-years": 0,
+    "sectors": "ecommerce", "color" : "#FFD53A", "colorover" : "#384B56"},
+
+    {"name":"Symfony","pc": {"score": 40,"r": 450,"t": 222 },"family": "Frameworks", "subfamily": "Back-End",
+    "funds-last-year": 0, "funds-5-years": 0,
+    "committers": 205, "stars": 1035, "tech-blog-mentions": 37, "analyst-blog-mentions": 1, "summit-presentations": 2, "summit-mentions": 12,
+    "sectors": "ecommerce,research", "color" : "#FFD53A", "colorover" : "#384B56"},
+
+
+    {"name":"Cucumber","pc": {"score": 77,"r": 352,"t": 330 },"family": "Tools", "subfamily": "Testing",
+    "committers": 20, "stars": 10, "tech-blog-mentions": 12, "analyst-blog-mentions": 2, "summit-presentations": 1, "summit-mentions": 12,
+    "funds-last-year": 0, "funds-5-years": 0,
+    "sectors": "ecommerce,research", "color" : "#F8B3B5", "colorover" :  "#7F4111"},
+
+    {"name":"Selenium","pc": {"score": 80,"r": 348,"t": 311 },"family": "Tools", "subfamily": "Testing",
+    "committers": 105, "stars": 135, "tech-blog-mentions": 12, "analyst-blog-mentions": 2, "summit-presentations": 1, "summit-mentions": 12,
+    "funds-last-year": 0, "funds-5-years": 0,
+    "sectors": "bank,ecommerce,research", "color" : "#F8B3B5", "colorover" :  "#7F4111"},
+
+    {"name":"PhantomJS","pc": {"score": 45,"r": 472,"t": 340 },"family": "Tools", "subfamily": "Testing",
+    "committers": 17, "stars": 105, "tech-blog-mentions": 12, "analyst-blog-mentions": 2, "summit-presentations": 1, "summit-mentions": 12,
+    "funds-last-year": 0, "funds-5-years": 0,
+    "sectors": "ecommerce,research", "color" : "#F8B3B5", "colorover" :  "#7F4111"},
+
+
+    {"name":"MySQL","pc": {"score": 65,"r": 322,"t": 402 },"family": "Databases", "subfamily": "SQL",
+    "committers": 205, "stars": 1035, "tech-blog-mentions": 44, "analyst-blog-mentions": 5, "summit-presentations": 5, "summit-mentions": 12,
+    "funds-last-year": 0, "funds-5-years": 0,
+    "sectors": "bank,ecommerce,research", "color" : "#A03B45", "colorover" :  "#620135"},
+
+    {"name":"PostgreSQL","pc": {"score": 77,"r": 334,"t": 351 },"family": "Databases", "subfamily": "SQL",
+    "committers": 205, "stars": 1035, "tech-blog-mentions": 44, "analyst-blog-mentions": 5, "summit-presentations": 5, "summit-mentions": 12,
+    "funds-last-year": 0, "funds-5-years": 0,
+    "sectors": "ecommerce", "color" : "#A03B45", "colorover" :  "#620135"},
+
+    {"name":"SQLite","pc": {"score": 47,"r": 378,"t": 440 },"family": "Databases", "subfamily": "SQL",
+    "committers": 205, "stars": 1035, "tech-blog-mentions": 44, "analyst-blog-mentions": 5, "summit-presentations": 5, "summit-mentions": 12,
+    "funds-last-year": 0, "funds-5-years": 0,
+    "sectors": "ecommerce,research", "color" : "#A03B45", "colorover" :  "#620135"},
+
+
+    {"name":"MongoDB","pc": {"score": 35,"r": 253,"t": 479 },"family": "Databases", "subfamily": "NoSQL",
+    "committers": 205, "stars": 1035, "tech-blog-mentions": 44, "analyst-blog-mentions": 5, "summit-presentations": 5, "summit-mentions": 12,
+    "funds-last-year": 7, "funds-5-years": 20,
+    "sectors": "ecommerce", "color" : "#A5B28D", "colorover" :  "#620135"},
+
+    {"name":"Cassandra","pc": {"score": 77,"r": 265,"t": 352 },"family": "Databases", "subfamily": "NoSQL",
+    "committers": 205, "stars": 1035, "tech-blog-mentions": 44, "analyst-blog-mentions": 5, "summit-presentations": 5, "summit-mentions": 12,
+    "funds-last-year": 25, "funds-5-years": 50,
+    "sectors": "ecommerce", "color" : "#A5B28D", "colorover" :  "#620135"},
+
+    {"name":"Neo4j","pc": {"score": 20,"r": 150,"t": 486 },"family": "Databases", "subfamily": "NoSQL",
+    "committers": 205, "stars": 1035, "tech-blog-mentions": 44, "analyst-blog-mentions": 5, "summit-presentations": 5, "summit-mentions": 12,
+    "funds-last-year": 5, "funds-5-years": 40,
+    "sectors": "ecommerce", "color" : "#A5B28D", "colorover" :  "#620135"},
+
+
+    {"name":"Java","pc": {"score": 45,"r": 140,"t": 350 },"family": "Languages", "subfamily": "Languages",
+    "committers": 205, "stars": 1035, "tech-blog-mentions": 44, "analyst-blog-mentions": 5, "summit-presentations": 5, "summit-mentions": 12,
+    "funds-last-year": 7, "funds-5-years": 20,
+    "sectors": "ecommerce", "color" : "#9D8DC3", "colorover" :  "#620135"},
+
+    {"name":"Python","pc": {"score": 72,"r": 206,"t": 320 },"family": "Languages", "subfamily": "Languages",
+    "committers": 205, "stars": 1035, "tech-blog-mentions": 44, "analyst-blog-mentions": 5, "summit-presentations": 5, "summit-mentions": 12,
+    "funds-last-year": 25, "funds-5-years": 50,
+    "sectors": "ecommerce", "color" : "#9D8DC3", "colorover" :  "#620135"},
+
+    {"name":"NodeJS","pc": {"score": 75,"r": 225,"t": 337 },"family": "Languages", "subfamily": "Languages",
+    "committers": 205, "stars": 1035, "tech-blog-mentions": 44, "analyst-blog-mentions": 5, "summit-presentations": 5, "summit-mentions": 12,
+    "funds-last-year": 5, "funds-5-years": 40,
+    "sectors": "ecommerce", "color" : "#9D8DC3", "colorover" :  "#620135"},
+
+
+    {"name":"AWS","pc": {"score": 91,"r": 269,"t": 287 },"family": "Platforms", "subfamily": "Cloud",
+    "committers": 205, "stars": 1035, "tech-blog-mentions": 44, "analyst-blog-mentions": 5, "summit-presentations": 5, "summit-mentions": 12,
+    "funds-last-year": 7, "funds-5-years": 20,
+    "sectors": "ecommerce, research", "color" : "#DAE253", "colorover" :  "#620135"},
+
+    {"name":"Azure","pc": {"score": 73,"r": 207,"t": 275 },"family": "Platforms", "subfamily": "Cloud",
+    "committers": 205, "stars": 1035, "tech-blog-mentions": 44, "analyst-blog-mentions": 5, "summit-presentations": 5, "summit-mentions": 12,
+    "funds-last-year": 25, "funds-5-years": 50,
+    "sectors": "ecommerce", "color" : "#DAE253", "colorover" :  "#620135"},
+
+    {"name":"OpenStack","pc": {"score": 76,"r": 224,"t": 255 },"family": "Platforms", "subfamily": "Cloud",
+    "committers": 205, "stars": 1035, "tech-blog-mentions": 44, "analyst-blog-mentions": 5, "summit-presentations": 5, "summit-mentions": 12,
+    "funds-last-year": 5, "funds-5-years": 40,
+    "sectors": "ecommerce", "color" : "#DAE253", "colorover" :  "#620135"}
+]
